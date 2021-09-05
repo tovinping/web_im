@@ -1,0 +1,13 @@
+.contactSelect{
+  padding-right: 20px;
+  li{
+    cursor: pointer;
+    padding: 5px 10px;
+    >label{
+      display: block;
+    }
+    &:hover{
+      background-color: #F3F9FF;
+    }
+  }
+}

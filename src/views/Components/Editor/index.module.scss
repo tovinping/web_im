@@ -1,0 +1,26 @@
+.editorContainer{
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  border-top: 1px solid #eee;
+}
+.editorExtends{
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 10px;
+  >span {
+    margin-left: 10px;
+  }
+}
+.textArea{
+  width: 100%;
+  flex: 1;
+  outline: none;
+  padding: 10px;
+  padding-bottom: 0;
+}
+.send{
+ display: flex; 
+ justify-content: flex-end;
+ padding: 10px;
+}

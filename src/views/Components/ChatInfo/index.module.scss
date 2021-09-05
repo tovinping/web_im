@@ -1,0 +1,28 @@
+.chatInfo{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  padding: 0 10px 0 20px;
+  border-bottom: 1px solid #eee;
+}
+.chatName{
+  font-size: 16px;
+  color: #333;
+}
+.chatOption{
+  display: flex;
+  height: 100%;
+}
+.chatOptionItem{
+  display: flex;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+  svg{
+    fill: #999;
+    &:hover{
+      fill: #666;
+    }
+  }
+}

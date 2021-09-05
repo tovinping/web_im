@@ -1,0 +1,22 @@
+.chatContainer {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.chatLeft {
+  width: 200px;
+  border-right: 1px solid #eee;
+}
+.chatRight {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+}
+.chatMain{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.extends{
+  width: 200px;
+}

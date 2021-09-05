@@ -1,0 +1,24 @@
+.itemContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 50px;
+  padding: 0 10px;
+  border-bottom: 1px solid #f2f2f2;
+  cursor: pointer;
+  &:hover {
+    background-color: #e6f7ff;
+  }
+}
+.active {
+  background-color: #e6f7ff;
+}
+.extendInfo {
+  margin-left: 5px;
+  overflow: hidden;
+}
+.lastMsg, .name {
+  word-break: keep-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

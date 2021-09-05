@@ -1,0 +1,16 @@
+.container{
+  display: flex;
+  padding: 10px 15px;
+  &.isMe{
+    justify-content: flex-end;
+  }
+}
+.content{
+  background-color: #F1F1F1;
+  border-radius: 0 8px 8px 8px;
+  padding: 5px 10px;
+  &.isMe{
+    background-color: #F3F9FF;
+    border-radius: 8px 0 8px 8px;
+  }
+}

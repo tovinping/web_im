@@ -1,0 +1,18 @@
+.memberItem{
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+  &:hover{
+    background-color: #e6f7ff;
+  }
+}
+
+.memberName{
+  flex: 1;
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 12px;
+  margin-left: 5px;
+}
