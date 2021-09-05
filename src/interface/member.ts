@@ -1,5 +1,5 @@
 import { ITransferActions } from '.'
-import { IBaseMemberInfo } from '../../../typings'
+import { IBaseMemberInfo } from 'src/typings'
 export interface IMemberInfo extends IBaseMemberInfo {}
 
 export type IMemberState = Record<string, IMemberInfo[] | undefined>

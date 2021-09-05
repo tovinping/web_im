@@ -1,4 +1,4 @@
-import {IBaseConversation} from '../../../typings'
+import {IBaseConversation} from 'src/typings'
 import {ITransferActions} from '../interface'
 export interface IConversation extends IBaseConversation {
   timestamp?: number
