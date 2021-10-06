@@ -18,9 +18,11 @@ export async function doLogin({ account, password }: IDoLogin) {
 interface IOpenParam {
   selected?: string[]
 }
+
 export function openContactSelect(param?: IOpenParam) {
-  const callback = (users: IUserType[]) => {
-    console.log('TANG==', users)
-  }
-  window.$dispatch({type: 'updateContactSelect', payload: {visible: true, selected: param?.selected, callback}})
+  return new Promise<IUserType[]>(resolve => {
+    window.$dispatch({
+      type: 'updateContactSelect',
+      payload: {visible: true, selected: param?.selected, callback: resolve}})
+  })
 }

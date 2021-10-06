@@ -3,7 +3,7 @@ import MsgType from './message'
 import UserType from './user'
 import GroupType from './group'
 import MemberType from './member'
-
+import logger from '../utils/logger'
 declare global {
   interface Window {
     NodeBridge: {
@@ -12,6 +12,7 @@ declare global {
       maxSize(): void
       normalSize(): void
     }
+    getLogger: typeof logger
   }
   type IChatType = ChatType
   type IMsgType = MsgType

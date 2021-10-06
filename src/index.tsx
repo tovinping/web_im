@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux';
+import 'src/utils/logger'
 import Router from './views/Router'
 import store from './store'
 import reportWebVitals from './reportWebVitals'

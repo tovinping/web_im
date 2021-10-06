@@ -8,7 +8,7 @@ export default function MsgList() {
   const currentChatId = useRootState(state => state.chat.current?.chatId)
   const msgList = message[currentChatId!] || []
   return (
-    <div className={style.msgListWrap}>
+    <div className={style.msgListWrap + ' scroll'}>
       {msgList.map(item => (
         <MsgItem key={item.id} {...item} />
       ))}

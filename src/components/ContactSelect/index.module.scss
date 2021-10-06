@@ -3,9 +3,12 @@
   height: 400px;
   overflow-y: auto;
   li{
+    display: flex;
     cursor: pointer;
     padding: 5px 10px;
-
+    label {
+      flex: 1;
+    }
     &:hover{
       background-color: #F3F9FF;
     }
