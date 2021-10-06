@@ -1,5 +1,5 @@
 export *  from './global'
-export * from './conversation'
+export * from './chat'
 export * from './user'
 export * from './group'
 export * from './member'

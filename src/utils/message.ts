@@ -1,6 +1,7 @@
 import { IMsg } from 'src/interface'
 import clientSocket from './clientSocket'
-import { getRandomStr, checkConversation } from './'
+import { getRandomStr, checkChat } from './'
+import { CHAT_TYPE } from 'src/constant'
 
 type ISendType = Pick<IMsg, 'receiveId' | 'content' | 'chatType'>
 export function createMsgTemplate(data: ISendType): IMsg {
@@ -35,13 +36,13 @@ export function handleReceiveMsg(data: IMsg) {
   if (data?.senderId) {
     window.$dispatch({ type: 'appendMsg', payload: data })
   }
-  const conversationId = getCovIdByMsg(data)
-  if (!conversationId) return;
+  const chatId = getCovIdByMsg(data)
+  if (!chatId) return;
   // 判断是否需要创建会话
   if (data.groupId) {
-    checkConversation({conversationId, type: '1', create: true})
+    checkChat({chatId, type: CHAT_TYPE.group, create: true})
   } else {
-    checkConversation({conversationId, type: '0', create: true})
+    checkChat({chatId, type: CHAT_TYPE.p2p, create: true})
   }
 }
 

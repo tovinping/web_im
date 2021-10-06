@@ -2,18 +2,20 @@ import { createStore, combineReducers } from 'redux'
 import { createSelectorHook } from 'react-redux'
 
 import global from './global'
-import conversation from './conversation'
+import chat from './chat'
 import message from './message'
 import user from './user'
 import group from './group'
 import member from './member'
+import avatar from './avatar'
 
 const rootReducer = combineReducers({
+  avatar,
   member,
   group,
   user,
   global,
-  conversation,
+  chat,
   message
 })
 const store = createStore(rootReducer)

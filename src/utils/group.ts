@@ -17,11 +17,11 @@ export async function handCreateGroup(groupName: string, memberList: string[]) {
 }
 
 export async function getGroupChange() {
-  const conversationList = window.$state.conversation.list
+  const ChatList = window.$state.chat.list
   const groupIds: string[] = []
-  conversationList.forEach(item => {
+  ChatList.forEach(item => {
     if (item.type === '1'){
-      groupIds.push(item.conversationId)
+      groupIds.push(item.chatId)
     }
   })
   if (groupIds.length < 1) return;

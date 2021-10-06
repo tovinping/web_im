@@ -2,10 +2,9 @@ import React from 'react'
 import { useRootState } from 'src/store'
 import Icon from 'src/components/Icon'
 import style from './index.module.scss'
-import { handGetMemberList, openContactSelect } from 'src/utils'
-import { addMember } from 'src/api'
+import { openContactSelect } from 'src/utils'
 export default function ChatInfo() {
-  const currentId = useRootState(state => state.conversation.current?.conversationId)
+  const currentId = useRootState(state => state.chat.current?.chatId)
   const groupInfo = useRootState(state => state.group[currentId!])
   const userInfo = useRootState(state => state.user[currentId!])
   function handMore() {
@@ -17,14 +16,6 @@ export default function ChatInfo() {
     if (!members) return
     openContactSelect({
       selected: members,
-      callback: async data => {
-        console.log('handAddMember...', data)
-        const accounts = data.map(d => d.account)
-        if (accounts.length) {
-          await addMember(accounts, groupInfo.groupId)
-          handGetMemberList(groupInfo.groupId)
-        }
-      },
     })
   }
   return (

@@ -1,4 +1,4 @@
-export interface IBaseUser {
+export default interface UserType {
   name: string
   pinyinName: string;
   account: string

@@ -1,5 +1,4 @@
 import { login } from 'src/api'
-import { IUser } from 'src/interface'
 import clientSocket from './clientSocket'
 import { queryContactList } from 'src/utils'
 interface IDoLogin {
@@ -18,8 +17,10 @@ export async function doLogin({ account, password }: IDoLogin) {
 
 interface IOpenParam {
   selected?: string[]
-  callback: (list: IUser[]) => any
 }
-export function openContactSelect(param: IOpenParam) {
-  window.$dispatch({type: 'updateContactSelect', payload: {visible: true, ...param}})
+export function openContactSelect(param?: IOpenParam) {
+  const callback = (users: IUserType[]) => {
+    console.log('TANG==', users)
+  }
+  window.$dispatch({type: 'updateContactSelect', payload: {visible: true, selected: param?.selected, callback}})
 }

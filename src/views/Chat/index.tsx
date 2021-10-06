@@ -1,27 +1,26 @@
 import React, { useEffect, useCallback } from 'react'
 import { useHistory } from 'react-router'
 import { Modal } from 'antd'
-import { IUser } from 'src/interface'
 import { useRootState } from 'src/store'
 import ContactSelect from 'src/components/ContactSelect'
-import Conversation from 'src/views/Components/Conversation'
+import ChatList from 'src/views/Components/Chat'
 import MsgList from '../Components/MsgList'
 import Editor from '../Components/Editor'
 import ChatInfo from '../Components/ChatInfo'
 import ChatSide from '../Components/ChatSide'
-const selectedList: IUser[] = []
+const selectedList: IUserType[] = []
 const style = require('./index.module.scss')
-export default function Chat() {
+export default function ChatRoot() {
   const history = useHistory()
   const isLogin = useRootState(state => state.global.isLogin)
-  const currentType = useRootState(state => state.conversation.current?.type)
+  const currentType = useRootState(state => state.chat.current?.type)
   const { visible, selected } = useRootState(state => state.global.contactSelect)
   useEffect(() => {
     if (!isLogin) {
       history.replace('/')
     }
   }, [isLogin, history])
-  const handContactSelectChange = useCallback((data: IUser) => {
+  const handContactSelectChange = useCallback((data: IUserType) => {
     const index = selectedList.findIndex(item => item.account === data.account)
     if (index >= 0) {
       selectedList.splice(index, 1)
@@ -40,7 +39,7 @@ export default function Chat() {
   return (
     <div className={style.chatContainer}>
       <div className={style.chatLeft}>
-        <Conversation />
+        <ChatList />
       </div>
       <div className={style.chatRight}>
         <div className={style.chatMain}>

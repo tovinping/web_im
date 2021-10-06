@@ -1,9 +1,10 @@
-export interface IBaseGroup {
+import { GROUP_STATE } from "src/constant";
+
+export default interface GroupType {
   _id: number
   groupId: string
   name: string
-  /**0正常1已解散 */
-  state: '0' | '1'
+  state: GROUP_STATE
   avatar: string
   notice: string
   owner: string

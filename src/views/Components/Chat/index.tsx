@@ -2,14 +2,14 @@ import React, { useEffect } from 'react'
 import { useRootState } from 'src/store'
 import Item from './Item'
 import Search from './Search'
-import { getConversationChange, getGroupChange } from 'src/utils'
+import { getChatChange, getGroupChange } from 'src/utils'
 
-export default function Conversation() {
-  const conversations = useRootState(state => state.conversation.list)
+export default function ChatList() {
+  const chats = useRootState(state => state.chat.list)
   const isLogin = useRootState(state => state.global.isLogin)
   useEffect(() => {
     if (isLogin) {
-      getConversationChange().then(() => {
+      getChatChange().then(() => {
         getGroupChange()
       })
     }
@@ -19,8 +19,8 @@ export default function Conversation() {
       <div>
         <Search />
       </div>
-      {conversations.map(item => (
-        <Item key={item.conversationId} {...item} />
+      {chats.map(item => (
+        <Item key={item.chatId} {...item} />
       ))}
     </div>
   )

@@ -1,8 +1,9 @@
-export * from './conversation'
-export * from './message'
-export * from './user'
-export * from './group'
-export * from './member'
+import ChatType from './chat'
+import MsgType from './message'
+import UserType from './user'
+import GroupType from './group'
+import MemberType from './member'
+
 declare global {
   interface Window {
     NodeBridge: {
@@ -12,4 +13,9 @@ declare global {
       normalSize(): void
     }
   }
+  type IChatType = ChatType
+  type IMsgType = MsgType
+  type IUserType = UserType
+  type IGroupType = GroupType
+  type IMemberType = MemberType
 }

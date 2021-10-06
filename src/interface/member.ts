@@ -1,6 +1,5 @@
 import { ITransferActions } from '.'
-import { IBaseMemberInfo } from 'src/typings'
-export interface IMemberInfo extends IBaseMemberInfo {}
+export interface IMemberInfo extends IMemberType {}
 
 export type IMemberState = Record<string, IMemberInfo[] | undefined>
 export type IUpdateMember = Partial<IMemberInfo> & Required<Pick<IMemberInfo, 'account' | 'groupId'>>

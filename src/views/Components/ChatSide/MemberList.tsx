@@ -8,7 +8,7 @@ interface IProps {
   itemStyle?: string
 }
 export default function MemberList({ listStyle, itemStyle }: IProps) {
-  const curId = useRootState(state => state.conversation.current?.conversationId)
+  const curId = useRootState(state => state.chat.current?.chatId)
   const owner = useRootState(state => state.group[curId!]?.owner)
   const memberList = useRootState(state => state.member[curId!])
   if (!memberList?.length) return null

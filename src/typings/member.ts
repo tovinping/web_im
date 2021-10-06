@@ -1,7 +1,8 @@
-export interface IBaseMemberInfo {
+import { MEMBER_TYPE } from "src/constant";
+
+export default interface MemberType {
   account: string
   groupId: string
-  /**0普通成员1管理员 */
-  type: '0' | '1';
+  type: MEMBER_TYPE;
   nickName?: string
 }

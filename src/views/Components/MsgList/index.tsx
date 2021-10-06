@@ -5,8 +5,8 @@ import style from './index.module.scss'
 
 export default function MsgList() {
   const message = useRootState(state => state.message)
-  const currentConversationId = useRootState(state => state.conversation.current?.conversationId)
-  const msgList = message[currentConversationId!] || []
+  const currentChatId = useRootState(state => state.chat.current?.chatId)
+  const msgList = message[currentChatId!] || []
   return (
     <div className={style.msgListWrap}>
       {msgList.map(item => (

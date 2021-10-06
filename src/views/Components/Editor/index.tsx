@@ -6,7 +6,7 @@ import {sendTextMsg} from 'src/utils/message'
 import style from './index.module.scss'
 
 export default function Editor() {
-  const current = useRootState(state => state.conversation.current)
+  const current = useRootState(state => state.chat.current)
   const editRef = useRef<HTMLDivElement>(null)
   function handSend() {
     if (!current) return;
@@ -17,12 +17,12 @@ export default function Editor() {
     }
     editRef.current!.innerHTML = ''
     sendTextMsg({
-      receiveId: current.conversationId,
+      receiveId: current.chatId,
       chatType: current.type,
       content: text
     })
   }
-  if (!current?.conversationId) return null
+  if (!current?.chatId) return null
   return (
     <div className={style.editorContainer}>
       <div className={style.editorExtends}>

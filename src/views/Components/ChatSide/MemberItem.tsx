@@ -1,12 +1,13 @@
 import React from 'react'
 import classnames from 'classnames'
 import { useRootState } from 'src/store'
-import Avatar from '../Avatar'
+import {ChatAvatar} from 'src/components/Avatar'
 import style from './MemberItem.module.scss'
 import { IMemberInfo } from 'src/interface'
 import Icon from 'src/components/Icon'
 import ContextMenu from 'src/components/ContextMenu'
 import { buildMemberMenu } from 'src/utils/contextMenu'
+import { CHAT_TYPE } from 'src/constant'
 interface IProps {
   account: string
   type: IMemberInfo['type']
@@ -31,7 +32,7 @@ export default function MemberItem({ account, type, owner, groupId, nickName, cl
   return (
     <>
       <li className={classnames(style.memberItem, classNames)} onContextMenu={handContextMenu}>
-        <Avatar id={account} type={'0'} size={'small'} />
+        <ChatAvatar chatId={account} type={CHAT_TYPE.p2p} />
         <div className={style.memberName} title={memberName}>
           {memberName}
         </div>

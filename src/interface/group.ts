@@ -1,6 +1,5 @@
 import { ITransferActions } from '.'
-import { IBaseGroup } from 'src/typings'
-export interface IGroupInfo extends IBaseGroup {}
+export interface IGroupInfo extends IGroupType {}
 
 export type IGroupState = Record<string, IGroupInfo | undefined>
 export type IUpdateGroupType = Required<Pick<IGroupInfo, 'groupId'>> & Partial<IGroupInfo>

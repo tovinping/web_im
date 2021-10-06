@@ -1,7 +1,5 @@
 import { ITransferActions } from '.'
-import { IBaseUser } from 'src/typings'
-export interface IUser extends IBaseUser{}
-export type IUserState = Record<string, IUser | undefined>
+export type IUserState = Record<string, IUserType | undefined>
 
 interface IActionsMap {
   setUser: IUserState

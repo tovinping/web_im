@@ -1,7 +1,8 @@
 import { IMemberInfo } from 'src/interface'
 import { IBaseContextItem } from 'src/components/ContextMenu'
 import { removeMember, updateAdmin } from 'src/api'
-import { openOrCreateConversation } from 'src/utils'
+import { openOrCreateChat } from 'src/utils'
+import { CHAT_TYPE, MEMBER_TYPE } from 'src/constant'
 type IMemberContextItem = IBaseContextItem<IMemberInfo>
 type IMemberFn = (m: IMemberInfo, l: IMemberContextItem[]) => void
 
@@ -10,8 +11,8 @@ export const buildSendMsg: IMemberFn = (member, list) => {
     key: 'sendMsg',
     name: '发送消息',
     cb() {
-      const conversation = openOrCreateConversation(member.account, '0')
-      if (!conversation) {
+      const chat = openOrCreateChat(member.account, CHAT_TYPE.p2p)
+      if (!chat) {
         console.error('创建会话失败')
       }
     },
@@ -37,7 +38,7 @@ export const buildManagerOpt: IMemberFn = (member, list) => {
     name,
     cb() {
       const { groupId, type, account } = member
-      const changedType = type === '1' ? '0' : '1'
+      const changedType = type === '1' ? MEMBER_TYPE.NORMAL : MEMBER_TYPE.ADMIN
       updateAdmin({ groupId, account, type: changedType }).then(res => {
         if (res.code === 0) {
           window.$dispatch({ type: 'updateMember', payload: { account, type: changedType, groupId } })

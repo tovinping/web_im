@@ -1,7 +1,7 @@
 import { IRootDispatchType, IRootStateType } from 'src/store'
 export * from './user'
 export * from './global'
-export * from './conversation'
+export * from './chat'
 export * from './message'
 export * from './group'
 export * from './member'
