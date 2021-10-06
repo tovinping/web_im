@@ -18,7 +18,7 @@ interface IProps {
 export default function MemberItem({ account, type, owner, groupId, nickName, classNames }: IProps) {
   const userInfo = useRootState(state => state.user[account])
   const showNickName = nickName ? `(${nickName})` : ''
-  const memberName = userInfo?.chinesName || '' + showNickName
+  const memberName = userInfo?.name || '' + showNickName
   const isOwner = owner === account
   const isManger = type === '1'
   const fillColor = isOwner ? '#ffc107' : '#2196f3'

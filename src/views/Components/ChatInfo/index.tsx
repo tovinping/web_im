@@ -29,7 +29,7 @@ export default function ChatInfo() {
   }
   return (
     <div className={style.chatInfo}>
-      <div className={style.chatName}>{groupInfo?.name || userInfo?.chinesName || ''}</div>
+      <div className={style.chatName}>{groupInfo?.name || userInfo?.name || ''}</div>
       <ul className={style.chatOption}>
         <li className={style.chatOptionItem}>
           <Icon type={'Plus'} onClick={handAddMember} width={25} height={25} />

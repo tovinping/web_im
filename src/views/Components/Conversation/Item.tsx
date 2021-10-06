@@ -8,7 +8,7 @@ export default function ConversationItem(props: IConversation) {
   const currentId = useRootState(state => state.conversation.current?.conversationId)
   const userInfo = useRootState(state => state.user[props.conversationId])
   const groupInfo = useRootState(state => state.group[props.conversationId])
-  const conversationName = userInfo?.chinesName || groupInfo?.name
+  const conversationName = userInfo?.name || groupInfo?.name
   function handleClick() {
     window.$dispatch({ type: 'setCurrentConversation', payload: props })
   }

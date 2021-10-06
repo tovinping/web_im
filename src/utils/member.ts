@@ -13,8 +13,8 @@ export function sortMember(memberList: IMemberInfo[]) {
   const managers: IMemberInfo[] = []
   const normals: IMemberInfo[] = []
   memberList.sort((a, b) => {
-    const nameA = userMap[a.account]?.chinesName || ''
-    const nameB = userMap[b.account]?.chinesName || ''
+    const nameA = userMap[a.account]?.name || ''
+    const nameB = userMap[b.account]?.name || ''
     return nameA.localeCompare(nameB)
   })
   memberList.forEach(item => {

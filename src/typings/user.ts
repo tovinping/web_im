@@ -1,5 +1,5 @@
 export interface IBaseUser {
-  chinesName: string
+  name: string
   pinyinName: string;
   account: string
   email: string;
