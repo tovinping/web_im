@@ -13,3 +13,9 @@ export function getToken() {
   if (token) return token
   return getItem('token')
 }
+export function setRefreshToken(data: string) {
+  return setItem('refreshToken', data)
+}
+export function getRefreshToken() {
+  return getItem('refreshToken')
+}

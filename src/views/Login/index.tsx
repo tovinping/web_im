@@ -10,14 +10,15 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const autoLogin = useCallback(async () => {
-      const result = await doAutoLogin()
-      setLoading(false)
-      if (result) {
-        history.replace('/chat')
-      } else {
-        message.error('密码已过期,请重新登录', 1)
-      }
-    },[history])
+    const result = await doAutoLogin()
+    setLoading(false)
+    if (result) {
+      window.$dispatch({ type: 'updateGlobal', payload: { isLogin: true, account } })
+      history.replace('/chat')
+    } else {
+      message.error('密码已过期,请重新登录', 1)
+    }
+  }, [account, history])
   useEffect(() => {
     if (!window.isAutoLogin) {
       window.isAutoLogin = true
@@ -31,6 +32,7 @@ export default function Login() {
     const result = await doLogin({ account, password })
     setLoading(false)
     if (result) {
+      window.$dispatch({ type: 'updateGlobal', payload: { isLogin: true, account } })
       history.replace('/chat')
     } else {
       message.error('登录失败', 1)
