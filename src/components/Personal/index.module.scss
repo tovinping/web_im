@@ -1,0 +1,19 @@
+.personal {
+  width: 260px;
+}
+.baseInfo{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  li{
+    margin-top: 3px;
+  }
+}
+.extends{
+  padding-top: 5px;
+  li{
+    margin-top: 3px;
+  }
+}

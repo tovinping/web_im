@@ -4,6 +4,7 @@
     "jsencrypt",
     "MSGSTATE",
     "MSGTYPE",
+    "Popconfirm",
     "TOPSTATE"
   ]
 }

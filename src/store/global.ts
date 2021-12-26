@@ -1,6 +1,6 @@
 import { IGlobalState, IGlobalActions } from 'src/interface'
 const initialState: IGlobalState = {
-  isLogin: false,
+  isLogin: true,
   account: '',
   windowSize: 'normalSize',
   windowVisible: 'show',
