@@ -26,5 +26,7 @@ declare global {
     $state: IRootStateType
     $dispatch: IRootDispatchType
     handleBroadcast<T = any>(channel: string, payload?: T): void
+    /** 是否已经自动登录过 */
+    isAutoLogin: boolean
   }
 }

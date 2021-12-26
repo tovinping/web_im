@@ -1,30 +1,44 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Button, Input, message, Spin } from 'antd'
 import { useHistory } from 'react-router'
-import TopBar from 'src/components/TopBar'
-import { doLogin } from 'src/utils'
-import style from './login.module.scss'
+import { doAutoLogin, doLogin } from 'src/utils'
+import style from './index.module.scss'
+
 export default function Login() {
   const history = useHistory()
   const [account, setAccount] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const autoLogin = useCallback(async () => {
+      const result = await doAutoLogin()
+      setLoading(false)
+      if (result) {
+        history.replace('/chat')
+      } else {
+        message.error('密码已过期,请重新登录', 1)
+      }
+    },[history])
+  useEffect(() => {
+    if (!window.isAutoLogin) {
+      window.isAutoLogin = true
+      setLoading(true)
+      autoLogin()
+    }
+  }, [autoLogin])
   async function handDoLogin() {
     if (!account.trim() || !password.trim()) return
     setLoading(true)
     const result = await doLogin({ account, password })
-    console.log('loginResult', result)
     setLoading(false)
-    if (result.code === 1) {
-      message.error(result.msg, 1)
+    if (result) {
+      history.replace('/chat')
     } else {
-      history.push('/chat')
+      message.error('登录失败', 1)
     }
   }
   return (
     <Spin spinning={loading} tip={'登录中...'} wrapperClassName={style.spinWrap}>
       <div className={style.loginContainer}>
-        <TopBar />
         <h1 className={style.title}>帐号登录</h1>
         <h2 className={style.subTitle}>Development zone</h2>
         <div className={style.inputPanel}>

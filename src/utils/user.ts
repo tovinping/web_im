@@ -1,4 +1,6 @@
-import { getContactList } from 'src/api'
+import { autoLogin, getContactList, login } from 'src/api'
+import { getRsaEncrypt } from './encrypt'
+import { getToken, setToken } from './storage'
 export async function queryContactList(pageNo = 1) {
   const result = await getContactList({ pageNo, pageSize: 20 })
   const oldUserMap = window.$state.user
@@ -9,5 +11,31 @@ export async function queryContactList(pageNo = 1) {
     })
     console.log('loadContactList', userMap)
     window.$dispatch({ type: 'setUser', payload: userMap })
+  }
+}
+
+interface IDoLogin {
+  account: string
+  password: string
+}
+export async function doLogin({ account, password }: IDoLogin) {
+  const rsaPwd = await getRsaEncrypt(password)
+  const result = await login({ account, password: rsaPwd })
+  if (result.code === 0 && result.data) {
+    setToken(result.data)
+    window.$dispatch({ type: 'updateGlobal', payload: { isLogin: true, account } })
+    return true
+  } else {
+    return false
+  }
+}
+export async function doAutoLogin() {
+  const token = getToken();
+  if (!token) return false
+  const result = await autoLogin()
+  if (result.code === 0) {
+    return true
+  } else {
+    return false
   }
 }

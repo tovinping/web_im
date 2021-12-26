@@ -7,3 +7,10 @@ export * from './contextMenu'
 export function getRandomStr() {
   return Math.random().toString(32).slice(2)
 }
+export function sleep(timer: number, data: any) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(data)
+    }, timer);
+  })
+}
