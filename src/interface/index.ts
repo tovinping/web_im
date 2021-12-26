@@ -15,7 +15,8 @@ export type ITransferActions<T> = {
 }[keyof T]
 
 export interface IResBase<T = any> {
-  code: 0 | 1 // 0成功1失败
+  /** 0成功1失败 */ 
+  code: 0 | 1
   data: T | null
   msg: string
 }
