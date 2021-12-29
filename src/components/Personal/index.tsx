@@ -1,8 +1,28 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { BaseAvatar } from 'src/components/Avatar'
 
 import style from './index.module.scss'
+let inputValue = ''
+let defaultValue = '明天有事请假一天'
 export default function Personal() {
+  const signRef = useRef<HTMLInputElement>(null)
+  const [signEditor, setSignEditor] = useState(false)
+  const updateSign = () => {
+    setSignEditor(true)
+    setTimeout(() => {
+      signRef.current?.focus()
+    }, 1);
+  }
+  const signChange: React.ChangeEventHandler<HTMLInputElement> = evt => {
+    inputValue = evt.target.value
+  }
+  const signBlur = () => {
+    setSignEditor(false)
+    if (inputValue !== defaultValue) {
+      defaultValue = inputValue
+      console.log('updateSign', inputValue)
+    }
+  }
   return (
     <div className={style.personal}>
       <div className={style.baseInfo}>
@@ -14,8 +34,17 @@ export default function Personal() {
         <BaseAvatar size={'large'} />
       </div>
       <ul className={style.extends}>
-        <li>备注: 开发者大大</li>
-        <li>人性签名: 明天有事请假一天</li>
+        <li>
+          <span>备注: </span>开发者大大
+        </li>
+        <li>
+          <span>签名: </span>
+          {signEditor ? (
+            <input type="text" ref={signRef} defaultValue={defaultValue} onChange={signChange} onBlur={signBlur} />
+          ) : (
+            <p onClick={updateSign}>{defaultValue}</p>
+          )}
+        </li>
         <li>发送名片 发送消息</li>
       </ul>
     </div>
