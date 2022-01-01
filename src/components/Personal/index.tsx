@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { BaseAvatar } from 'src/components/Avatar'
+import {updateSign} from 'src/api/user'
 
 import style from './index.module.scss'
 let inputValue = ''
@@ -7,7 +8,7 @@ let defaultValue = '明天有事请假一天'
 export default function Personal() {
   const signRef = useRef<HTMLInputElement>(null)
   const [signEditor, setSignEditor] = useState(false)
-  const updateSign = () => {
+  const signClick = () => {
     setSignEditor(true)
     setTimeout(() => {
       signRef.current?.focus()
@@ -20,7 +21,7 @@ export default function Personal() {
     setSignEditor(false)
     if (inputValue !== defaultValue) {
       defaultValue = inputValue
-      console.log('updateSign', inputValue)
+      updateSign(defaultValue)
     }
   }
   return (
@@ -42,7 +43,7 @@ export default function Personal() {
           {signEditor ? (
             <input type="text" ref={signRef} defaultValue={defaultValue} onChange={signChange} onBlur={signBlur} />
           ) : (
-            <p onClick={updateSign}>{defaultValue}</p>
+            <p onClick={signClick}>{defaultValue}</p>
           )}
         </li>
         <li>发送名片 发送消息</li>

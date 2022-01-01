@@ -1,4 +1,4 @@
-import { autoLogin, getContactList, login } from 'src/api'
+import { autoLogin, getContactList, getUserInfo, login } from 'src/api'
 import { getRsaEncrypt } from './encrypt'
 import { getRefreshToken, setRefreshToken, setToken } from './storage'
 export async function queryContactList(pageNo = 1) {
@@ -6,7 +6,7 @@ export async function queryContactList(pageNo = 1) {
   const oldUserMap = window.$state.user
   const userMap = { ...oldUserMap }
   if (result.code === 0) {
-    result.data?.forEach(item => {
+    result.body?.forEach(item => {
       userMap[item.account] = item
     })
     console.log('loadContactList', userMap)
@@ -20,24 +20,37 @@ interface IDoLogin {
 }
 export async function doLogin({ account, password }: IDoLogin) {
   const rsaPwd = await getRsaEncrypt(password)
+  console.log('ppp', rsaPwd)
   const result = await login({ account, password: rsaPwd })
-  if (result.code === 0 && result.data) {
-    setToken(result.data.token)
-    setRefreshToken(result.data.refreshToken)
+  if (result.code === 0 && result.body) {
+    setToken(result.body.token)
+    setRefreshToken(result.body.refreshToken)
     return true
   } else {
     return false
   }
 }
 export async function doAutoLogin() {
-  const refreshToken = getRefreshToken();
+  const refreshToken = getRefreshToken()
   if (!refreshToken) return false
   const result = await autoLogin(refreshToken)
-  if (result.code === 0 && result.data) {
-    setToken(result.data.token)
-    setRefreshToken(result.data.refreshToken)
+  if (result.code === 0 && result.body) {
+    setToken(result.body.token)
+    setRefreshToken(result.body.refreshToken)
     return true
   } else {
     return false
+  }
+}
+
+export async function getUserInfoByAccounts(accounts: string[]) {
+  return getContactList({ accounts })
+}
+
+export async function syncMyInfo() {
+  const myAccount = window.$state.global.account
+  const { body } = await getUserInfo(myAccount)
+  if (body) {
+    window.$dispatch({ type: 'updateMyInfo', payload: body })
   }
 }

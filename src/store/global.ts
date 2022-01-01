@@ -1,12 +1,12 @@
 import { IGlobalState, IGlobalActions } from 'src/interface'
 const initialState: IGlobalState = {
   isLogin: true,
-  account: '',
+  account: 'test1',
   windowSize: 'normalSize',
   windowVisible: 'show',
   contactSelect: {
     visible: false,
-  },
+  }
 }
 export default function reducer(state = initialState, actions: IGlobalActions): IGlobalState {
   switch (actions.type) {

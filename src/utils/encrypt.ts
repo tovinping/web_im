@@ -8,11 +8,11 @@ function rsaEncrypt(publicKey: string, data: string) {
 }
 export async function getRsaEncrypt(data: string) {
   if (!publicKey) {
-    const rsaKeyRes = await getPublicKey()
-    if (rsaKeyRes.code !== 0) {
+    const { body } = await getPublicKey()
+    if (!body) {
       return ''
     }
-    publicKey = rsaKeyRes.data!
+    publicKey = body
     return rsaEncrypt(publicKey, data)
   } else {
     return rsaEncrypt(publicKey, data)

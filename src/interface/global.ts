@@ -9,7 +9,8 @@ export interface IGlobalState {
     visible: boolean
     selected?: string[]
     callback?: Function
-  }
+  },
+  myInfo?: IUserType
 }
 
 interface IActionsMap {
@@ -17,5 +18,6 @@ interface IActionsMap {
   updateLogin: IGlobalState['isLogin']
   updateAccount: IGlobalState['account']
   updateContactSelect: IGlobalState['contactSelect']
+  updateMyInfo: IGlobalState['myInfo']
 }
 export type IGlobalActions = ITransferActions<IActionsMap>

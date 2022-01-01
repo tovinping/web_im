@@ -8,6 +8,7 @@ import MsgList from '../Components/MsgList'
 import Editor from '../Components/Editor'
 import ChatInfo from '../Components/ChatInfo'
 import ChatSide from '../Components/ChatSide'
+import { syncMyInfo } from 'src/utils'
 const style = require('./index.module.scss')
 let selectedList: IUserType[] = []
 export default function ChatRoot() {
@@ -18,6 +19,8 @@ export default function ChatRoot() {
   useEffect(() => {
     if (!isLogin) {
       history.replace('/')
+    } else {
+      syncMyInfo();
     }
   }, [isLogin, history])
   const handContactSelectChange = useCallback((data: IUserType) => {
