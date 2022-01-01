@@ -6,10 +6,10 @@ const logger = window.getLogger('utils/chat')
 
 export async function getChatChange() {
   const account = window.$state.global.account;
-  const {data, code, msg} = await getChats(account);
+  const {body, code, msg} = await getChats(account);
   console.log('getChat=', code, msg)
-  if (data) {
-    window.$dispatch({type: 'setChatList', payload: data})
+  if (body) {
+    window.$dispatch({type: 'setChatList', payload: body})
   }
 }
 // 创建会话
@@ -24,11 +24,11 @@ type ICheckProps = Pick<IChatType, 'chatId' | 'type'> & {
 export async function checkAndCreateChat(params: ICheckProps) {
   const ChatInfo = window.$state.chat.list.find(chat => chat.chatId === params.chatId)
   if (!ChatInfo && params.create) {
-    const {data, code} = await handCreateChat({chatId: params.chatId, type: params.type})
+    const {body, code} = await handCreateChat({chatId: params.chatId, type: params.type})
     if (code === 0) {
-      window.$dispatch({type: 'addChat', payload: data!})
+      window.$dispatch({type: 'addChat', payload: body!})
     }
-    return data
+    return body
   }
   return ChatInfo
 }

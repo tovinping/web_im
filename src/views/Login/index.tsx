@@ -13,18 +13,14 @@ export default function Login() {
     const result = await doAutoLogin()
     setLoading(false)
     if (result === '0') {
-      window.$dispatch({ type: 'updateGlobal', payload: { isLogin: true, account } })
       history.replace('/chat')
     } else if (result === '1') {
       message.error('密码已过期,请重新登录', 1)
     }
-  }, [account, history])
+  }, [history])
   useEffect(() => {
-    if (!window.isAutoLogin) {
-      window.isAutoLogin = true
-      setLoading(true)
-      autoLogin()
-    }
+    setLoading(true)
+    autoLogin()
   }, [autoLogin])
   async function handDoLogin() {
     if (!account.trim() || !password.trim()) return

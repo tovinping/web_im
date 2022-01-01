@@ -23,7 +23,7 @@ export async function doLogin({ account, password }: IDoLogin) {
   const result = await login({ account, password: rsaPwd })
   if (result.code === 0 && result.body) {
     setMyAccount(account)
-    window.$dispatch({type: 'updateGlobal', payload: {account}})
+    window.$dispatch({ type: 'updateGlobal', payload: { account } })
     setToken(result.body.token)
     setRefreshToken(result.body.refreshToken)
     return true
@@ -36,12 +36,13 @@ export async function doLogin({ account, password }: IDoLogin) {
  * @returns 0成功; -1没登录过; 1token过期
  */
 export async function doAutoLogin() {
-  const myAccount = getMyAccount();
-  if (!myAccount) return '-1';
+  const myAccount = getMyAccount()
+  if (!myAccount) return '-1'
   const refreshToken = getRefreshToken()
   if (!refreshToken) return '1'
   const result = await autoLogin(refreshToken)
   if (result.code === 0 && result.body) {
+    window.$dispatch({ type: 'updateGlobal', payload: { account: myAccount, isLogin: true } })
     setToken(result.body.token)
     setRefreshToken(result.body.refreshToken)
     return '0'
@@ -58,6 +59,6 @@ export async function syncMyInfo() {
   const myAccount = window.$state.global.account
   const { body } = await getUserInfo(myAccount)
   if (body) {
-    window.$dispatch({type: 'updateUser', payload: body})
+    window.$dispatch({ type: 'updateUser', payload: body })
   }
 }
