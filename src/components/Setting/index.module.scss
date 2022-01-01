@@ -1,0 +1,12 @@
+.setting{
+  li{
+    margin-top: 6px;
+    &:first-child{
+      margin-top: 0;
+    }
+    &:hover {
+      color: #000;
+      cursor: pointer;
+    }
+  }
+}

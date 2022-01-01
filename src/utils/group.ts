@@ -8,9 +8,9 @@ import {IGroupState} from 'src/interface'
  */
 export async function handCreateGroup(groupName: string, memberList: string[]) {
   const owner = window.$state.global.account
-  const {data, code} = await createGroup({groupName, owner, memberList: [owner, ...memberList]})
+  const {body, code} = await createGroup({groupName, owner, memberList: [owner, ...memberList]})
   if (code === 0) {
-    return data
+    return body
   } else {
     return null
   }
@@ -25,14 +25,14 @@ export async function getGroupChange() {
     }
   })
   if (groupIds.length < 1) return;
-  const {data, code} = await getGroupList(groupIds)
+  const {body, code} = await getGroupList(groupIds)
   if (code === 0) {
     const groupMap: IGroupState = {}
-    data?.forEach(item => {
+    body?.forEach(item => {
       groupMap[item.groupId] = item
     })
     window.$dispatch({type: 'setGroup', payload: groupMap})
-    return data
+    return body
   } else {
     return []
   }

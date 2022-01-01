@@ -1,23 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { Button, Input, message, Spin } from 'antd'
-import { useHistory } from 'react-router'
+import { Button, Input, Spin } from 'antd'
 import { doAutoLogin, doLogin } from 'src/utils'
 import style from './index.module.scss'
 
 export default function Login() {
-  const history = useHistory()
   const [account, setAccount] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const autoLogin = useCallback(async () => {
-    const result = await doAutoLogin()
+    await doAutoLogin()
     setLoading(false)
-    if (result === '0') {
-      history.replace('/chat')
-    } else if (result === '1') {
-      message.error('密码已过期,请重新登录', 1)
-    }
-  }, [history])
+  }, [])
   useEffect(() => {
     setLoading(true)
     autoLogin()
@@ -25,14 +18,8 @@ export default function Login() {
   async function handDoLogin() {
     if (!account.trim() || !password.trim()) return
     setLoading(true)
-    const result = await doLogin({ account, password })
+    await doLogin({ account, password })
     setLoading(false)
-    if (result) {
-      window.$dispatch({ type: 'updateGlobal', payload: { isLogin: true, account } })
-      history.replace('/chat')
-    } else {
-      message.error('登录失败', 1)
-    }
   }
   return (
     <Spin spinning={loading} tip={'登录中...'} wrapperClassName={style.spinWrap}>

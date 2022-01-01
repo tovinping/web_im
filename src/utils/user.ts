@@ -1,4 +1,6 @@
+import { message } from 'antd'
 import { autoLogin, getContactList, getUserInfo, login } from 'src/api'
+import { myHistory } from '.'
 import { getRsaEncrypt } from './encrypt'
 import { getMyAccount, getRefreshToken, setMyAccount, setRefreshToken, setToken } from './storage'
 export async function queryContactList(pageNo = 1) {
@@ -20,35 +22,39 @@ interface IDoLogin {
 }
 export async function doLogin({ account, password }: IDoLogin) {
   const rsaPwd = await getRsaEncrypt(password)
-  const result = await login({ account, password: rsaPwd })
-  if (result.code === 0 && result.body) {
-    setMyAccount(account)
-    window.$dispatch({ type: 'updateGlobal', payload: { account } })
-    setToken(result.body.token)
-    setRefreshToken(result.body.refreshToken)
-    return true
+  const { code, body } = await login({ account, password: rsaPwd })
+  if (code === 0 && body) {
+    setTimeout(() => {
+      setMyAccount(account)
+      window.$dispatch({ type: 'updateGlobal', payload: { isLogin: true, account } })
+      setToken(body.token)
+      setRefreshToken(body.refreshToken)
+      myHistory.replace('/chat')
+    }, 16)
   } else {
-    return false
+    message.error('登录失败', 1)
   }
 }
-/**
- * 自动登录
- * @returns 0成功; -1没登录过; 1token过期
- */
 export async function doAutoLogin() {
   const myAccount = getMyAccount()
-  if (!myAccount) return '-1'
+  if (!myAccount) return
   const refreshToken = getRefreshToken()
-  if (!refreshToken) return '1'
+  if (!refreshToken) return
   const result = await autoLogin(refreshToken)
-  if (result.code === 0 && result.body) {
-    window.$dispatch({ type: 'updateGlobal', payload: { account: myAccount, isLogin: true } })
-    setToken(result.body.token)
-    setRefreshToken(result.body.refreshToken)
-    return '0'
-  } else {
-    return '1'
-  }
+  setTimeout(() => {
+    if (result.code === 0 && result.body) {
+      window.$dispatch({ type: 'updateGlobal', payload: { account: myAccount, isLogin: true } })
+      setToken(result.body.token)
+      setRefreshToken(result.body.refreshToken)
+      myHistory.replace('/chat')
+    } else {
+      message.error('密码已过期,请重新登录', 1)
+    }
+  }, 16)
+}
+export async function logout() {
+  setMyAccount('')
+  myHistory.replace('/')
 }
 
 export async function getUserInfoByAccounts(accounts: string[]) {

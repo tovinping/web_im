@@ -2,9 +2,9 @@ import { getMemberList } from 'src/api/member'
 import { IMemberInfo } from 'src/interface'
 
 export async function handGetMemberList(groupId: string) {
-  const { data, code } = await getMemberList(groupId)
+  const { body, code } = await getMemberList(groupId)
   if (code === 0) {
-    const members = sortMember(data!)
+    const members = sortMember(body!)
     window.$dispatch({ type: 'setMember', payload: { [groupId]: members } })
   }
 }
