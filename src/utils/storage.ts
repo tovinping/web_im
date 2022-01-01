@@ -19,3 +19,9 @@ export function setRefreshToken(data: string) {
 export function getRefreshToken() {
   return getItem('refreshToken')
 }
+export function getMyAccount() {
+  return getItem('myAccount')
+}
+export function setMyAccount(data: string) {
+  return setItem('myAccount', data)
+}

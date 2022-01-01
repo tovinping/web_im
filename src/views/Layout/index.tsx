@@ -1,8 +1,8 @@
 import React from 'react'
 import { Popover } from 'antd'
 import { ChatAvatar } from 'src/components/Avatar'
-import Personal from 'src/components/Personal'
 import { CHAT_TYPE } from 'src/constant'
+import Personal from 'src/components/Personal'
 import style from './index.module.scss'
 export default function Layout(Com: () => JSX.Element) {
   return function () {
@@ -10,7 +10,7 @@ export default function Layout(Com: () => JSX.Element) {
       <div className={style.layout}>
         <ul className={style.menu}>
           <li>
-            <Popover overlayClassName={style.popOver} content={Personal} trigger={'click'} placement="rightTop">
+            <Popover overlayClassName={style.popOver} content={<Personal isSelf={true} account={window.$state.global.account} />} trigger={'click'} placement="rightTop">
               <div>
                 <ChatAvatar type={CHAT_TYPE.p2p} chatId="123" />
               </div>

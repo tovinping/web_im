@@ -12,10 +12,10 @@ export default function Login() {
   const autoLogin = useCallback(async () => {
     const result = await doAutoLogin()
     setLoading(false)
-    if (result) {
+    if (result === '0') {
       window.$dispatch({ type: 'updateGlobal', payload: { isLogin: true, account } })
       history.replace('/chat')
-    } else {
+    } else if (result === '1') {
       message.error('密码已过期,请重新登录', 1)
     }
   }, [account, history])

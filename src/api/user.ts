@@ -22,7 +22,11 @@ export async function autoLogin(refreshToken: string) {
 }
 
 export async function updateSign(sign: string) {
-  return put('/user/sign', {sign})
+  const {code} = await put('/user/sign', {sign})
+  if (code === 0) {
+    const myInfo = window.$state.global.myInfo!
+    window.$dispatch({type: 'updateMyInfo', payload: {...myInfo, sign}})
+  }
 }
 export async function getUserInfo(account: string) {
   return get<IUserType>('/user/' + account)
