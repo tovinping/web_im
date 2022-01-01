@@ -11,8 +11,9 @@ export default function Layout(Com: () => JSX.Element) {
         <ul className={style.menu}>
           <li>
             <Popover overlayClassName={style.popOver} content={Personal} trigger={'click'} placement="rightTop">
-              <span></span>
-              <ChatAvatar type={CHAT_TYPE.p2p} chatId="123" />
+              <div>
+                <ChatAvatar type={CHAT_TYPE.p2p} chatId="123" />
+              </div>
             </Popover>
           </li>
           <li>消息</li>

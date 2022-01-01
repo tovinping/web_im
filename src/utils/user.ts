@@ -20,7 +20,6 @@ interface IDoLogin {
 }
 export async function doLogin({ account, password }: IDoLogin) {
   const rsaPwd = await getRsaEncrypt(password)
-  console.log('ppp', rsaPwd)
   const result = await login({ account, password: rsaPwd })
   if (result.code === 0 && result.body) {
     setToken(result.body.token)

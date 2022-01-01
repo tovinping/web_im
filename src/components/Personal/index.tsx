@@ -3,9 +3,10 @@ import { BaseAvatar } from 'src/components/Avatar'
 import {updateSign} from 'src/api/user'
 
 import style from './index.module.scss'
+import { useRootState } from 'src/store'
 let inputValue = ''
-let defaultValue = '明天有事请假一天'
 export default function Personal() {
+  const myInfo = useRootState(state => state.global.myInfo)
   const signRef = useRef<HTMLInputElement>(null)
   const [signEditor, setSignEditor] = useState(false)
   const signClick = () => {
@@ -19,9 +20,8 @@ export default function Personal() {
   }
   const signBlur = () => {
     setSignEditor(false)
-    if (inputValue !== defaultValue) {
-      defaultValue = inputValue
-      updateSign(defaultValue)
+    if (inputValue !== myInfo?.sign) {
+      updateSign(inputValue)
     }
   }
   return (
@@ -41,9 +41,9 @@ export default function Personal() {
         <li>
           <span>签名: </span>
           {signEditor ? (
-            <input type="text" ref={signRef} defaultValue={defaultValue} onChange={signChange} onBlur={signBlur} />
+            <input type="text" ref={signRef} defaultValue={myInfo?.sign} onChange={signChange} onBlur={signBlur} />
           ) : (
-            <p onClick={signClick}>{defaultValue}</p>
+            <p onClick={signClick}>{inputValue || myInfo?.sign}</p>
           )}
         </li>
         <li>发送名片 发送消息</li>

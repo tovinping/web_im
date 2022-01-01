@@ -28,7 +28,7 @@ async function myFetch<T>({ method, data, params, uri }: IMyFetch): Promise<IRes
       headers,
       body: JSON.stringify(data),
     })
-    return await response.json()
+    return response.json()
   } catch (error) {
     return { code: 1, msg: '请求失败', body: null }
   }

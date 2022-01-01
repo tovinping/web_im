@@ -6,7 +6,7 @@ const initialState: IGlobalState = {
   windowVisible: 'show',
   contactSelect: {
     visible: false,
-  }
+  },
 }
 export default function reducer(state = initialState, actions: IGlobalActions): IGlobalState {
   switch (actions.type) {
@@ -18,6 +18,8 @@ export default function reducer(state = initialState, actions: IGlobalActions): 
       return { ...state, account: actions.payload }
     case 'updateContactSelect':
       return { ...state, contactSelect: actions.payload }
+    case 'updateMyInfo':
+      return { ...state, myInfo: actions.payload }
     default:
       return state
   }
