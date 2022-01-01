@@ -24,8 +24,9 @@ export async function autoLogin(refreshToken: string) {
 export async function updateSign(sign: string) {
   const {code} = await put('/user/sign', {sign})
   if (code === 0) {
-    const myInfo = window.$state.global.myInfo!
-    window.$dispatch({type: 'updateMyInfo', payload: {...myInfo, sign}})
+    const myAccount = window.$state.global.account
+    const myInfo = window.$state.user[myAccount]!
+    window.$dispatch({type: 'updateUser', payload: {...myInfo, sign}})
   }
 }
 export async function getUserInfo(account: string) {

@@ -6,6 +6,8 @@ import NormalSize from './NormalSize'
 import Plus from './Plus'
 import ThreeDots from './ThreeDots'
 import Person from './Person'
+import Share from './Share'
+import Send from './Send'
 const SvgMap = {
   Person,
   ThreeDots,
@@ -14,6 +16,8 @@ const SvgMap = {
   MaxSize,
   MinSize,
   NormalSize,
+  Share,
+  Send
 }
 export interface IProps extends React.SVGProps<SVGSVGElement> {
   type: keyof typeof SvgMap

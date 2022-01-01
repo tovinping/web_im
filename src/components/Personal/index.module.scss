@@ -8,21 +8,36 @@
   border-bottom: 1px solid #ddd;
   padding-bottom: 10px;
   li{
-    margin-top: 3px;
+    margin-top: 5px;
   }
 }
 .extends{
   padding-top: 5px;
   li{
     display: flex;
-    margin-top: 3px;
+    margin-top: 5px;
     span{
       margin-right: 5px;
     }
   }
-  p{
+  p, input{
     flex: 1;
     word-break: break-all;
     margin: 0;
+  }
+}
+.send{
+  display: flex;
+  justify-content: flex-end;
+  svg{
+    cursor: pointer;
+    margin-right: 20px;
+    fill: #333;
+    :hover{
+      fill: #000;
+    }
+    &:last-child{
+      margin-right: 5px;
+    }
   }
 }

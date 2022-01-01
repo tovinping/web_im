@@ -3,12 +3,13 @@ import { BaseAvatar } from 'src/components/Avatar'
 import { updateSign } from 'src/api/user'
 import style from './index.module.scss'
 import { useRootState } from 'src/store'
+import Icon from '../Icon'
 let inputValue = ''
 interface IProps {
-  account: string;
+  account: string
   isSelf?: boolean
 }
-export default function Personal({account, isSelf}: IProps) {
+export default function Personal({ account, isSelf }: IProps) {
   const userInfo = useRootState(state => state.user[account])
   const signRef = useRef<HTMLInputElement>(null)
   const [signEditor, setSignEditor] = useState(false)
@@ -32,27 +33,38 @@ export default function Personal({account, isSelf}: IProps) {
     <div className={style.personal}>
       <div className={style.baseInfo}>
         <ul>
-          <li>测试一</li>
-          <li>帐号: test1</li>
-          <li>邮箱: tovinping@qq.com</li>
+          <li>{userInfo?.name}</li>
+          <li>帐号: {userInfo?.account}</li>
+          <li>邮箱: {userInfo?.mail}</li>
         </ul>
         <BaseAvatar size={'large'} />
       </div>
       <ul className={style.extends}>
         {isSelf ? null : (
           <li>
-            <span>备注: </span>开发者大大
+            <span>备注: </span>
+            {userInfo?.name}
           </li>
         )}
         <li>
           <span>签名: </span>
           {signEditor ? (
-            <input type="text" ref={signRef} defaultValue={userInfo?.sign} onChange={signChange} onBlur={signBlur} />
+            <input
+              className={style.signInput}
+              type="text"
+              ref={signRef}
+              defaultValue={userInfo?.sign}
+              onChange={signChange}
+              onBlur={signBlur}
+            />
           ) : (
             <p onClick={signClick}>{inputValue || userInfo?.sign}</p>
           )}
         </li>
-        <li>发送名片 发送消息</li>
+        <li className={style.send}>
+          <Icon width={20} height={20} type={'Share'} />
+          <Icon width={20} height={20} type={'Send'} />
+        </li>
       </ul>
     </div>
   )
