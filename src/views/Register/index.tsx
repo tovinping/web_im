@@ -1,17 +1,20 @@
 import React from 'react'
 import { Form, Input, Button } from 'antd'
 import style from './index.module.scss'
-import { handRegister } from 'src/utils'
+import { handRegister, myHistory } from 'src/utils'
 export default function Register() {
   const onFinish = (values: any) => {
     delete values.rePassword
     handRegister(values)
   }
+  const goBack = () => {
+    myHistory.goBack();
+  }
   return (
     <div className={style.register}>
-      <h1>欢迎注册本系统</h1>
+      <h1>欢迎注册</h1>
       <div className={style.form}>
-        <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onFinish={onFinish} autoComplete="off">
+        <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 20 }} onFinish={onFinish} autoComplete="off">
           <Form.Item label="帐号" name="account" rules={[{ required: true, message: '帐号不能为空' }]}>
             <Input />
           </Form.Item>
@@ -36,7 +39,7 @@ export default function Register() {
           </Form.Item>
 
           <Form.Item
-            label="重复密码"
+            label="确认密码"
             name="rePassword"
             rules={[
               {
@@ -56,11 +59,12 @@ export default function Register() {
             <Input.Password />
           </Form.Item>
 
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <div className={style.submit}>
             <Button type="primary" htmlType="submit">
               注册
             </Button>
-          </Form.Item>
+            <Button onClick={goBack}>返回</Button>
+          </div>
         </Form>
       </div>
     </div>
