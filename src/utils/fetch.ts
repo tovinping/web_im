@@ -1,5 +1,5 @@
 import { message } from 'antd'
-import { getUniqueFileName } from '.'
+import { getUniqueFileName, isEmpty } from '.'
 import config from '../config'
 import { IResBase } from '../interface'
 import { getToken } from './storage'
@@ -16,7 +16,7 @@ interface IMyFetch {
 async function myFetch<T>({ method, data, params, uri }: IMyFetch): Promise<IResBase<T>> {
   const headers = getCommonHeader()
   let url = config.baseUrl + uri
-  if (params) {
+  if (!isEmpty(params) && params) {
     const arr = Object.entries(params)
     url += '?' + arr.map(item => item.join('=')).join('&')
   }
