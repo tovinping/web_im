@@ -5,6 +5,7 @@ import GroupType from './group'
 import MemberType from './member'
 import logger from '../utils/logger'
 declare global {
+  const COS: any;
   interface Window {
     NodeBridge: {
       closeWindow(): void

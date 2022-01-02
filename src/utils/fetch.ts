@@ -1,3 +1,4 @@
+import { getUniqueFileName } from '.'
 import config from '../config'
 import { IResBase } from '../interface'
 import { getToken } from './storage'
@@ -46,4 +47,43 @@ export function put<T = any>(uri: string, data: Record<string, any>) {
 }
 export function del<T = any>(uri: string, data: Record<string, any>) {
   return myFetch<T>({ method: 'DELETE', uri, data })
+}
+
+const Bucket = 'tangwenping-1251944858'
+const Region = 'ap-guangzhou'
+function getAuthorization(options: any, callback: any) {
+  console.log('TANG===', options)
+  get('/token/sts').then(result => {
+    const body = result.body
+    const credentials = body.credentials
+    callback({
+      TmpSecretId: credentials.tmpSecretId,
+      TmpSecretKey: credentials.tmpSecretKey,
+      SecurityToken: credentials.sessionToken,
+      StartTime: body.startTime,
+      ExpiredTime: body.expiredTime,
+    })
+  })
+}
+// 初始化实例
+const cos = new COS({
+  getAuthorization: getAuthorization,
+})
+interface IUploadFile {
+  file: File
+  onProgress?(): void
+  callback?(): void
+}
+export function uploadCos({ file, onProgress, callback }: IUploadFile) {
+  const Key = getUniqueFileName(file)
+  cos.putObject(
+    {
+      Bucket,
+      Region,
+      Key,
+      Body: file,
+      onProgress,
+    },
+    callback
+  )
 }
