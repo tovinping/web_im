@@ -1,3 +1,4 @@
+import { message } from 'antd'
 import { getUniqueFileName } from '.'
 import config from '../config'
 import { IResBase } from '../interface'
@@ -53,16 +54,22 @@ const Bucket = 'tangwenping-1251944858'
 const Region = 'ap-guangzhou'
 function getAuthorization(options: any, callback: any) {
   console.log('TANG===', options)
-  get('/token/sts').then(result => {
-    const body = result.body
-    const credentials = body.credentials
-    callback({
-      TmpSecretId: credentials.tmpSecretId,
-      TmpSecretKey: credentials.tmpSecretKey,
-      SecurityToken: credentials.sessionToken,
-      StartTime: body.startTime,
-      ExpiredTime: body.expiredTime,
-    })
+  const myAccount = window.$state.global.account
+  get(`/token/sts/${myAccount}`).then(result => {
+    console.log('TANG==R', result)
+    if (result.code === 0) {
+      const body = result.body
+      const credentials = body.credentials
+      callback({
+        TmpSecretId: credentials.tmpSecretId,
+        TmpSecretKey: credentials.tmpSecretKey,
+        SecurityToken: credentials.sessionToken,
+        StartTime: body.startTime,
+        ExpiredTime: body.expiredTime,
+      })
+    } else {
+      message.error('请示失败', 1)
+    }
   })
 }
 // 初始化实例
@@ -72,10 +79,10 @@ const cos = new COS({
 interface IUploadFile {
   file: File
   onProgress?(): void
-  callback?(): void
+  callback?(data: any): void
 }
 export function uploadCos({ file, onProgress, callback }: IUploadFile) {
-  const Key = getUniqueFileName(file)
+  const Key = `images/${window.$state.global.account}/${getUniqueFileName(file)}`
   cos.putObject(
     {
       Bucket,
