@@ -5,7 +5,6 @@ export * from './chat'
 export * from './message'
 export * from './group'
 export * from './member'
-export * from './avatar'
 export * from './status'
 export type ITransferActions<T> = {
   [K in keyof T]: {

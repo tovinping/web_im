@@ -3,7 +3,7 @@ export type IUserState = Record<string, IUserType | undefined>
 
 interface IActionsMap {
   setUser: IUserState
-  updateUser: IUserType
+  updateUser: Partial<IUserType> & {account: string}
 }
 export type IUserActions = ITransferActions<IActionsMap>
 

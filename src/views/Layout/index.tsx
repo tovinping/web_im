@@ -5,19 +5,21 @@ import { CHAT_TYPE } from 'src/constant'
 import Personal from 'src/components/Personal'
 import Setting from 'src/components/Setting'
 import style from './index.module.scss'
+import { useRootState } from 'src/store'
 export default function Layout(Com: () => JSX.Element) {
-  return function () {
+  return function LayoutWrap() {
+    const myAccount = useRootState(state => state.global.account)
     return (
       <div className={style.layout}>
         <ul className={style.menu}>
           <Popover
             overlayClassName={style.popOver}
-            content={<Personal isSelf={true} account={window.$state.global.account} />}
+            content={<Personal isSelf={true} account={myAccount} />}
             trigger={'click'}
             placement="rightTop"
           >
             <li>
-              <ChatAvatar type={CHAT_TYPE.p2p} chatId="123" />
+              <ChatAvatar type={CHAT_TYPE.p2p} chatId={myAccount} />
             </li>
           </Popover>
           <li>消息</li>
@@ -28,7 +30,7 @@ export default function Layout(Com: () => JSX.Element) {
             <li>设置</li>
           </Popover>
         </ul>
-        <div>
+        <div className={style.body}>
           <Com />
         </div>
       </div>

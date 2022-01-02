@@ -1,7 +1,11 @@
+import { IResBase } from 'src/interface'
 import { uploadCos } from 'src/utils/fetch'
 
 export function uploadFile(file: File) {
-  return new Promise(resolve => {
-    uploadCos({ file, callback: resolve })
+  return new Promise<IResBase<string>>(resolve => {
+    uploadCos({
+      file,
+      callback: resolve,
+    })
   })
 }

@@ -7,10 +7,8 @@ import message from './message'
 import user from './user'
 import group from './group'
 import member from './member'
-import avatar from './avatar'
 
 const rootReducer = combineReducers({
-  avatar,
   member,
   group,
   user,

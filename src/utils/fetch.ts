@@ -17,12 +17,8 @@ async function myFetch<T>({ method, data, params, uri }: IMyFetch): Promise<IRes
   const headers = getCommonHeader()
   let url = config.baseUrl + uri
   if (params) {
-    let query = '?'
-    for (const key in params) {
-      const value = params[key]
-      query += `${key}=${value}&`
-    }
-    url += query
+    const arr = Object.entries(params)
+    url += '?' + arr.map(item => item.join('=')).join('&')
   }
   try {
     const response = await fetch(url, {
@@ -50,13 +46,11 @@ export function del<T = any>(uri: string, data: Record<string, any>) {
   return myFetch<T>({ method: 'DELETE', uri, data })
 }
 
-const Bucket = 'tangwenping-1251944858'
+const Bucket = 'images-1251944858'
 const Region = 'ap-guangzhou'
-function getAuthorization(options: any, callback: any) {
-  console.log('TANG===', options)
+function getAuthorization(_: any, callback: any) {
   const myAccount = window.$state.global.account
   get(`/token/sts/${myAccount}`).then(result => {
-    console.log('TANG==R', result)
     if (result.code === 0) {
       const body = result.body
       const credentials = body.credentials
@@ -69,6 +63,7 @@ function getAuthorization(options: any, callback: any) {
       })
     } else {
       message.error('请示失败', 1)
+      return
     }
   })
 }
@@ -79,10 +74,10 @@ const cos = new COS({
 interface IUploadFile {
   file: File
   onProgress?(): void
-  callback?(data: any): void
+  callback?(data: IResBase<string>): void
 }
 export function uploadCos({ file, onProgress, callback }: IUploadFile) {
-  const Key = `images/${window.$state.global.account}/${getUniqueFileName(file)}`
+  const Key = `${window.$state.global.account}/${getUniqueFileName(file)}`
   cos.putObject(
     {
       Bucket,
@@ -91,6 +86,12 @@ export function uploadCos({ file, onProgress, callback }: IUploadFile) {
       Body: file,
       onProgress,
     },
-    callback
+    function(err: Error, data: {Location: string}) {
+      if (err) {
+        callback?.({code: 1, msg: err.toString(), body: null})
+      } else {
+        callback?.({code: 0, msg: '', body: `https://${data.Location}`})
+      }
+    }
   )
 }

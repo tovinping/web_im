@@ -25,10 +25,12 @@ export async function updateSign(sign: string) {
   const {code} = await put('/user/sign', {sign})
   if (code === 0) {
     const myAccount = window.$state.global.account
-    const myInfo = window.$state.user[myAccount]!
-    window.$dispatch({type: 'updateUser', payload: {...myInfo, sign}})
+    window.$dispatch({type: 'updateUser', payload: {account: myAccount, sign}})
   }
 }
 export async function getUserInfo(account: string) {
   return get<IUserType>('/user/' + account)
+}
+export async function updateAvatar(avatarUrl: string) {
+  return put('/user/avatar', {avatarUrl})
 }

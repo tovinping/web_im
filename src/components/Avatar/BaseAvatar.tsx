@@ -1,5 +1,5 @@
-import React, {useRef, useCallback} from 'react'
-import defaultAvatar from 'src/resource/images/avatar1.jpg'
+import React, {useCallback, useState} from 'react'
+import Icon from 'src/components/Icon'
 import style from './BaseAvatar.module.scss'
 export type ISize = 'small' | 'normal' | 'large'
 interface IProps {
@@ -7,12 +7,12 @@ interface IProps {
   url?: string;
 }
 export default function BaseAvatar({size ='normal', url}: IProps) {
-  const imgUrl = url || defaultAvatar
-  const imgRef = useRef<HTMLImageElement>(null)
+  const [loadError, setLoadError] = useState(false)
   const handError = useCallback(() => {
-    imgRef.current && (imgRef.current.src = defaultAvatar)
+    setLoadError(true)
   }, [])
+  if (!url || loadError) return <Icon type={'Person'} fill='#999' width={40} height={40}/>
   return <div className={style.contactAvatar}>
-    <img className={style[size]} src={imgUrl} alt="" onError={handError} />
+    <img className={style[size]} src={url} alt="" onError={handError} />
   </div>
 }

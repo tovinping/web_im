@@ -7,7 +7,7 @@
   width: 60px;
   height: 100%;
   padding-top: 20px;
-  background-color: #ddd;
+  border-right: 1px solid #eee;
   >li {
     display: flex;
     justify-content: center;
@@ -21,6 +21,9 @@
       margin-top: 0;
     }
   }
+}
+.body{
+  flex: 1;
 }
 .popOver{
   left: 50px !important;

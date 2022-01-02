@@ -4,6 +4,7 @@ import { updateSign } from 'src/api/user'
 import style from './index.module.scss'
 import { useRootState } from 'src/store'
 import Icon from '../Icon'
+import { handUpdateAvatar } from 'src/utils'
 let inputValue = ''
 interface IProps {
   account: string
@@ -29,6 +30,10 @@ export default function Personal({ account, isSelf }: IProps) {
       updateSign(inputValue)
     }
   }
+  const fileChange: React.ChangeEventHandler<HTMLInputElement> = evt => {
+    const file = evt.target.files?.[0]
+    file && handUpdateAvatar(file)
+  }
   return (
     <div className={style.personal}>
       <div className={style.baseInfo}>
@@ -37,7 +42,10 @@ export default function Personal({ account, isSelf }: IProps) {
           <li>帐号: {userInfo?.account}</li>
           <li>邮箱: {userInfo?.mail}</li>
         </ul>
-        <BaseAvatar size={'large'} />
+        <div className={style.avatar}>
+          {isSelf ? <input type="file" accept="image/*" onChange={fileChange} title='更新头像' /> : null}
+          <BaseAvatar size={'large'} url={userInfo?.avatar} />
+        </div>
       </div>
       <ul className={style.extends}>
         {isSelf ? null : (

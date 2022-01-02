@@ -1,5 +1,5 @@
 import { message } from 'antd'
-import { autoLogin, getContactList, getUserInfo, login } from 'src/api'
+import { autoLogin, getContactList, getUserInfo, login, updateAvatar, uploadFile } from 'src/api'
 import { myHistory } from '.'
 import { getRsaEncrypt } from './encrypt'
 import { getMyAccount, getRefreshToken, setMyAccount, setRefreshToken, setToken } from './storage'
@@ -65,6 +65,20 @@ export async function syncMyInfo() {
   const myAccount = window.$state.global.account
   const { body } = await getUserInfo(myAccount)
   if (body) {
-    window.$dispatch({ type: 'updateUser', payload: body })
+    window.$dispatch({ type: 'setUser', payload: { [myAccount]: body } })
+  }
+}
+
+export async function handUpdateAvatar(file: File) {
+  const uploadRes = await uploadFile(file)
+  const avatarUrl = uploadRes.body
+  if (avatarUrl) {
+    const updateRes = await updateAvatar(avatarUrl)
+    if (updateRes.code === 0) {
+      const myAccount = window.$state.global.account
+      window.$dispatch({ type: 'updateUser', payload: { account: myAccount, avatar: avatarUrl } })
+    }
+  } else {
+    message.error('上传头像失败', 1)
   }
 }

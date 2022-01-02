@@ -4,8 +4,12 @@ export default function reducer(state = initialState, actions: IUserActions): IU
   switch (actions.type) {
     case 'setUser':
       return { ...state, ...actions.payload }
-    case 'updateUser':
-      return { ...state, [actions.payload.account]: actions.payload }
+    case 'updateUser': {
+      const updateAccount = actions.payload.account
+      const currentUser = state[updateAccount]
+      if (!currentUser) return state
+      return { ...state, [updateAccount]: { ...currentUser, ...actions.payload } }
+    }
     default:
       return state
   }
