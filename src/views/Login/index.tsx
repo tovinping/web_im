@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Button, Input, Spin } from 'antd'
-import { doAutoLogin, doLogin } from 'src/utils'
+import { doAutoLogin, doLogin, myHistory } from 'src/utils'
 import style from './index.module.scss'
 
 export default function Login() {
@@ -15,11 +15,14 @@ export default function Login() {
     setLoading(true)
     autoLogin()
   }, [autoLogin])
-  async function handDoLogin() {
+  const handDoLogin = async() => {
     if (!account.trim() || !password.trim()) return
     setLoading(true)
     await doLogin({ account, password })
     setLoading(false)
+  }
+  const goRegister = () => {
+    myHistory.push('/register')
   }
   return (
     <Spin spinning={loading} tip={'登录中...'} wrapperClassName={style.spinWrap}>
@@ -44,6 +47,10 @@ export default function Login() {
             <Button type="primary" block size="large" onClick={handDoLogin}>
               登录
             </Button>
+          </div>
+          <div className={style.other}>
+            <Button type="link" onClick={goRegister}>注册帐号</Button>
+            <Button type="link">忘记密码</Button>
           </div>
         </div>
       </div>

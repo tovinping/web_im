@@ -1,20 +1,20 @@
 import { get, post, put } from '../utils/fetch'
 import { ILoginReq } from '../interface'
-
-interface IGetContactList {
-  pageNo?: number
-  pageSize?: number
-  accounts?: string[]
-}
 interface ILoginSuccess {
   token: string
   refreshToken: string
 }
-export function getContactList(params: IGetContactList) {
-  return get<IUserType[]>('/user/list', params)
-}
 export async function login(data: ILoginReq) {
   return post<ILoginSuccess>('/user/login', data)
+}
+export interface IRegister {
+  account: string
+  name: string
+  password: string
+  mail: string
+}
+export async function register(data: IRegister) {
+  return post('/user/register', data)
 }
 
 export async function autoLogin(refreshToken: string) {
@@ -33,4 +33,12 @@ export async function getUserInfo(account: string) {
 }
 export async function updateAvatar(avatarUrl: string) {
   return put('/user/avatar', {avatarUrl})
+}
+interface IGetContactList {
+  pageNo?: number
+  pageSize?: number
+  accounts?: string[]
+}
+export function getContactList(params: IGetContactList) {
+  return get<IUserType[]>('/user/list', params)
 }

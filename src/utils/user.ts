@@ -1,21 +1,18 @@
 import { message } from 'antd'
-import { autoLogin, getContactList, getUserInfo, login, updateAvatar, uploadFile } from 'src/api'
+import { autoLogin, getContactList, getUserInfo, IRegister, login, register, updateAvatar, uploadFile } from 'src/api'
 import { myHistory } from '.'
 import { getRsaEncrypt } from './encrypt'
 import { getMyAccount, getRefreshToken, setMyAccount, setRefreshToken, setToken } from './storage'
-export async function queryContactList(pageNo = 1) {
-  const result = await getContactList({ pageNo, pageSize: 20 })
-  const oldUserMap = window.$state.user
-  const userMap = { ...oldUserMap }
+
+export async function handRegister(data: IRegister) {
+  const rsaPwd = await getRsaEncrypt(data.password)
+  const result = await register({...data, password: rsaPwd})
   if (result.code === 0) {
-    result.body?.forEach(item => {
-      userMap[item.account] = item
-    })
-    console.log('loadContactList', userMap)
-    window.$dispatch({ type: 'setUser', payload: userMap })
+    myHistory.replace('/')
+  } else {
+    message.error(result.msg, 1)
   }
 }
-
 interface IDoLogin {
   account: string
   password: string
@@ -80,5 +77,17 @@ export async function handUpdateAvatar(file: File) {
     }
   } else {
     message.error('上传头像失败', 1)
+  }
+}
+export async function queryContactList(pageNo = 1) {
+  const result = await getContactList({ pageNo, pageSize: 20 })
+  const oldUserMap = window.$state.user
+  const userMap = { ...oldUserMap }
+  if (result.code === 0) {
+    result.body?.forEach(item => {
+      userMap[item.account] = item
+    })
+    console.log('loadContactList', userMap)
+    window.$dispatch({ type: 'setUser', payload: userMap })
   }
 }

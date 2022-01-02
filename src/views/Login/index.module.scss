@@ -35,7 +35,7 @@
   width: 400px;
   color: #1890ff;
   background-color: #fff;
-  padding-bottom: 30px;
+  padding-bottom: 20px;
   margin: 0 auto;
   border-radius: 6px;
 
@@ -72,4 +72,15 @@
 .loginBtn {
   margin-top: 20px;
   padding: 0 45px;
+}
+.other{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  padding-right: 30px;
+  button{
+    &:last-child{
+      margin-right: 0;
+    }
+  }
 }
