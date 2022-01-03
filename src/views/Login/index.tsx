@@ -21,12 +21,8 @@ export default function Login() {
     await doLogin({ account, password })
     setLoading(false)
   }
-  const goRegister = () => {
-    myHistory.push('/register')
-  }
   return (
     <Spin spinning={loading} tip={'登录中...'} wrapperClassName={style.spinWrap}>
-      <h1 className={style.title}>帐号登录</h1>
       <div className={style.inputPanel}>
         <h1>用户登录</h1>
         <div className={style.account}>
@@ -47,10 +43,10 @@ export default function Login() {
           </Button>
         </div>
         <div className={style.other}>
-          <Button type="link" onClick={goRegister}>
+          <Button type="link" onClick={() => myHistory.push('/register')}>
             注册帐号
           </Button>
-          <Button type="link">忘记密码</Button>
+          <Button type="link" onClick={() => myHistory.push('/forget')}>忘记密码</Button>
         </div>
       </div>
     </Spin>

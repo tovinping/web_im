@@ -1,12 +1,23 @@
 import { message } from 'antd'
-import { autoLogin, getContactList, getUserInfo, IRegister, login, register, updateAvatar, uploadFile } from 'src/api'
+import {
+  autoLogin,
+  getContactList,
+  getUserInfo,
+  IRegister,
+  login,
+  register,
+  updateAvatar,
+  updateSign,
+  forget,
+  uploadFile,
+} from 'src/api'
 import { myHistory } from '.'
 import { getRsaEncrypt } from './encrypt'
 import { getMyAccount, getRefreshToken, setMyAccount, setRefreshToken, setToken } from './storage'
 
 export async function handRegister(data: IRegister) {
   const rsaPwd = await getRsaEncrypt(data.password)
-  const result = await register({...data, password: rsaPwd})
+  const result = await register({ ...data, password: rsaPwd })
   if (result.code === 0) {
     myHistory.replace('/')
   } else {
@@ -89,5 +100,17 @@ export async function queryContactList(pageNo = 1) {
     })
     console.log('loadContactList', userMap)
     window.$dispatch({ type: 'setUser', payload: userMap })
+  }
+}
+export async function handForget(params: Parameters<typeof forget>[number]) {
+  const rsaPwd = await getRsaEncrypt(params.password)
+  const result = await forget({...params, password: rsaPwd})
+  console.log('TANG===', result)
+}
+export async function handUpdateSign(sign: string) {
+  const { code } = await updateSign(sign)
+  if (code === 0) {
+    const myAccount = window.$state.global.account
+    window.$dispatch({ type: 'updateUser', payload: { account: myAccount, sign } })
   }
 }

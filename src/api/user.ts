@@ -4,7 +4,7 @@ interface ILoginSuccess {
   token: string
   refreshToken: string
 }
-export async function login(data: ILoginReq) {
+export function login(data: ILoginReq) {
   return post<ILoginSuccess>('/user/login', data)
 }
 export interface IRegister {
@@ -13,26 +13,31 @@ export interface IRegister {
   password: string
   mail: string
 }
-export async function register(data: IRegister) {
+export function register(data: IRegister) {
   return post('/user/register', data)
 }
 
-export async function autoLogin(refreshToken: string) {
+export function autoLogin(refreshToken: string) {
   return post<ILoginSuccess>('/user/autoLogin', { refreshToken })
 }
 
-export async function updateSign(sign: string) {
-  const {code} = await put('/user/sign', {sign})
-  if (code === 0) {
-    const myAccount = window.$state.global.account
-    window.$dispatch({type: 'updateUser', payload: {account: myAccount, sign}})
-  }
+export function updateSign(sign: string) {
+  return put('/user/sign', {sign})
 }
-export async function getUserInfo(account: string) {
+export function getUserInfo(account: string) {
   return get<IUserType>('/user/' + account)
 }
-export async function updateAvatar(avatarUrl: string) {
+export function updateAvatar(avatarUrl: string) {
   return put('/user/avatar', {avatarUrl})
+}
+interface IForget{
+  account: string
+  password: string
+  mail: string
+  verCode: string
+}
+export function forget(params: IForget) {
+  return put('/user/forget', params)
 }
 interface IGetContactList {
   pageNo?: number

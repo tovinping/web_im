@@ -1,10 +1,9 @@
 import React, { useState, useRef } from 'react'
 import { BaseAvatar } from 'src/components/Avatar'
-import { updateSign } from 'src/api/user'
 import style from './index.module.scss'
 import { useRootState } from 'src/store'
 import Icon from '../Icon'
-import { handUpdateAvatar } from 'src/utils'
+import { handUpdateAvatar, handUpdateSign } from 'src/utils'
 let inputValue = ''
 interface IProps {
   account: string
@@ -27,7 +26,7 @@ export default function Personal({ account, isSelf }: IProps) {
   const signBlur = () => {
     setSignEditor(false)
     if (inputValue !== userInfo?.sign) {
-      updateSign(inputValue)
+      handUpdateSign(inputValue)
     }
   }
   const fileChange: React.ChangeEventHandler<HTMLInputElement> = evt => {
