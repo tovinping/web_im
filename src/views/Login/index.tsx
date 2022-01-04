@@ -2,11 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { Button, Input, Spin } from 'antd'
 import { doAutoLogin, doLogin, myHistory } from 'src/utils'
 import style from './index.module.scss'
+import { getLoginCaptcha } from 'src/api'
 
 export default function Login() {
   const [account, setAccount] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [captcha, setCaptcha] = useState('')
   const autoLogin = useCallback(async () => {
     await doAutoLogin()
     setLoading(false)
@@ -15,6 +17,12 @@ export default function Login() {
     setLoading(true)
     autoLogin()
   }, [autoLogin])
+  const getCaptcha = async () => {
+    const result = await getLoginCaptcha(account)
+    if (result.body) {
+      setCaptcha(result.body)
+    }
+  }
   const handDoLogin = async () => {
     if (!account.trim() || !password.trim()) return
     setLoading(true)
@@ -37,6 +45,17 @@ export default function Login() {
             <Input placeholder={'请输入密码'} type={'password'} onChange={evt => setPassword(evt.target.value)} />
           </div>
         </div>
+        <div className={style.captcha}>
+          <div>验证码</div>
+          <Input placeholder={'请输验证码'} onChange={evt => setPassword(evt.target.value)} />
+          {captcha ? (
+            <div className={style.svg} onClick={getCaptcha} dangerouslySetInnerHTML={{__html: captcha}}></div>
+          ) : (
+            <Button type={'link'} disabled={!account} onClick={getCaptcha}>
+              验证码
+            </Button>
+          )}
+        </div>
         <div className={style.loginBtn}>
           <Button type="primary" block size="large" onClick={handDoLogin}>
             登录
@@ -46,7 +65,9 @@ export default function Login() {
           <Button type="link" onClick={() => myHistory.push('/register')}>
             注册帐号
           </Button>
-          <Button type="link" onClick={() => myHistory.push('/forget')}>忘记密码</Button>
+          <Button type="link" onClick={() => myHistory.push('/forget')}>
+            忘记密码
+          </Button>
         </div>
       </div>
     </Spin>

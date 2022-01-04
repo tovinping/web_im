@@ -40,6 +40,23 @@
   width: 240px;
   height: 25px;
 }
+.captcha{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  input{
+    width: 130px;
+    margin-right: 10px;
+    margin-left: 18px;
+  }
+  button{
+    width: 100px;
+  }
+  .svg{
+    cursor: pointer;
+  }
+}
 
 .loginBtn {
   margin-top: 20px;
