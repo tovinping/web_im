@@ -24,24 +24,19 @@ export async function handRegister(data: IRegister) {
     message.error(result.msg, 1)
   }
 }
-interface IDoLogin {
-  account: string
-  password: string
-}
-export async function doLogin({ account, password }: IDoLogin) {
+
+export async function doLogin({ password, account, ...other}: Parameters<typeof login>[number]) {
   const rsaPwd = await getRsaEncrypt(password)
-  const { code, body } = await login({ account, password: rsaPwd })
+  const { code, body, msg } = await login({ ...other, account, password: rsaPwd })
   if (code === 0 && body) {
-    setTimeout(() => {
-      setMyAccount(account)
-      window.$dispatch({ type: 'updateGlobal', payload: { isLogin: true, account } })
-      setToken(body.token)
-      setRefreshToken(body.refreshToken)
-      myHistory.replace('/chat')
-    }, 16)
+    setMyAccount(account)
+    window.$dispatch({ type: 'updateGlobal', payload: { isLogin: true, account } })
+    setToken(body.token)
+    setRefreshToken(body.refreshToken)
   } else {
-    message.error('登录失败', 1)
+    message.error(msg, 1)
   }
+  return code
 }
 export async function doAutoLogin() {
   const myAccount = getMyAccount()
@@ -49,16 +44,14 @@ export async function doAutoLogin() {
   const refreshToken = getRefreshToken()
   if (!refreshToken) return
   const result = await autoLogin(refreshToken)
-  setTimeout(() => {
-    if (result.code === 0 && result.body) {
-      window.$dispatch({ type: 'updateGlobal', payload: { account: myAccount, isLogin: true } })
-      setToken(result.body.token)
-      setRefreshToken(result.body.refreshToken)
-      myHistory.replace('/chat')
-    } else {
-      message.error('密码已过期,请重新登录', 1)
-    }
-  }, 16)
+  if (result.code === 0 && result.body) {
+    window.$dispatch({ type: 'updateGlobal', payload: { account: myAccount, isLogin: true } })
+    setToken(result.body.token)
+    setRefreshToken(result.body.refreshToken)
+  } else {
+    message.error('密码已过期,请重新登录', 1)
+  }
+  return result.code
 }
 export async function logout() {
   setMyAccount('')
@@ -104,7 +97,7 @@ export async function queryContactList(pageNo = 1) {
 }
 export async function handForget(params: Parameters<typeof forget>[number]) {
   const rsaPwd = await getRsaEncrypt(params.password)
-  const result = await forget({...params, password: rsaPwd})
+  const result = await forget({ ...params, password: rsaPwd })
   console.log('TANG===', result)
 }
 export async function handUpdateSign(sign: string) {

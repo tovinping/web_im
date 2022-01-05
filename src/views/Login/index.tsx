@@ -8,26 +8,37 @@ export default function Login() {
   const [account, setAccount] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [captcha, setCaptcha] = useState('')
-  const autoLogin = useCallback(async () => {
-    await doAutoLogin()
-    setLoading(false)
+  const [captchaText, setCaptchaText] = useState('')
+  const [captcha, setCaptcha] = useState({ id: '', svg: '' })
+  const getCaptcha = useCallback(async () => {
+    const { body } = await getLoginCaptcha()
+    if (body?.svg) {
+      setCaptcha({ ...body })
+    } else {
+      setCaptcha({ id: '-1', svg: '' })
+    }
   }, [])
+  const autoLogin = useCallback(async () => {
+    const result = await doAutoLogin()
+    setLoading(false)
+    if (result !== 0) {
+      getCaptcha()
+    } else {
+      myHistory.replace('/chat')
+    }
+  }, [getCaptcha])
   useEffect(() => {
     setLoading(true)
     autoLogin()
   }, [autoLogin])
-  const getCaptcha = async () => {
-    const result = await getLoginCaptcha(account)
-    if (result.body) {
-      setCaptcha(result.body)
-    }
-  }
   const handDoLogin = async () => {
     if (!account.trim() || !password.trim()) return
     setLoading(true)
-    await doLogin({ account, password })
+    const result = await doLogin({ account, password, captchaId: captcha.id, captchaText: captchaText.toLocaleLowerCase() })
     setLoading(false)
+    if (result === 0) {
+      myHistory.replace('/chat')
+    }
   }
   return (
     <Spin spinning={loading} tip={'登录中...'} wrapperClassName={style.spinWrap}>
@@ -47,13 +58,13 @@ export default function Login() {
         </div>
         <div className={style.captcha}>
           <div>验证码</div>
-          <Input placeholder={'请输验证码'} onChange={evt => setPassword(evt.target.value)} />
-          {captcha ? (
-            <div className={style.svg} onClick={getCaptcha} dangerouslySetInnerHTML={{__html: captcha}}></div>
+          <Input placeholder={'请输验证码'} onChange={evt => setCaptchaText(evt.target.value)} />
+          {captcha.svg ? (
+            <div className={style.svg} onClick={getCaptcha} dangerouslySetInnerHTML={{ __html: captcha.svg }}></div>
           ) : (
-            <Button type={'link'} disabled={!account} onClick={getCaptcha}>
-              验证码
-            </Button>
+            <div className={style.captchaEmpty} onClick={getCaptcha}>
+              {captcha.id === '-1' ? '点击重试' : ''}
+            </div>
           )}
         </div>
         <div className={style.loginBtn}>

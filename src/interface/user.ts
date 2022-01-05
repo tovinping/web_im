@@ -6,8 +6,3 @@ interface IActionsMap {
   updateUser: Partial<IUserType> & {account: string}
 }
 export type IUserActions = ITransferActions<IActionsMap>
-
-export interface ILoginReq {
-  account: string
-  password: string
-}

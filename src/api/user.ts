@@ -1,11 +1,12 @@
 import { get, post, put } from '../utils/fetch'
-import { ILoginReq } from '../interface'
-interface ILoginSuccess {
-  token: string
-  refreshToken: string
+interface ILoginReq {
+  account: string
+  password: string
+  captchaId: string
+  captchaText: string
 }
 export function login(data: ILoginReq) {
-  return post<ILoginSuccess>('/user/login', data)
+  return post<{ token: string; refreshToken: string }>('/user/login', data)
 }
 export interface IRegister {
   account: string
@@ -18,19 +19,19 @@ export function register(data: IRegister) {
 }
 
 export function autoLogin(refreshToken: string) {
-  return post<ILoginSuccess>('/user/autoLogin', { refreshToken })
+  return post<{ token: string; refreshToken: string }>('/user/autoLogin', { refreshToken })
 }
 
 export function updateSign(sign: string) {
-  return put('/user/sign', {sign})
+  return put('/user/sign', { sign })
 }
 export function getUserInfo(account: string) {
   return get<IUserType>('/user/' + account)
 }
 export function updateAvatar(avatarUrl: string) {
-  return put('/user/avatar', {avatarUrl})
+  return put('/user/avatar', { avatarUrl })
 }
-interface IForget{
+interface IForget {
   account: string
   password: string
   mail: string
