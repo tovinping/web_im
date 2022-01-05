@@ -43,13 +43,13 @@ export async function doAutoLogin() {
   if (!myAccount) return
   const refreshToken = getRefreshToken()
   if (!refreshToken) return
-  const result = await autoLogin(refreshToken)
+  const result = await autoLogin(myAccount, refreshToken)
   if (result.code === 0 && result.body) {
     window.$dispatch({ type: 'updateGlobal', payload: { account: myAccount, isLogin: true } })
     setToken(result.body.token)
     setRefreshToken(result.body.refreshToken)
   } else {
-    message.error('密码已过期,请重新登录', 1)
+    message.error(result.msg, 1)
   }
   return result.code
 }

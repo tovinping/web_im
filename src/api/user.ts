@@ -18,8 +18,8 @@ export function register(data: IRegister) {
   return post('/user/register', data)
 }
 
-export function autoLogin(refreshToken: string) {
-  return post<{ token: string; refreshToken: string }>('/user/autoLogin', { refreshToken })
+export function autoLogin(account: string, refreshToken: string) {
+  return post<{ token: string; refreshToken: string }>('/user/autoLogin', { account, refreshToken })
 }
 
 export function updateSign(sign: string) {
