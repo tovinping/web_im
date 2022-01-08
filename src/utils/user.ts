@@ -8,7 +8,7 @@ import {
   register,
   updateAvatar,
   updateSign,
-  forget,
+  forgot,
   uploadFile,
 } from 'src/api'
 import { myHistory } from '.'
@@ -49,7 +49,9 @@ export async function doAutoLogin() {
     setToken(result.body.token)
     setRefreshToken(result.body.refreshToken)
   } else {
-    message.error(result.msg, 1)
+    setToken('')
+    setRefreshToken('')
+    setMyAccount('')
   }
   return result.code
 }
@@ -95,10 +97,9 @@ export async function queryContactList(pageNo = 1) {
     window.$dispatch({ type: 'setUser', payload: userMap })
   }
 }
-export async function handForget(params: Parameters<typeof forget>[number]) {
+export async function handForgot(params: Parameters<typeof forgot>[number]) {
   const rsaPwd = await getRsaEncrypt(params.password)
-  const result = await forget({ ...params, password: rsaPwd })
-  console.log('TANG===', result)
+  return await forgot({ ...params, password: rsaPwd })
 }
 export async function handUpdateSign(sign: string) {
   const { code } = await updateSign(sign)

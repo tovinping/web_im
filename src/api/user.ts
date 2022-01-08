@@ -31,14 +31,18 @@ export function getUserInfo(account: string) {
 export function updateAvatar(avatarUrl: string) {
   return put('/user/avatar', { avatarUrl })
 }
-interface IForget {
+
+export function getForgotCaptcha(data: {account: string; mail: string}) {
+  return put('/user/forgotCaptcha', data)
+}
+interface  IForgot {
   account: string
   password: string
   mail: string
-  verCode: string
+  captcha: string
 }
-export function forget(params: IForget) {
-  return put('/user/forget', params)
+export function forgot(params:  IForgot) {
+  return put('/user/forgot', params)
 }
 interface IGetContactList {
   pageNo?: number

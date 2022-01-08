@@ -5,5 +5,5 @@ export function getServerTime() {
 }
 
 export function getLoginCaptcha() {
-  return get<{svg: string; id: string}>('/token/captcha')
+  return get<{svg: string; id: string}>('/token/imgCaptcha')
 }

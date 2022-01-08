@@ -76,7 +76,7 @@ export default function Login() {
           <Button type="link" onClick={() => myHistory.push('/register')}>
             注册帐号
           </Button>
-          <Button type="link" onClick={() => myHistory.push('/forget')}>
+          <Button type="link" onClick={() => myHistory.push('/forgot')}>
             忘记密码
           </Button>
         </div>
