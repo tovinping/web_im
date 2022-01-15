@@ -3,10 +3,10 @@ import { IMsg } from 'src/interface'
 import { handleReceiveMsg } from 'src/utils/message'
 class ClientSocket {
   static socket: Socket
-  static init(token: string) {
+  static init(account: string, token: string) {
     if (this.socket) return
-    const manager = new Manager('ws://localhost:4001')
-    this.socket = manager.socket('/', { auth: { token } })
+    const manager = new Manager('ws://localhost:4001', {transports: ['websocket']})
+    this.socket = manager.socket('/', { auth: { token, account } })
 
     this.socket.on('connect', () => {
       console.log(`connect ${this.socket.id}`)

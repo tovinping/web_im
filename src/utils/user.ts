@@ -33,7 +33,7 @@ export async function doLogin({ password, account, ...other}: Parameters<typeof 
     setMyAccount(account)
     window.$dispatch({ type: 'updateGlobal', payload: { isLogin: true, account } })
     setToken(body.token)
-    ClientSocket.init(body.token)
+    ClientSocket.init(account, body.token)
     setRefreshToken(body.refreshToken)
   } else {
     message.error(msg, 1)
@@ -50,7 +50,7 @@ export async function doAutoLogin() {
     window.$dispatch({ type: 'updateGlobal', payload: { account: myAccount, isLogin: true } })
     setToken(body.token)
     setRefreshToken(body.refreshToken)
-    ClientSocket.init(body.token)
+    ClientSocket.init(myAccount, body.token)
   } else {
     setToken('')
     setRefreshToken('')

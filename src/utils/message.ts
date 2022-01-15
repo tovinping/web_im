@@ -3,18 +3,16 @@ import clientSocket from './clientSocket'
 import { getRandomStr, checkAndCreateChat } from './'
 import { CHAT_TYPE } from 'src/constant'
 
-type ISendType = Pick<IMsg, 'receiveId' | 'content' | 'chatType'>
+type ISendType = Pick<IMsg, 'chatId' | 'content' | 'chatType'>
 export function createMsgTemplate(data: ISendType): IMsg {
   const senderId = window.$state.global.account
   return {
+    ...data,
     id: getRandomStr(),
-    chatType: data.chatType,
     timestamp: Date.now(),
     type: 0,
     state: 0,
-    receiveId: data.receiveId,
     senderId,
-    content: data.content
   }
 }
 /**
@@ -25,8 +23,9 @@ function sendMsg(data: any) {
   return clientSocket.sendTextMsg(data)
 }
 
-export function sendTextMsg({receiveId, content, chatType}: Required<ISendType>) {
-  const data = createMsgTemplate({receiveId, chatType, content })
+export function sendTextMsg({chatId, content, chatType}: Required<ISendType>) {
+  const data = createMsgTemplate({chatId, chatType, content })
+  console.log('TANG==', data)
   sendMsg(data);
   window.$dispatch({type: 'appendMsg', payload: data})
 }
@@ -38,7 +37,7 @@ export function handleReceiveMsg(data: IMsg) {
   }
   const chatId = getCovIdByMsg(data)
   if (!chatId) return;
-  if (data.groupId) {
+  if (data.chatId) {
     checkAndCreateChat({chatId, type: CHAT_TYPE.group, create: true})
   } else {
     checkAndCreateChat({chatId, type: CHAT_TYPE.p2p, create: true})
@@ -47,5 +46,5 @@ export function handleReceiveMsg(data: IMsg) {
 
 export function getCovIdByMsg(data: IMsg) {
   const myId = window.$state.global.account
-  return data.chatType === '1' ? data.groupId : data.receiveId === myId ? data.senderId : data.receiveId
+  return data.chatType === '1' ? data.chatId : data.chatId === myId ? data.senderId : data.chatId
 }
