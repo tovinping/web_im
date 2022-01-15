@@ -12,6 +12,7 @@ import {
   uploadFile,
 } from 'src/api'
 import { myHistory } from '.'
+import ClientSocket from './clientSocket'
 import { getRsaEncrypt } from './encrypt'
 import { getMyAccount, getRefreshToken, setMyAccount, setRefreshToken, setToken } from './storage'
 
@@ -32,6 +33,7 @@ export async function doLogin({ password, account, ...other}: Parameters<typeof 
     setMyAccount(account)
     window.$dispatch({ type: 'updateGlobal', payload: { isLogin: true, account } })
     setToken(body.token)
+    ClientSocket.init(body.token)
     setRefreshToken(body.refreshToken)
   } else {
     message.error(msg, 1)
@@ -43,17 +45,18 @@ export async function doAutoLogin() {
   if (!myAccount) return
   const refreshToken = getRefreshToken()
   if (!refreshToken) return
-  const result = await autoLogin(myAccount, refreshToken)
-  if (result.code === 0 && result.body) {
+  const {code, body} = await autoLogin(myAccount, refreshToken)
+  if (code === 0 && body) {
     window.$dispatch({ type: 'updateGlobal', payload: { account: myAccount, isLogin: true } })
-    setToken(result.body.token)
-    setRefreshToken(result.body.refreshToken)
+    setToken(body.token)
+    setRefreshToken(body.refreshToken)
+    ClientSocket.init(body.token)
   } else {
     setToken('')
     setRefreshToken('')
     setMyAccount('')
   }
-  return result.code
+  return code
 }
 export async function logout() {
   setMyAccount('')

@@ -37,7 +37,7 @@ export default function Personal({ account, isSelf }: IProps) {
     <div className={style.personal}>
       <div className={style.baseInfo}>
         <ul>
-          <li>{userInfo?.name}</li>
+          <li className={style.name}>{userInfo?.name}</li>
           <li>帐号: {userInfo?.account}</li>
           <li>邮箱: {userInfo?.mail}</li>
         </ul>

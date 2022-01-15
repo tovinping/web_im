@@ -6,6 +6,7 @@ export default interface IChatInfo {
   /**0单聊1群聊 */
   type: CHAT_TYPE
   lastMsg?: MsgType
+  name?:string
   /**0普通1置顶 */
   topState: TOP_STATE
 }

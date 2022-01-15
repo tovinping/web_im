@@ -5,7 +5,7 @@ class ClientSocket {
   static socket: Socket
   static init(token: string) {
     if (this.socket) return
-    const manager = new Manager('ws://localhost:4000')
+    const manager = new Manager('ws://localhost:4001')
     this.socket = manager.socket('/', { auth: { token } })
 
     this.socket.on('connect', () => {
