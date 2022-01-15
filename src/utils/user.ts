@@ -65,7 +65,17 @@ export async function logout() {
 }
 
 export async function getUserInfoByAccounts(accounts: string[]) {
-  return getContactList({ accounts })
+  const userMap = window.$state.user
+  const requestIds: string[] = ['1111', '2222']
+  accounts.forEach(acc => userMap[acc]?.isCache && requestIds.push(acc))
+  if (!requestIds.length) return
+  const {body} = await getContactList({ accounts: requestIds })
+  if (!body) return
+  const newUserMap: Record<string, IUserType> = {}
+  body.forEach(item => {
+    newUserMap[item.account] = item
+  })
+  window.$dispatch({type: 'setUser', payload: newUserMap})
 }
 
 export async function syncMyInfo() {
@@ -89,18 +99,6 @@ export async function handUpdateAvatar(file: File) {
     message.error('上传头像失败', 1)
   }
 }
-export async function queryContactList(pageNo = 1) {
-  const result = await getContactList({ pageNo, pageSize: 20 })
-  const oldUserMap = window.$state.user
-  const userMap = { ...oldUserMap }
-  if (result.code === 0) {
-    result.body?.forEach(item => {
-      userMap[item.account] = item
-    })
-    console.log('loadContactList', userMap)
-    window.$dispatch({ type: 'setUser', payload: userMap })
-  }
-}
 export async function handForgot(params: Parameters<typeof forgot>[number]) {
   const rsaPwd = await getRsaEncrypt(params.password)
   return await forgot({ ...params, password: rsaPwd })
@@ -115,4 +113,5 @@ export async function handUpdateSign(sign: string) {
 export async function loadChatUsers() {
   const userIds: string[] = []
   window.$state.chat.list.forEach(item => item.type === CHAT_TYPE.P2P && userIds.push(item.chatId))
+  getUserInfoByAccounts(userIds)
 }

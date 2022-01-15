@@ -47,7 +47,7 @@ export function forgot(params:  IForgot) {
 interface IGetContactList {
   pageNo?: number
   pageSize?: number
-  accounts?: string[]
+  accounts: string[]
 }
 export function getContactList(params: IGetContactList) {
   return get<IUserType[]>('/user/list', params)

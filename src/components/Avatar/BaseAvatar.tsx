@@ -11,7 +11,7 @@ export default function BaseAvatar({size ='normal', url}: IProps) {
   const handError = useCallback(() => {
     setLoadError(true)
   }, [])
-  if (!url || loadError) return <Icon type={'Person'} fill='#999' width={40} height={40}/>
+  if (!url || loadError) return <Icon type={'Person'} fill='#999' width={60} height={60}/>
   return <div className={style.contactAvatar}>
     <img className={style[size]} src={url} alt="" onError={handError} />
   </div>

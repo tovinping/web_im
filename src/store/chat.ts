@@ -1,9 +1,9 @@
-import { IChatState, IChatActions, IChatExt } from 'src/interface'
+import { IChatState, IChatActions, IStoreChat } from 'src/interface'
 const initialState: IChatState = {
   list: [],
   current: undefined,
 }
-function getCurrent(data: IChatExt) {
+function getCurrent(data: IStoreChat) {
   return initialState.current?.chatId === data.chatId ? data : initialState.current
 }
 export default function reducer(

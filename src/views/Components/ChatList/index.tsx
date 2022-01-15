@@ -2,16 +2,15 @@ import React, { useEffect } from 'react'
 import { useRootState } from 'src/store'
 import Item from './Item'
 import Search from './Search'
-import { getChatList, getGroupChange } from 'src/utils'
+import { loadChatList, getGroupChange, loadChatUsers } from 'src/utils'
 
 export default function ChatList() {
   const chats = useRootState(state => state.chat.list)
   const isLogin = useRootState(state => state.global.isLogin)
   useEffect(() => {
     if (isLogin) {
-      getChatList().then(() => {
-        getGroupChange()
-      })
+      getGroupChange()
+      loadChatList().then(() => loadChatUsers())
     }
   }, [isLogin])
   return (

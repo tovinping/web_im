@@ -1,17 +1,17 @@
 import { createChat, getChats } from 'src/api'
 import { CHAT_TYPE } from 'src/constant'
-import { ICreateType } from 'src/interface'
+import { ICreateType, IStoreUser } from 'src/interface'
 import { openContactSelect } from '.'
 const logger = window.getLogger('utils/chat')
 
-export async function getChatList() {
+export async function loadChatList() {
   const account = window.$state.global.account
   const { body } = await getChats(account)
   if (body) {
-    const userMap: Record<string, IUserType> = {}
+    const userMap: Record<string, IStoreUser> = {}
     body.forEach(item => {
       if (item.type === CHAT_TYPE.P2P) {
-        userMap[item.chatId] = {account: item.chatId, name: item.name}
+        userMap[item.chatId] = {account: item.chatId, name: item.name, isCache: true}
       }
     })
     window.$dispatch({type: 'setUser', payload: userMap})

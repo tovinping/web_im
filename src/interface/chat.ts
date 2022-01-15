@@ -1,23 +1,23 @@
 import {ITransferActions} from '.'
-export interface IChatExt extends IChatType {
+export interface IStoreChat extends IChatType {
   timestamp?: number
   draft?: string
   unRead?: number
 }
 export interface IChatState {
-  list: IChatExt[]
-  current: IChatExt | undefined
+  list: IStoreChat[]
+  current: IStoreChat | undefined
 }
 
-export type ICreateType = Required<Pick<IChatExt, 'chatId' | 'type' | 'topState'>> & Partial<IChatExt>
+export type ICreateType = Required<Pick<IStoreChat, 'chatId' | 'type' | 'isTop'>> & Partial<IStoreChat>
 
-export type IUpdateType = Required<Pick<IChatExt, 'chatId'>> & Partial<IChatExt>
+export type IUpdateType = Required<Pick<IStoreChat, 'chatId'>> & Partial<IStoreChat>
 
 interface IActionsMap {
-  setChatList: IChatExt[]
-  addChat: IChatExt
-  updateChat: IChatExt
-  removeChat: IChatExt
-  setCurrentChat: IChatExt
+  setChatList: IStoreChat[]
+  addChat: IStoreChat
+  updateChat: IStoreChat
+  removeChat: IStoreChat
+  setCurrentChat: IStoreChat
 }
 export type IChatActions = ITransferActions<IActionsMap>
