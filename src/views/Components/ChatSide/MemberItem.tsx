@@ -32,7 +32,7 @@ export default function MemberItem({ account, type, owner, groupId, nickName, cl
   return (
     <>
       <li className={classnames(style.memberItem, classNames)} onContextMenu={handContextMenu}>
-        <ChatAvatar chatId={account} type={CHAT_TYPE.p2p} />
+        <ChatAvatar chatId={account} type={CHAT_TYPE.P2P} />
         <div className={style.memberName} title={memberName}>
           {memberName}
         </div>

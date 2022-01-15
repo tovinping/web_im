@@ -11,7 +11,7 @@ export const buildSendMsg: IMemberFn = (member, list) => {
     key: 'sendMsg',
     name: '发送消息',
     cb() {
-      const chat = openOrCreateChat(member.account, CHAT_TYPE.p2p)
+      const chat = openOrCreateChat(member.account, CHAT_TYPE.P2P)
       if (!chat) {
         console.error('创建会话失败')
       }

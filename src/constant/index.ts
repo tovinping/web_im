@@ -1,10 +1,10 @@
-export enum TOP_STATE {
-  normal = '0',
-  isTop = '1',
+export enum YES_NO {
+  YES = 1,
+  NO =0
 }
 export enum CHAT_TYPE {
-  p2p = '0',
-  group = '1',
+  P2P = '0',
+  GROUP = '1',
 }
 
 export enum MSG_TYPE {

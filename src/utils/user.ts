@@ -11,6 +11,7 @@ import {
   forgot,
   uploadFile,
 } from 'src/api'
+import { CHAT_TYPE } from 'src/constant'
 import { myHistory } from '.'
 import ClientSocket from './clientSocket'
 import { getRsaEncrypt } from './encrypt'
@@ -110,4 +111,8 @@ export async function handUpdateSign(sign: string) {
     const myAccount = window.$state.global.account
     window.$dispatch({ type: 'updateUser', payload: { account: myAccount, sign } })
   }
+}
+export async function loadChatUsers() {
+  const userIds: string[] = []
+  window.$state.chat.list.forEach(item => item.type === CHAT_TYPE.P2P && userIds.push(item.chatId))
 }

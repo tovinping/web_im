@@ -19,7 +19,7 @@ export default function Layout(Com: () => JSX.Element) {
             placement="rightTop"
           >
             <li>
-              <ChatAvatar type={CHAT_TYPE.p2p} chatId={myAccount} />
+              <ChatAvatar type={CHAT_TYPE.P2P} chatId={myAccount} />
             </li>
           </Popover>
           <li>消息</li>

@@ -20,11 +20,9 @@ export default function ChatItem(props: IChatExt) {
         <div className={style.name} title={chatName}>
           {chatName || ''}
         </div>
-        {lastMsg ? (
-          <div className={style.lastMsg} title={lastMsg.content || ''}>
-            {lastMsg.content}
-          </div>
-        ) : null}
+        <div className={style.lastMsg} title={lastMsg?.content || ''}>
+          {lastMsg?.content}
+        </div>
       </div>
     </div>
   )

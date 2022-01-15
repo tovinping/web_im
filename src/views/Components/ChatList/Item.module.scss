@@ -2,7 +2,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  height: 50px;
+  height: 65px;
   padding: 0 10px;
   border-bottom: 1px solid #f2f2f2;
   cursor: pointer;
@@ -14,6 +14,7 @@
   background-color: #e6f7ff;
 }
 .extendInfo {
+  flex: 1;
   margin-left: 5px;
   overflow: hidden;
 }
@@ -21,4 +22,9 @@
   word-break: keep-all;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+.lastMsg{
+  font-size: 12px;
+  color: #666;
+  height: 18px;
 }

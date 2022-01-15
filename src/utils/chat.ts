@@ -10,7 +10,7 @@ export async function getChatList() {
   if (body) {
     const userMap: Record<string, IUserType> = {}
     body.forEach(item => {
-      if (item.type === CHAT_TYPE.p2p) {
+      if (item.type === CHAT_TYPE.P2P) {
         userMap[item.chatId] = {account: item.chatId, name: item.name}
       }
     })
@@ -53,7 +53,7 @@ export function handClickAddChat() {
   openContactSelect().then(userList => {
     logger.info('handClickAddChat result', userList)
     if (userList.length === 1) {
-      openOrCreateChat(userList[0].account, CHAT_TYPE.p2p)
+      openOrCreateChat(userList[0].account, CHAT_TYPE.P2P)
     } else if (userList.length > 1) {
     }
   })

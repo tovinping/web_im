@@ -37,9 +37,9 @@ export function handleReceiveMsg(data: IMsg) {
   const chatId = getCovIdByMsg(data)
   if (!chatId) return
   if (data.chatId) {
-    checkAndCreateChat({ chatId, type: CHAT_TYPE.group, create: true })
+    checkAndCreateChat({ chatId, type: CHAT_TYPE.GROUP, create: true })
   } else {
-    checkAndCreateChat({ chatId, type: CHAT_TYPE.p2p, create: true })
+    checkAndCreateChat({ chatId, type: CHAT_TYPE.P2P, create: true })
   }
 }
 
