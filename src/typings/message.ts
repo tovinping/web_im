@@ -5,7 +5,7 @@ export default interface IMsgType {
   id: string
   chatType: CHAT_TYPE
   /**会话ID-单人:个人帐号;群聊:群Id*/
-  chatId?: string
+  chatId: string
   type: MSG_TYPE
   timestamp: number
   state: MSG_STATE

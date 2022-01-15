@@ -31,9 +31,12 @@ class ClientSocket {
   static createMsgBase() {
     return {}
   }
-  static sendTextMsg(data: IMsg) {
-    this.socket.send(data, (res: any) => {
-      console.log('sendMsgResult:', res)
+
+  static sendMsg(data: IMsg) {
+    return new Promise<{isOk: boolean, msg: string}>(resolve => {
+      this.socket.send(data, (res: any) => {
+        resolve(res)
+      })
     })
   }
 }

@@ -8,6 +8,7 @@ export interface IMsgState {
 }
 
 interface IActionsMap {
-  appendMsg: IMsg
+  appendMsg: IMsg,
+  updateMsg: Partial<IMsg> & Required<Pick<IMsg, 'chatId'>> 
 }
 export type IMsgAction = ITransferActions<IActionsMap>

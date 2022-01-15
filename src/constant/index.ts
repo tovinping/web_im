@@ -16,8 +16,10 @@ export enum MSG_TYPE {
 }
 export enum MSG_STATE {
   NORMAL = 0,
-  WITHDRAW = 1,
-  DELETE = 2
+  SENDING = 1,
+  WITHDRAW = 2,
+  DELETE = 3,
+  ERROR = 4
 }
 
 export enum GROUP_STATE {

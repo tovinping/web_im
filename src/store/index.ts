@@ -7,6 +7,7 @@ import message from './message'
 import user from './user'
 import group from './group'
 import member from './member'
+import lastMsg from './lastMsg'
 
 const rootReducer = combineReducers({
   member,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   user,
   global,
   chat,
-  message
+  message,
+  lastMsg
 })
 const store = createStore(rootReducer)
 
