@@ -1,7 +1,8 @@
 import React, {useRef} from 'react'
 import {Button,message} from 'antd'
-import {AlertTwoTone, DashOutlined, GiftTwoTone, ReadFilled} from '@ant-design/icons'
+import {SmileOutlined, FileOutlined, HistoryOutlined } from '@ant-design/icons'
 import {useRootState} from 'src/store'
+import PopContent from 'src/components/PopContent';
 import {sendTextMsg} from 'src/utils/message'
 import style from './index.module.scss'
 
@@ -26,10 +27,11 @@ export default function Editor() {
   return (
     <div className={style.editorContainer}>
       <div className={style.editorExtends}>
-        <AlertTwoTone title={'表情'}/>
-        <DashOutlined title={'文件'}/>
-        <GiftTwoTone title={'截屏'}/>
-        <ReadFilled title={'历史记录'}/>
+        <PopContent placement='top' content={<div>AAAA</div>}>
+          <SmileOutlined title={'表情'} className={style.extendItem}/>
+        </PopContent>
+        <FileOutlined title={'文件'} className={style.extendItem}/>
+        <HistoryOutlined title={'历史记录'} className={style.extendItem}/>
       </div>
       <div className={style.textArea} contentEditable ref={editRef}>
       </div>
