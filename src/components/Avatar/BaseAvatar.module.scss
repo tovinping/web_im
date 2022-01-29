@@ -1,5 +1,8 @@
 .contactAvatar{
   background-color: #fff;
+  img{
+    overflow: hidden;
+  }
 }
 .large{
   width: 60px;
