@@ -4,5 +4,5 @@ import { useRootState } from 'src/store'
 
 export default function Sender({ senderId }: { senderId: string }) {
   const avatarUrl = useRootState(state => state.user[senderId]?.avatar)
-  return <BaseAvatar url={avatarUrl} />
+  return <BaseAvatar url={avatarUrl} size={'small'}/>
 }
