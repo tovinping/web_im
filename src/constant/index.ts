@@ -1,3 +1,4 @@
+export * from './emoji'
 export enum YES_NO {
   YES = 1,
   NO =0

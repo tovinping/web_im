@@ -3,6 +3,7 @@ import {Button,message} from 'antd'
 import {SmileOutlined, FileOutlined, HistoryOutlined } from '@ant-design/icons'
 import {useRootState} from 'src/store'
 import PopContent from 'src/components/PopContent';
+import Emoji from 'src/views/Components/Editor/Emoji';
 import {sendTextMsg} from 'src/utils/message'
 import style from './index.module.scss'
 
@@ -27,7 +28,7 @@ export default function Editor() {
   return (
     <div className={style.editorContainer}>
       <div className={style.editorExtends}>
-        <PopContent placement='top' content={<div>AAAA</div>}>
+        <PopContent placement='top' content={<Emoji />}>
           <SmileOutlined title={'表情'} className={style.extendItem}/>
         </PopContent>
         <FileOutlined title={'文件'} className={style.extendItem}/>

@@ -1,0 +1,22 @@
+.emojiWrap{
+  width: 390px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px 5px 0px;
+  background-color: #fff;
+  border-radius: 6px;
+  img{
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    transition: all .1s;
+    &:nth-of-type(11n) {
+      margin-right: 0;
+    }
+    &:hover{
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+  }
+}

@@ -21,7 +21,6 @@ export default function PopContent(props: React.PropsWithChildren<IProps>) {
     (evt: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const rect = divRef.current?.getBoundingClientRect()
       if (!rect) return
-      console.log('TTT', rect)
       getPlacement(props, rect)
       setVisible(true)
     },
@@ -31,9 +30,8 @@ export default function PopContent(props: React.PropsWithChildren<IProps>) {
     if (visible) {
       const divEl = document.createElement('div')
       divEl.id = 'tovinping'
-      console.log('QQQ', style)
-      divEl.style.bottom = style.top + 'px'
-      divEl.style.left = style.left + 'px'
+      divEl.style.bottom = style.bottom
+      divEl.style.left = style.left
       divEl.style.position = 'absolute'
       ReactDOM.render(props.content, divEl)
       document.body.appendChild(divEl)
