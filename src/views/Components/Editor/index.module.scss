@@ -24,6 +24,11 @@
   outline: none;
   padding: 10px;
   padding-bottom: 0;
+  img {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+  }
 }
 .send{
  display: flex; 

@@ -1,11 +1,16 @@
 import React from 'react'
 import { EMOJI_LIST } from 'src/constant'
 import style from './emoji.module.scss'
-export default function Emoji() {
-  const onclick: React.MouseEventHandler = (evt) => {
+interface IProps {
+  insertEmoji?(emojiName: string):void
+}
+export default function Emoji(props:IProps) {
+  const onclick: React.MouseEventHandler<HTMLImageElement> = (evt) => {
     evt.nativeEvent.stopPropagation();
     evt.nativeEvent.preventDefault();
-    console.log('TANG===', evt.target);
+    const src = evt.currentTarget.src
+    const emojiName = src.split('emojis/')[1]
+    props.insertEmoji?.(emojiName)
   }
   return (
     <div className={style.emojiWrap}>

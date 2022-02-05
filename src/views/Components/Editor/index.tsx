@@ -12,7 +12,8 @@ export default function Editor() {
   const editRef = useRef<HTMLDivElement>(null)
   function handSend() {
     if (!current) return;
-    const text = editRef.current?.innerText
+    const text = editRef.current?.innerHTML
+    console.log('text==', text);
     if (!text?.trim()) {
       message.error('不能发送空消息呀')
       return
@@ -24,11 +25,18 @@ export default function Editor() {
       content: text
     })
   }
+  function insertEmoji(emojiName: string) {
+    const imgEl = document.createElement('img')
+    imgEl.src = `emojis/${emojiName}`
+    if (editRef.current) {
+      editRef.current.appendChild(imgEl)
+    }
+  }
   if (!current?.chatId) return null
   return (
     <div className={style.editorContainer}>
       <div className={style.editorExtends}>
-        <PopContent placement='top' content={<Emoji />}>
+        <PopContent placement='top' content={<Emoji insertEmoji={insertEmoji}/>}>
           <SmileOutlined title={'表情'} className={style.extendItem}/>
         </PopContent>
         <FileOutlined title={'文件'} className={style.extendItem}/>
