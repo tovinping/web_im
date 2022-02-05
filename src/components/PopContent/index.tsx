@@ -15,33 +15,40 @@ function getPlacement(data: IProps, rect: DOMRect) {
 }
 
 export default function PopContent(props: React.PropsWithChildren<IProps>) {
+  const divEl = document.createElement('div')
   const [visible, setVisible] = useState(false)
-  const divRef = useRef<HTMLDivElement>(null)
-  const clickCb = useCallback(
+  const wrapRef = useRef<HTMLDivElement>(null)
+  const divRef = useRef<HTMLDivElement>(divEl)
+  const onClick = useCallback(
     (evt: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      const rect = divRef.current?.getBoundingClientRect()
+      const rect = wrapRef.current?.getBoundingClientRect()
       if (!rect) return
       getPlacement(props, rect)
       setVisible(true)
     },
     [props]
   )
+  const handClose = useCallback(() => {
+    if (divRef.current && visible) {
+      document.body.removeEventListener('click', handClose)
+      document.body.removeChild(divRef.current)
+      setVisible(false)
+    }
+  }, [visible])
+
   useEffect(() => {
     if (visible) {
-      const divEl = document.createElement('div')
-      divEl.id = 'tovinping'
-      divEl.style.bottom = style.bottom
-      divEl.style.left = style.left
-      divEl.style.position = 'absolute'
-      ReactDOM.render(props.content, divEl)
-      document.body.appendChild(divEl)
+      divRef.current.style.bottom = style.bottom
+      divRef.current.style.left = style.left
+      divRef.current.style.position = 'absolute'
+      ReactDOM.render(props.content, divRef.current)
+      document.body.appendChild(divRef.current)
+      document.body.addEventListener('click', handClose)
     }
-  }, [props.content, visible])
-  const onWheel: React.WheelEventHandler<HTMLDivElement> = evt => {
-    console.log('aaa', evt.deltaY)
-  }
+  }, [props.content, visible, handClose])
+  
   return (
-    <div ref={divRef} onClick={clickCb} onWheel={onWheel}>
+    <div ref={wrapRef} onClick={onClick}>
       {props.children}
     </div>
   )
