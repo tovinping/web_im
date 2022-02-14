@@ -24,6 +24,7 @@ export default function Editor() {
       chatType: current.type,
       content: text
     })
+    editRef.current?.focus()
   }
   function insertEmoji(emojiName: string) {
     const imgEl = document.createElement('img')

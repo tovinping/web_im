@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { Popover } from 'antd'
 import { ChatAvatar } from 'src/components/Avatar'
 import { CHAT_TYPE } from 'src/constant'
@@ -9,6 +9,10 @@ import { useRootState } from 'src/store'
 export default function Layout(Com: () => JSX.Element) {
   return function LayoutWrap() {
     const myAccount = useRootState(state => state.global.account)
+    const [settingVisible, setSettingVisible] = useState(false)
+    const closeSetting = useCallback(() => {
+      setSettingVisible(false)
+    }, [])
     return (
       <div className={style.layout}>
         <ul className={style.menu}>
@@ -26,8 +30,14 @@ export default function Layout(Com: () => JSX.Element) {
           <li>通讯录</li>
           <li>收藏</li>
           <li>我的</li>
-          <Popover overlayClassName={style.popOver} content={<Setting />} trigger={'click'} placement="rightBottom">
-            <li>设置</li>
+          <Popover
+            overlayClassName={style.popOver}
+            visible={settingVisible}
+            content={<Setting close={closeSetting} />}
+            trigger={'click'}
+            placement="rightBottom"
+          >
+            <li onClick={() => setSettingVisible(true)}>设置</li>
           </Popover>
         </ul>
         <div className={style.body}>

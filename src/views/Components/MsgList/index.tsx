@@ -12,9 +12,6 @@ export default function MsgList() {
       listRef.current.scrollTop = listRef.current.scrollHeight;
     }
   }, [])
-  const scrollBack = useCallback((evt: React.SyntheticEvent) => {
-    console.log(evt.target);
-  }, [])
   useEffect(()=> {
     goBottom()
   }, [goBottom, msgList.length])
@@ -22,7 +19,7 @@ export default function MsgList() {
     goBottom()
   }, [currentChatId, goBottom])
   return (
-    <div className={style.msgListWrap + ' scroll'} onScroll={scrollBack} ref={listRef}>
+    <div className={style.msgListWrap + ' scroll'} ref={listRef}>
       {msgList.map(item => (
         <MsgItem key={item.id} {...item} />
       ))}

@@ -1,0 +1,35 @@
+.menuWrap{
+  position: relative;
+}
+.menuItem{
+  padding-bottom: 10px;
+  &:last-child{
+    padding-bottom: 0;
+  }
+}
+.subMenu{
+  position: relative;
+}
+.subList{
+  position: absolute;
+  top: 0;
+  left: 120%;
+  background-color: #fff;
+  border-radius: 3px;
+  padding: 10px 0;
+}
+.subItem{
+  padding: 0 10px;
+  height: 30px;
+  line-height: 30px;
+  &:last-child{
+    padding-bottom: 0;
+  }
+  &:hover{
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
+}
+.active{
+  color: #1890ff;
+}
