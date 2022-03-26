@@ -1,10 +1,9 @@
-import { IMemberInfo } from 'src/interface'
 import { IBaseContextItem } from 'src/components/ContextMenu'
-import { removeMember, updateAdmin } from 'src/api'
+import { removeMember, updateAdmin } from 'src/api/server'
 import { openOrCreateChat } from 'src/utils'
 import { CHAT_TYPE, MEMBER_TYPE } from 'src/constant'
-type IMemberContextItem = IBaseContextItem<IMemberInfo>
-type IMemberFn = (m: IMemberInfo, l: IMemberContextItem[]) => void
+type IMemberContextItem = IBaseContextItem<IMemberType>
+type IMemberFn = (m: IMemberType, l: IMemberContextItem[]) => void
 
 export const buildSendMsg: IMemberFn = (member, list) => {
   list.push({
@@ -29,7 +28,7 @@ export const buildAt: IMemberFn = (member, list) => {
 }
 export const buildManagerOpt: IMemberFn = (member, list) => {
   const groupId = member.groupId
-  const groupInfo = window.$state.group[groupId]
+  const groupInfo = window.$state.group.map[groupId]
   if (!groupInfo) return
   if (groupInfo.owner === member.account) return
   const name = member.type === '1' ? '取消管理员' : '设置管理员'
@@ -41,7 +40,10 @@ export const buildManagerOpt: IMemberFn = (member, list) => {
       const changedType = type === '1' ? MEMBER_TYPE.NORMAL : MEMBER_TYPE.ADMIN
       updateAdmin({ groupId, account, type: changedType }).then(res => {
         if (res.code === 0) {
-          window.$dispatch({ type: 'updateMember', payload: { account, type: changedType, groupId } })
+          window.$dispatch({
+            type: 'updateMembers',
+            payload: [{ [groupId]: [{ account, type: changedType, groupId }] }],
+          })
         }
       })
     },
@@ -50,11 +52,11 @@ export const buildManagerOpt: IMemberFn = (member, list) => {
 export const buildDelMember: IMemberFn = (member, list) => {
   const groupId = member.groupId
   const myAcc = window.$state.global.account
-  const groupInfo = window.$state.group[groupId]
+  const groupInfo = window.$state.group.map[groupId]
   if (!groupInfo) return
   if (groupInfo.owner === member.account) return
   const isOwner = groupInfo.owner === myAcc
-  const selfMemberInfo = window.$state.member[groupId]?.find(m => m.account === myAcc)
+  const selfMemberInfo = window.$state.member.map[groupId]?.find(m => m.account === myAcc)
   if (selfMemberInfo?.type === '1' && member.type === '1') return
   if (!isOwner && selfMemberInfo?.type === '0') return
   list.push({
@@ -62,12 +64,12 @@ export const buildDelMember: IMemberFn = (member, list) => {
     name: '移除成员',
     cb() {
       removeMember([member.account], groupId).then(() => {
-        window.$dispatch({ type: 'removeMember', payload: { groupId, accounts: [member.account] } })
+        window.$dispatch({ type: 'removeMembers', payload: [{ [groupId]: [member] }] })
       })
     },
   })
 }
-export function buildMemberMenu(member: IMemberInfo): IMemberContextItem[] {
+export function buildMemberMenu(member: IMemberType): IMemberContextItem[] {
   const contextList: IMemberContextItem[] = []
   buildSendMsg(member, contextList)
   buildAt(member, contextList)

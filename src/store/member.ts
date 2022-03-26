@@ -1,29 +1,54 @@
-import { IMemberState, IMemberActions } from 'src/interface'
-const initialState: IMemberState = {}
+import { IGroupId } from 'src/typings/group'
+
+type IMemberState = {
+  map: Record<IGroupId, IMemberType[] | undefined>
+}
+type IUpdateMember = Partial<IMemberType> & Required<Pick<IMemberType, 'groupId'>>
+type IAddMembers = Record<IGroupId, IMemberType[]>
+type IRemoveMembers = Record<IGroupId, IUpdateMember[]>
+type IUpdateMembers = Record<IGroupId, IUpdateMember[]>
+type IMemberActions =
+  | { type: 'addMembers'; payload: IAddMembers[] }
+  | { type: 'removeMembers'; payload: IRemoveMembers[] }
+  | { type: 'updateMembers'; payload: IUpdateMembers[] }
+
+const initialState: IMemberState = {
+  map: {},
+}
 export default function reducer(state = initialState, actions: IMemberActions): IMemberState {
-  switch (actions.type) {
-    case 'setMember':
-      return { ...state, ...actions.payload }
-    case 'updateMember': {
-      const { groupId, account } = actions.payload
-      const newMembers = state[groupId]?.map(item => {
-        if (item.account === account) {
-          return { ...item, ...actions.payload }
-        }
-        return item
+  const { type, payload } = actions
+  switch (type) {
+    case 'addMembers': {
+      const map = { ...state.map }
+      payload.forEach(item => {
+        const [[groupId, members]] = Object.entries(item)
+        const oldMembers = map[groupId] || []
+        map[groupId] = [...oldMembers, ...members]
       })
-      if (newMembers) {
-        return { ...state, [groupId]: newMembers }
-      } else {
-        return state
-      }
+      return { ...state, map }
     }
-    case 'removeMember': {
-      const { accounts, groupId } = actions.payload
-      const oldMembers = state[groupId]
-      if (!oldMembers) return state
-      const newMembers = oldMembers.filter(item => !accounts.includes(item.account))
-      return { ...state, [groupId]: newMembers }
+    case 'removeMembers': {
+      const map = { ...state.map }
+      payload.forEach(item => {
+        const [[groupId, members]] = Object.entries(item)
+        const oldMembers = map[groupId] || []
+        const removedMembers = oldMembers.filter(item => members.find(r => r.account === item.account))
+        map[groupId] = removedMembers
+      })
+      return { ...state, map }
+    }
+    case 'updateMembers': {
+      const map = { ...state.map }
+      payload.forEach(item => {
+        const [[groupId, members]] = Object.entries(item)
+        const oldMembers = map[groupId] || []
+        const updatedMembers = oldMembers.map(item => {
+          const newInfo = members.find(m => m.account === item.account)
+          return newInfo ? { ...item, ...newInfo } : item
+        })
+        map[groupId] = updatedMembers
+      })
+      return { ...state, map }
     }
     default:
       return state

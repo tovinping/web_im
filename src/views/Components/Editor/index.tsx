@@ -4,14 +4,16 @@ import {SmileOutlined, FileOutlined, HistoryOutlined } from '@ant-design/icons'
 import {useRootState} from 'src/store'
 import PopContent from 'src/components/PopContent';
 import Emoji from 'src/views/Components/Editor/Emoji';
+import { getCurrentInfo } from 'src/helper/chat';
 import {sendTextMsg} from 'src/utils/message'
 import style from './index.module.scss'
 
 export default function Editor() {
-  const current = useRootState(state => state.chat.current)
+  const currentId = useRootState(state => state.chat.currentChatId)
   const editRef = useRef<HTMLDivElement>(null)
   function handSend() {
-    if (!current) return;
+    const currentInfo = getCurrentInfo(currentId)
+    if (!currentInfo) return;
     const text = editRef.current?.innerHTML
     console.log('text==', text);
     if (!text?.trim()) {
@@ -20,8 +22,8 @@ export default function Editor() {
     }
     editRef.current!.innerHTML = ''
     sendTextMsg({
-      chatId: current.chatId,
-      chatType: current.type,
+      chatId: currentId,
+      chatType: currentInfo.type,
       content: text
     })
     editRef.current?.focus()
@@ -33,7 +35,7 @@ export default function Editor() {
       editRef.current.appendChild(imgEl)
     }
   }
-  if (!current?.chatId) return null
+  if (!currentId) return null
   return (
     <div className={style.editorContainer}>
       <div className={style.editorExtends}>

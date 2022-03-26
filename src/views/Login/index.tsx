@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { Button, Input, Spin } from 'antd'
 import { doAutoLogin, doLogin, myHistory } from 'src/utils'
 import style from './index.module.scss'
-import { getLoginCaptcha } from 'src/api'
+import { getLoginCaptcha } from 'src/api/server'
 
 export default function Login() {
   const [account, setAccount] = useState('')

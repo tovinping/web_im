@@ -1,6 +1,6 @@
 import { GROUP_STATE } from "src/constant";
 
-export default interface GroupType {
+export default interface IGroupType {
   _id: number
   groupId: string
   name: string
@@ -9,3 +9,4 @@ export default interface GroupType {
   notice: string
   owner: string
 }
+export type IGroupId = IGroupType['groupId']

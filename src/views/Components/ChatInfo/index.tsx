@@ -4,15 +4,15 @@ import Icon from 'src/components/Icon'
 import style from './index.module.scss'
 import { openContactSelect } from 'src/utils'
 export default function ChatInfo() {
-  const currentId = useRootState(state => state.chat.current?.chatId)
-  const groupInfo = useRootState(state => state.group[currentId!])
-  const userInfo = useRootState(state => state.user[currentId!])
+  const currentId = useRootState(state => state.chat.currentChatId)
+  const groupInfo = useRootState(state => state.group.map[currentId!])
+  const userInfo = useRootState(state => state.user.map[currentId!])
   function handMore() {
     console.log('handMore...')
   }
   function handAddMember() {
     if (!groupInfo?.groupId) return
-    const members = window.$state.member[groupInfo?.groupId]?.map(member => member.account)
+    const members = window.$state.member.map[groupInfo?.groupId]?.map(member => member.account)
     if (!members) return
     openContactSelect({
       selected: members,

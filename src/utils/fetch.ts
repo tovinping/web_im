@@ -1,7 +1,7 @@
 import { message } from 'antd'
+import { IResBase } from 'src/typings/server'
 import { getUniqueFileName, isEmpty } from '.'
 import config from '../config'
-import { IResBase } from '../interface'
 import { getToken } from './storage'
 function getCommonHeader() {
   const token = getToken()

@@ -7,7 +7,6 @@ import message from './message'
 import user from './user'
 import group from './group'
 import member from './member'
-import lastMsg from './lastMsg'
 
 const rootReducer = combineReducers({
   member,
@@ -16,10 +15,8 @@ const rootReducer = combineReducers({
   global,
   chat,
   message,
-  lastMsg
 })
 const store = createStore(rootReducer)
-
 export type IRootStateType = ReturnType<typeof rootReducer>
 export type IRootDispatchType = typeof store.dispatch
 

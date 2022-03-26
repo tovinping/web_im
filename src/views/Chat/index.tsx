@@ -9,12 +9,14 @@ import Editor from '../Components/Editor'
 import ChatInfo from '../Components/ChatInfo'
 import ChatSide from '../Components/ChatSide'
 import { syncMyInfo } from 'src/utils'
+import 'src/test'
 const style = require('./index.module.scss')
 let selectedList: IUserType[] = []
 export default function ChatRoot() {
   const history = useHistory()
   const isLogin = useRootState(state => state.global.isLogin)
-  const currentType = useRootState(state => state.chat.current?.type)
+  const currentId = useRootState(state => state.chat.currentChatId)
+  const currentType = useRootState(state => state.chat.map[currentId]?.type)
   const { visible, selected } = useRootState(state => state.global.contactSelect)
   useEffect(() => {
     if (!isLogin) {

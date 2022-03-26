@@ -1,15 +1,14 @@
-import { get, post } from '../utils/fetch'
-import { IMemberInfo } from '../interface'
+import { get, post } from 'src/utils/fetch'
 export function getMemberList(groupId: string) {
-  return get<IMemberInfo[]>('/groupMember/byGroupId', {groupId})
+  return get<IMemberType[]>('/groupMember/byGroupId', {groupId})
 }
 interface IUpdateAdmin {
   groupId: string
   account: string
-  type: IMemberInfo['type']
+  type: IMemberType['type']
 }
 export function updateAdmin(params: IUpdateAdmin) {
-  return post<IMemberInfo[]>('/groupMember/admin', params)
+  return post<IMemberType[]>('/groupMember/admin', params)
 }
 export function addMember(accounts: string[], groupId: string){
   return post('/groupMember/add', {groupId, accounts})

@@ -5,3 +5,4 @@ export default interface UserType {
   sign?: string
   avatar?: string
 }
+export type IUserAccount = UserType['account']

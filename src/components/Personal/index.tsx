@@ -10,7 +10,7 @@ interface IProps {
   isSelf?: boolean
 }
 export default function Personal({ account, isSelf }: IProps) {
-  const userInfo = useRootState(state => state.user[account])
+  const userInfo = useRootState(state => state.user.map[account])
   const signRef = useRef<HTMLInputElement>(null)
   const [signEditor, setSignEditor] = useState(false)
   const signClick = () => {

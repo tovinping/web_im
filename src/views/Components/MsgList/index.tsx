@@ -5,8 +5,8 @@ import style from './index.module.scss'
 
 export default function MsgList() {
   const listRef = useRef<HTMLDivElement>(null)
-  const currentChatId = useRootState(state => state.chat.current?.chatId)
-  const msgList = useRootState(state => state.message[currentChatId || '']) || []
+  const currentId = useRootState(state => state.chat.currentChatId)
+  const msgList = useRootState(state => state.message.map[currentId]) || []
   const goBottom = useCallback(() => {
     if(listRef.current) {
       listRef.current.scrollTop = listRef.current.scrollHeight;
@@ -17,11 +17,11 @@ export default function MsgList() {
   }, [goBottom, msgList.length])
   useEffect(() => {
     goBottom()
-  }, [currentChatId, goBottom])
+  }, [currentId, goBottom])
   return (
     <div className={style.msgListWrap + ' scroll'} ref={listRef}>
       {msgList.map(item => (
-        <MsgItem key={item.id} {...item} />
+        <MsgItem key={item.msgId} {...item} />
       ))}
     </div>
   )

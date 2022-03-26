@@ -1,5 +1,5 @@
 import JSEncrypt from 'jsencrypt'
-import { getPublicKey } from 'src/api/encrypt'
+import { getPublicKey } from 'src/api/server'
 let publicKey = ''
 function rsaEncrypt(publicKey: string, data: string) {
   const encrypt = new JSEncrypt()

@@ -1,7 +1,6 @@
 import React from 'react'
-import { IMsg } from 'src/interface'
 import style from './index.module.scss';
 
-export default function MsgItemText(props: IMsg) {
+export default function MsgItemText(props: IMsgType) {
   return <div className={style.msgText} dangerouslySetInnerHTML={{__html: props.content}}></div>
 }

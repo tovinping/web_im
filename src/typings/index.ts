@@ -4,6 +4,7 @@ import UserType from './user'
 import GroupType from './group'
 import MemberType from './member'
 import logger from '../utils/logger'
+import { IRootDispatchType, IRootStateType } from 'src/store'
 declare global {
   const COS: any;
   interface Window {
@@ -13,6 +14,8 @@ declare global {
       maxSize(): void
       normalSize(): void
     }
+    $state: IRootStateType
+    $dispatch: IRootDispatchType
     getLogger: typeof logger
   }
   type IChatType = ChatType

@@ -1,4 +1,20 @@
-import { IGlobalState, IGlobalActions } from 'src/interface'
+interface IGlobalState {
+  isLogin: boolean
+  account: string
+  windowSize: 'maxSize' | 'minSize' | 'normalSize'
+  windowVisible: 'hide' | 'show'
+  contactSelect: {
+    visible: boolean
+    selected?: string[]
+    callback?: Function
+  }
+}
+type IGlobalActions =
+  | { type: 'updateGlobal'; payload: Partial<IGlobalState> }
+  | { type: 'updateLogin'; payload: IGlobalState['isLogin'] }
+  | { type: 'updateAccount'; payload: IGlobalState['account'] }
+  | { type: 'updateContactSelect'; payload: IGlobalState['contactSelect'] }
+
 const initialState: IGlobalState = {
   isLogin: false,
   account: '',

@@ -6,7 +6,6 @@ import Router from './views/Router'
 import store from './store'
 import reportWebVitals from './reportWebVitals'
 import './index.css'
-import './utils/eventHandle'
 
 ReactDOM.render(
   <Provider store={store}>

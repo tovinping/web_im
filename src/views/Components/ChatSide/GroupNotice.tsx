@@ -3,19 +3,19 @@ import { Empty, Modal } from 'antd'
 import { RightOutlined } from '@ant-design/icons';
 import { useRootState } from 'src/store'
 import style from './GroupNotice.module.scss'
-import { updateNotice } from 'src/api';
+import { updateNotice } from 'src/api/server';
 interface IProps {
   groupId: string
 }
 let inputStr = ''
 export default function GroupNotice({ groupId }: IProps) {
   const [visible, setVisible] = useState(false)
-  const notice = useRootState(state => state.group[groupId]?.notice)
+  const notice = useRootState(state => state.group.map[groupId]?.notice)
   const doChangeNotice = () => {
     console.log('doChangeNotice', inputStr)
     updateNotice(groupId, inputStr).then(r => {
       console.log('updateNotice', r)
-      window.$dispatch({type: 'updateGroup', payload: {groupId, notice: inputStr}})
+      window.$dispatch({type: 'updateGroups', payload: [{groupId, notice: inputStr}]})
       setVisible(false)
     })
   }

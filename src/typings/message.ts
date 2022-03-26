@@ -2,7 +2,7 @@ import { CHAT_TYPE, MSG_TYPE, MSG_STATE } from "src/constant";
 
 export default interface IMsgType {
   /**服务器生产的消息ID */
-  id: string
+  msgId: string
   chatType: CHAT_TYPE
   /**会话ID-单人:个人帐号;群聊:群Id*/
   chatId: string

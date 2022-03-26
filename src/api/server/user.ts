@@ -1,4 +1,4 @@
-import { get, post, put } from '../utils/fetch'
+import { get, post, put } from 'src/utils/fetch'
 interface ILoginReq {
   account: string
   password: string

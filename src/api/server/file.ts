@@ -1,4 +1,4 @@
-import { IResBase } from 'src/interface'
+import { IResBase } from 'src/typings/server'
 import { uploadCos } from 'src/utils/fetch'
 
 export function uploadFile(file: File) {

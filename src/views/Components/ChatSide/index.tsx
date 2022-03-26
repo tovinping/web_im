@@ -6,8 +6,8 @@ import MemberSearch from './MemberSearch'
 import { handGetMemberList } from 'src/utils'
 import style from './index.module.scss'
 export default function ChatSide() {
-  const currentId = useRootState(state => state.chat.current?.chatId)
-  const currentType = useRootState(state => state.chat.current?.type)
+  const currentId = useRootState(state => state.chat.currentChatId)
+  const currentType = useRootState(state => state.chat.map[currentId]?.type)
   useEffect(() => {
     if (currentType === '1' && currentId) {
       handGetMemberList(currentId)

@@ -1,6 +1,5 @@
-import { createChat, getChats } from 'src/api'
+import { createChat, getChats } from 'src/api/server'
 import { CHAT_TYPE } from 'src/constant'
-import { ICreateType, IStoreUser } from 'src/interface'
 import { openContactSelect } from '.'
 const logger = window.getLogger('utils/chat')
 
@@ -8,18 +7,18 @@ export async function loadChatList() {
   const account = window.$state.global.account
   const { body } = await getChats(account)
   if (body) {
-    const userMap: Record<string, IStoreUser> = {}
+    const users: IUserType[] = []
+    
     body.forEach(item => {
       if (item.type === CHAT_TYPE.P2P) {
-        userMap[item.chatId] = {account: item.chatId, name: item.name, isCache: true}
+        users.push({account: item.chatId, name: item.name})
       }
     })
-    window.$dispatch({type: 'setUser', payload: userMap})
-    window.$dispatch({ type: 'setChatList', payload: body })
+    window.$dispatch({type: 'addUsers', payload: users})
   }
 }
 // 创建会话
-export async function handCreateChat({ chatId, type }: Pick<ICreateType, 'chatId' | 'type'>) {
+export async function handCreateChat({ chatId, type }: Pick<IChatType, 'chatId' | 'type'>) {
   const owner = window.$state.global.account
   return createChat(owner, chatId, type)
 }
@@ -28,11 +27,11 @@ type ICheckProps = Pick<IChatType, 'chatId' | 'type'> & {
   create?: boolean
 }
 export async function checkAndCreateChat(params: ICheckProps) {
-  const ChatInfo = window.$state.chat.list.find(chat => chat.chatId === params.chatId)
+  const ChatInfo = window.$state.chat.list.find(chatId => chatId === params.chatId)
   if (!ChatInfo && params.create) {
     const { body, code } = await handCreateChat({ chatId: params.chatId, type: params.type })
-    if (code === 0) {
-      window.$dispatch({ type: 'addChat', payload: body! })
+    if (code === 0 && body) {
+      window.$dispatch({ type: 'addChats', payload: [body] })
     }
     return body
   }
@@ -43,7 +42,7 @@ export async function checkAndCreateChat(params: ICheckProps) {
 export async function openOrCreateChat(chatId: string, type: CHAT_TYPE) {
   const ChatInfo = await checkAndCreateChat({ chatId, type, create: true })
   if (ChatInfo) {
-    window.$dispatch({ type: 'setCurrentChat', payload: ChatInfo })
+    window.$dispatch({ type: 'updateCurrentChat', payload: chatId })
     return true
   }
   return false

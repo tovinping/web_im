@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Input, Button, message } from 'antd'
 import style from './index.module.scss'
 import { handForgot, myHistory, sleep } from 'src/utils'
-import { getForgotCaptcha } from 'src/api'
+import { getForgotCaptcha } from 'src/api/server'
 
 export default function ForgotPassword() {
   const [fromInstance] = Form.useForm()

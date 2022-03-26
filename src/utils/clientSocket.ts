@@ -1,5 +1,4 @@
 import { Manager, Socket } from 'socket.io-client'
-import { IMsg } from 'src/interface'
 import { handleReceiveMsg } from 'src/utils/message'
 class ClientSocket {
   static socket: Socket
@@ -32,7 +31,7 @@ class ClientSocket {
     return {}
   }
 
-  static sendMsg(data: IMsg) {
+  static sendMsg(data: IMsgType) {
     return new Promise<{isOk: boolean, msg: string}>(resolve => {
       this.socket.send(data, (res: any) => {
         resolve(res)

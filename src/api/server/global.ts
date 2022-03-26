@@ -1,4 +1,4 @@
-import { get } from '../utils/fetch'
+import { get } from 'src/utils/fetch'
 
 export function getServerTime() {
   return get('/api/serverTime')

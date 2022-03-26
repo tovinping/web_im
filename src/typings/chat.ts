@@ -10,3 +10,4 @@ export default interface IChatInfo {
   /**0普通1置顶 */
   isTop: YES_NO
 }
+export type IChatId = IChatType['chatId']

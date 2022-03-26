@@ -1,18 +1,42 @@
-import { IGroupState, IGroupActions } from 'src/interface'
-const initialState: IGroupState = {}
+import { IGroupId } from "src/typings/group";
+
+type IGroupState = {
+  map: Record<IGroupId, IGroupType | undefined>
+}
+export type IUpdateGroup = Partial<IGroupType> & Required<Pick<IGroupType, 'groupId'>>
+type IGroupActions =
+| { type: 'addGroups'; payload: IGroupType[] }
+| { type: 'removeGroups'; payload: IGroupId[] }
+| { type: 'updateGroups'; payload: IUpdateGroup[] }
+
+const initialState: IGroupState = {
+  map: {},
+}
 export default function reducer(state = initialState, actions: IGroupActions): IGroupState {
-  switch (actions.type) {
-    case 'setGroup':
-      return { ...state, ...actions.payload }
-    case 'updateGroup':
-      const groupId = actions.payload.groupId
-      const oldItem = state[groupId]
-      if (oldItem && groupId){
-        const newGroupInfo = {...oldItem, ...actions.payload}
-        return {...state, [groupId]: newGroupInfo}
-      } else {
-        return state
-      }
+  const { type, payload } = actions
+  switch (type) {
+    case 'addGroups': {
+      const map = { ...state.map }
+      payload.forEach(item => {
+        map[item.groupId] = item
+      })
+      return { ...state, map }
+    }
+    case 'removeGroups': {
+      const map = { ...state.map }
+      payload.forEach(groupId => delete map[groupId])
+      return { ...state, map }
+    }
+    case 'updateGroups': {
+      const map = { ...state.map }
+      payload.forEach(item => {
+        const chatInfo = map[item.groupId]
+        if (chatInfo) {
+          map[item.groupId] = { ...chatInfo, ...item }
+        }
+      })
+      return { ...state, map }
+    }
     default:
       return state
   }

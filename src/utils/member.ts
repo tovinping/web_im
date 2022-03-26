@@ -1,17 +1,16 @@
-import { getMemberList } from 'src/api/member'
-import { IMemberInfo } from 'src/interface'
+import { getMemberList } from 'src/api/server'
 
 export async function handGetMemberList(groupId: string) {
   const { body, code } = await getMemberList(groupId)
   if (code === 0) {
     const members = sortMember(body!)
-    window.$dispatch({ type: 'setMember', payload: { [groupId]: members } })
+    window.$dispatch({ type: 'addMembers', payload: [{ [groupId]: members }] })
   }
 }
-export function sortMember(memberList: IMemberInfo[]) {
-  const userMap = window.$state.user
-  const managers: IMemberInfo[] = []
-  const normals: IMemberInfo[] = []
+export function sortMember(memberList: IMemberType[]) {
+  const userMap = window.$state.user.map
+  const managers: IMemberType[] = []
+  const normals: IMemberType[] = []
   memberList.sort((a, b) => {
     const nameA = userMap[a.account]?.name || ''
     const nameB = userMap[b.account]?.name || ''

@@ -1,5 +1,5 @@
-import {createGroup, getGroupList} from 'src/api'
-import {IGroupState} from 'src/interface'
+import {createGroup, getGroupList} from 'src/api/server'
+import { CHAT_TYPE } from 'src/constant'
 /**
  * 创建群组
  * @param groupName 
@@ -17,21 +17,22 @@ export async function handCreateGroup(groupName: string, memberList: string[]) {
 }
 
 export async function getGroupChange() {
-  const ChatList = window.$state.chat.list
+  const {list, map} = window.$state.chat
   const groupIds: string[] = []
-  ChatList.forEach(item => {
-    if (item.type === '1'){
-      groupIds.push(item.chatId)
+  list.forEach(chatId => {
+    const chatInfo = map[chatId]
+    if (chatInfo?.type === CHAT_TYPE.GROUP){
+      groupIds.push(chatId)
     }
   })
   if (groupIds.length < 1) return;
   const {body, code} = await getGroupList(groupIds)
   if (code === 0) {
-    const groupMap: IGroupState = {}
+    const groupInfos: IGroupType[] = []
     body?.forEach(item => {
-      groupMap[item.groupId] = item
+      groupInfos.push(item)
     })
-    window.$dispatch({type: 'setGroup', payload: groupMap})
+    window.$dispatch({type: 'updateGroups', payload: groupInfos})
     return body
   } else {
     return []

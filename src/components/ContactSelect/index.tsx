@@ -8,7 +8,7 @@ interface IProps {
   onChange?(data?: any): void
 }
 export default function SelectContact({ selected = [], maxNum = 1000, onChange }: IProps) {
-  const userMap = useRootState(state => state.user)
+  const userMap = useRootState(state => state.user.map)
   const myAccount = useRootState(state => state.global.account)
   const disabledList = [myAccount].concat(selected)
   const contactList = useMemo(() => {

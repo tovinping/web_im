@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useRootState } from 'src/store'
 import Item from './Item'
 import Search from './Search'
+import style from './index.module.scss'
 import { loadChatList, getGroupChange, loadChatUsers } from 'src/utils'
 
 export default function ChatList() {
@@ -14,12 +15,12 @@ export default function ChatList() {
     }
   }, [isLogin])
   return (
-    <div>
+    <div className={style.chatList}>
       <div>
         <Search />
       </div>
-      {chats.map(item => (
-        <Item key={item.chatId} {...item} />
+      {chats.map(chatId => (
+        <Item key={chatId} chatId={chatId} />
       ))}
     </div>
   )
