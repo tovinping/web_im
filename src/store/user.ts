@@ -29,10 +29,8 @@ export default function reducer(state = initialState, actions: IUserActions): IU
     case 'updateUsers': {
       const map = { ...state.map }
       payload.forEach(item => {
-        const chatInfo = map[item.account]
-        if (chatInfo) {
-          map[item.account] = { ...chatInfo, ...item }
-        }
+        const chatInfo = map[item.account] || {}
+        map[item.account] = { ...chatInfo, ...item }
       })
       return { ...state, map }
     }
