@@ -1,16 +1,28 @@
-.contactSelect{
+.contactSelect {
+  display: flex;
+  height: 40vh;
+  padding-top: 20px;
+  > div {
+    flex: 1;
+  }
+}
+.selectArea {
+  border-right: 1px solid #ddd;
+  padding-right: 20px;
+}
+.backup {
   margin-top: 15px;
   height: 400px;
   overflow-y: auto;
-  li{
+  li {
     display: flex;
     cursor: pointer;
     padding: 5px 10px;
     label {
       flex: 1;
     }
-    &:hover{
-      background-color: #F3F9FF;
+    &:hover {
+      background-color: #f3f9ff;
     }
   }
 }

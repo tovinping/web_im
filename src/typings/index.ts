@@ -5,8 +5,9 @@ import GroupType from './group'
 import MemberType from './member'
 import logger from '../utils/logger'
 import { IRootDispatchType, IRootStateType } from 'src/store'
+
 declare global {
-  const COS: any;
+  const COS: any
   interface Window {
     NodeBridge: {
       closeWindow(): void
@@ -24,3 +25,10 @@ declare global {
   type IGroupType = GroupType
   type IMemberType = MemberType
 }
+
+export type IActions<T> = {
+  [K in keyof T]: {
+    type: K
+    payload: T[K]
+  }
+}[keyof T]

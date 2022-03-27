@@ -1,0 +1,22 @@
+.contactList {
+  margin-top: 10px;
+}
+.contactItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  &:hover {
+    background-color: pink;
+  }
+}
+.baseInfo {
+  display: flex;
+  align-items: center;
+  span {
+    margin-left: 20px;
+  }
+}
+.checkWrap {
+  display: flex;
+  align-items: center;
+}

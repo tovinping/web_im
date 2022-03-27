@@ -1,5 +1,5 @@
-import { CHAT_TYPE, YES_NO } from "src/constant";
-import { sleep } from "src/utils";
+import { CHAT_TYPE, YES_NO } from 'src/constant'
+import { sleep } from 'src/utils'
 let chatId = 0
 export function createChat(): IChatType {
   chatId++
@@ -12,8 +12,8 @@ export function createChat(): IChatType {
 }
 const list: IChatType[] = []
 async function ttt() {
-  if (chatId> 5000) {
-    console.log("TANG===END")
+  if (chatId > 5000) {
+    console.log('TANG===END')
     return
   }
   const chat = createChat()
@@ -23,13 +23,13 @@ async function ttt() {
 async function add() {
   if (!list.length) return
   const s = list.splice(0, 50)
-  window.$dispatch({type: 'addChats', payload: s})
+  window.$dispatch({ type: 'addChats', payload: s })
   await sleep(10)
   add()
 }
-setTimeout(() => {
-  console.log("TANG===START")
+export function addChatTestData() {
+  console.log('TANG===START')
   ttt()
   console.log('TANG===', list.length)
   add()
-}, 1000);
+}
