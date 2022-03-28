@@ -1,7 +1,6 @@
 import { IBaseContextItem } from 'src/components/ContextMenu'
 import { removeMember, updateAdmin } from 'src/api/server'
-import { openOrCreateChat } from 'src/utils'
-import { CHAT_TYPE, MEMBER_TYPE } from 'src/constant'
+import { MEMBER_TYPE } from 'src/constant'
 type IMemberContextItem = IBaseContextItem<IMemberType>
 type IMemberFn = (m: IMemberType, l: IMemberContextItem[]) => void
 
@@ -10,10 +9,7 @@ export const buildSendMsg: IMemberFn = (member, list) => {
     key: 'sendMsg',
     name: '发送消息',
     cb() {
-      const chat = openOrCreateChat(member.account, CHAT_TYPE.P2P)
-      if (!chat) {
-        console.error('创建会话失败')
-      }
+      console.log('发送消息')
     },
   })
 }

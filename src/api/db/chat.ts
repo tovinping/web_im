@@ -1,15 +1,18 @@
-export function addChats(list: IChatType[]) {
-  console.log('addChats', list)
+const dbChatApi = {
+  addChats(list: IChatType[]) {
+    console.log('addChats', list)
+  },
+  removeChats(chatIds: IChatType['chatId']) {
+    console.log('removeChats', chatIds)
+  },
+  updateChats(list: IChatType[]) {
+    console.log('updateChats', list)
+  },
+  getChats(chatIds: IChatType['chatId']) {
+    console.log('getChats', chatIds)
+  },
+  loadChats() {
+    return []
+  },
 }
-export function removeChats(chatIds: IChatType['chatId']) {
-  console.log('removeChats', chatIds)
-}
-export function updateChats(list: IChatType[]) {
-  console.log('updateChats', list)
-}
-export function getChats(chatIds: IChatType['chatId']) {
-  console.log('getChats', chatIds)
-}
-export function loadChats() {
-  return []
-}
+export default dbChatApi

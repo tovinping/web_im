@@ -3,26 +3,20 @@ interface IGlobalState {
   account: string
   windowSize: 'maxSize' | 'minSize' | 'normalSize'
   windowVisible: 'hide' | 'show'
-  contactSelect: {
-    visible: boolean
-    selected?: string[]
-    callback?: Function
-  }
+  creatChatVisible: boolean
 }
 type IGlobalActions =
   | { type: 'updateGlobal'; payload: Partial<IGlobalState> }
   | { type: 'updateLogin'; payload: IGlobalState['isLogin'] }
   | { type: 'updateAccount'; payload: IGlobalState['account'] }
-  | { type: 'updateContactSelect'; payload: IGlobalState['contactSelect'] }
+  | { type: 'setCreateChatVisible'; payload: IGlobalState['creatChatVisible'] }
 
 const initialState: IGlobalState = {
   isLogin: false,
   account: '',
   windowSize: 'normalSize',
   windowVisible: 'show',
-  contactSelect: {
-    visible: false,
-  },
+  creatChatVisible: false,
 }
 export default function reducer(state = initialState, actions: IGlobalActions): IGlobalState {
   switch (actions.type) {
@@ -32,8 +26,8 @@ export default function reducer(state = initialState, actions: IGlobalActions): 
       return { ...state, isLogin: actions.payload }
     case 'updateAccount':
       return { ...state, account: actions.payload }
-    case 'updateContactSelect':
-      return { ...state, contactSelect: actions.payload }
+    case 'setCreateChatVisible':
+      return { ...state, creatChatVisible: actions.payload }
     default:
       return state
   }

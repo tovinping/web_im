@@ -1,3 +1,6 @@
-export function addChats(list: IChatType[]) {
-  console.log('addChats', list)
+const storeChatApi = {
+  addChats(list: IChatType[]) {
+    window.$dispatch({ type: 'addChats', payload: list })
+  },
 }
+export default storeChatApi

@@ -6,12 +6,10 @@ import ContactList from 'src/components/ContactList'
 import { IActions } from 'src/typings'
 import style from './index.module.scss'
 interface IProps {
-  selected?: string[]
-  maxNum?: number
   onChange?(data?: any): void
 }
 type ISelectedActions = IActions<{ add: IUserType; remove: IUserType }>
-export default function SelectContact({ selected = [], maxNum = 1000, onChange }: IProps) {
+export default function SelectContact({ onChange }: IProps) {
   const [searchList, setSearchList] = useState<IUserType[]>([])
   const [selectedMap, dispatch] = useReducer(
     (state: Record<string, IUserType | undefined>, action: ISelectedActions) => {
@@ -30,8 +28,10 @@ export default function SelectContact({ selected = [], maxNum = 1000, onChange }
     {}
   )
   const selectedList = useMemo(() => {
-    return Object.values(selectedMap).filter(Boolean) as IUserType[]
-  }, [selectedMap])
+    const list = Object.values(selectedMap).filter(Boolean) as IUserType[]
+    onChange?.(list)
+    return list
+  }, [selectedMap, onChange])
   const onSearch = useCallback(async value => {
     const userList = await searchUserByAccounts([value])
     userList && setSearchList(userList)

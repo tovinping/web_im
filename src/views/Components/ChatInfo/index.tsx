@@ -2,7 +2,6 @@ import React from 'react'
 import { useRootState } from 'src/store'
 import Icon from 'src/components/Icon'
 import style from './index.module.scss'
-import { openContactSelect } from 'src/utils'
 export default function ChatInfo() {
   const currentId = useRootState(state => state.chat.currentChatId)
   const groupInfo = useRootState(state => state.group.map[currentId!])
@@ -14,9 +13,6 @@ export default function ChatInfo() {
     if (!groupInfo?.groupId) return
     const members = window.$state.member.map[groupInfo?.groupId]?.map(member => member.account)
     if (!members) return
-    openContactSelect({
-      selected: members,
-    })
   }
   return (
     <div className={style.chatInfo}>
