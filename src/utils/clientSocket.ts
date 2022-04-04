@@ -4,11 +4,11 @@ class ClientSocket {
   static socket: Socket
   static init(account: string, token: string) {
     if (this.socket) return
-    const manager = new Manager('ws://localhost:4001', {transports: ['websocket']})
+    const manager = new Manager('ws://localhost:4001', { transports: ['websocket'] })
     this.socket = manager.socket('/', { auth: { token, account } })
 
     this.socket.on('connect', () => {
-      console.log(`connect ${this.socket.id}`)
+      console.log(`connected= ${this.socket.id}`)
       this.onMessage()
       this.onConnectError()
       this.disConnect()
@@ -32,7 +32,7 @@ class ClientSocket {
   }
 
   static sendMsg(data: IMsgType) {
-    return new Promise<{isOk: boolean, msg: string}>(resolve => {
+    return new Promise<{ isOk: boolean; msg: IMsgType; tips: string }>(resolve => {
       this.socket.send(data, (res: any) => {
         resolve(res)
       })

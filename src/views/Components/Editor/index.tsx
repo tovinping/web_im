@@ -5,7 +5,7 @@ import { useRootState } from 'src/store'
 import PopContent from 'src/components/PopContent'
 import Emoji from 'src/views/Components/Editor/Emoji'
 import { getCurrentInfo } from 'src/helper/chat'
-import { sendTextMsg } from 'src/utils/message'
+import { sendTextMsg } from 'src/service/msg'
 import style from './index.module.scss'
 
 export default function Editor() {
