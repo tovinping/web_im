@@ -3,7 +3,7 @@ import { useRootState } from 'src/store'
 import GroupNotice from './GroupNotice'
 import MemberList from './MemberList'
 import MemberSearch from './MemberSearch'
-import { handGetMemberList } from 'src/utils'
+import { handGetMemberList } from 'src/service'
 import style from './index.module.scss'
 export default function ChatSide() {
   const currentId = useRootState(state => state.chat.currentChatId)

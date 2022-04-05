@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Button, Input, Spin } from 'antd'
-import { doAutoLogin, doLogin, myHistory } from 'src/utils'
+import { doAutoLogin, doLogin } from 'src/service'
+import { myHistory } from 'src/utils'
 import style from './index.module.scss'
 import { getLoginCaptcha } from 'src/api/server'
 
@@ -34,7 +35,12 @@ export default function Login() {
   const handDoLogin = async () => {
     if (!account.trim() || !password.trim()) return
     setLoading(true)
-    const result = await doLogin({ account, password, captchaId: captcha.id, captchaText: captchaText.toLocaleLowerCase() })
+    const result = await doLogin({
+      account,
+      password,
+      captchaId: captcha.id,
+      captchaText: captchaText.toLocaleLowerCase(),
+    })
     setLoading(false)
     if (result === 0) {
       myHistory.replace('/chat')

@@ -1,9 +1,21 @@
-import { serverApi, storeApi } from 'src/api'
+import { dbApi, serverApi, storeApi } from 'src/api'
 import { CHAT_TYPE, MSG_STATE } from 'src/constant'
 import { getMsgTemplate } from 'src/helper'
-import clientSocket from 'src/utils/clientSocket'
+import clientSocket from 'src/utils/webSocket'
 import getLogger from 'src/utils/logger'
 const logger = getLogger('service_msg')
+interface IAddMsgs {
+  chatId: string
+  msgs: IMsgType[]
+}
+export async function addMsgs(params: IAddMsgs) {
+  logger.info('addMsgs chatId=', params.chatId, 'len=', params.msgs.length)
+  storeApi.addMsgs(params)
+  dbApi.addMsgs(params.msgs)
+}
+export async function removeMsgs(params: IMsgType[]) {
+  logger.info('removeMsgs len=', params.length)
+}
 interface ISendType {
   chatId: string
   chatType: CHAT_TYPE
@@ -40,4 +52,10 @@ export async function loadHistory(params: ILoadHistory) {
     const reversMsgs = historyRes.body.reverse()
     storeApi.prePendMsgs({ chatId: params.chatId, msgs: reversMsgs })
   }
+}
+
+export function handleReceiveMsg(data: IMsgType) {
+  console.log('handleReceiveMsg', data)
+  const chatId = data.chatId
+  addMsgs({ chatId, msgs: [data] })
 }

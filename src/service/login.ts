@@ -2,7 +2,6 @@ import { message } from 'antd'
 import {
   autoLogin,
   getContactList,
-  getUserInfo,
   IRegister,
   login,
   register,
@@ -11,11 +10,8 @@ import {
   forgot,
   uploadFile,
 } from 'src/api/server'
-import { CHAT_TYPE } from 'src/constant'
-import { myHistory } from '.'
-import ClientSocket from './clientSocket'
-import { getRsaEncrypt } from './encrypt'
-import { getMyAccount, getRefreshToken, setMyAccount, setRefreshToken, setToken } from './storage'
+import { myHistory, getRsaEncrypt, storage } from 'src/utils'
+import ClientSocket from 'src/utils/webSocket'
 
 export async function handRegister(data: IRegister) {
   const rsaPwd = await getRsaEncrypt(data.password)
@@ -27,40 +23,40 @@ export async function handRegister(data: IRegister) {
   }
 }
 
-export async function doLogin({ password, account, ...other}: Parameters<typeof login>[number]) {
+export async function doLogin({ password, account, ...other }: Parameters<typeof login>[number]) {
   const rsaPwd = await getRsaEncrypt(password)
   const { code, body, msg } = await login({ ...other, account, password: rsaPwd })
   if (code === 0 && body) {
-    setMyAccount(account)
+    storage.setMyAccount(account)
     window.$dispatch({ type: 'updateGlobal', payload: { isLogin: true, account } })
-    setToken(body.token)
+    storage.setToken(body.token)
     ClientSocket.init(account, body.token)
-    setRefreshToken(body.refreshToken)
+    storage.setRefreshToken(body.refreshToken)
   } else {
     message.error(msg, 1)
   }
   return code
 }
 export async function doAutoLogin() {
-  const myAccount = getMyAccount()
+  const myAccount = storage.getMyAccount()
   if (!myAccount) return
-  const refreshToken = getRefreshToken()
+  const refreshToken = storage.getRefreshToken()
   if (!refreshToken) return
-  const {code, body} = await autoLogin(myAccount, refreshToken)
+  const { code, body } = await autoLogin(myAccount, refreshToken)
   if (code === 0 && body) {
     window.$dispatch({ type: 'updateGlobal', payload: { account: myAccount, isLogin: true } })
-    setToken(body.token)
-    setRefreshToken(body.refreshToken)
+    storage.setToken(body.token)
+    storage.setRefreshToken(body.refreshToken)
     ClientSocket.init(myAccount, body.token)
   } else {
-    setToken('')
-    setRefreshToken('')
-    setMyAccount('')
+    storage.setToken('')
+    storage.setRefreshToken('')
+    storage.setMyAccount('')
   }
   return code
 }
 export async function logout() {
-  setMyAccount('')
+  storage.setMyAccount('')
   myHistory.replace('/')
 }
 
@@ -69,17 +65,9 @@ export async function getUserInfoByAccounts(accounts: string[]) {
   const requestIds: string[] = []
   accounts.forEach(acc => !userMap[acc]?.account && requestIds.push(acc))
   if (!requestIds.length) return
-  const {body} = await getContactList({ accounts: requestIds })
+  const { body } = await getContactList({ accounts: requestIds })
   if (!body) return
-  window.$dispatch({type: 'updateUsers', payload: body})
-}
-
-export async function syncMyInfo() {
-  const myAccount = window.$state.global.account
-  const { body } = await getUserInfo(myAccount)
-  if (body) {
-    window.$dispatch({ type: 'updateUsers', payload: [body]})
-  }
+  window.$dispatch({ type: 'updateUsers', payload: body })
 }
 
 export async function handUpdateAvatar(file: File) {
@@ -105,13 +93,4 @@ export async function handUpdateSign(sign: string) {
     const myAccount = window.$state.global.account
     window.$dispatch({ type: 'updateUsers', payload: [{ account: myAccount, sign }] })
   }
-}
-export async function loadChatUsers() {
-  const userIds: string[] = []
-  const {list, map} = window.$state.chat
-  list.forEach(chatId => {
-    const chatInfo = map[chatId]
-    chatInfo?.type === CHAT_TYPE.P2P && userIds.push(chatId)
-  })
-  getUserInfoByAccounts(userIds)
 }

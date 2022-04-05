@@ -1,3 +1,6 @@
 export * from './chat'
 export * from './msg'
+export * from './group'
+export * from './member'
 export * from './user'
+export * from './login'

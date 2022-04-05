@@ -1,5 +1,5 @@
-export function addMsgs(list: IMsgType) {
-  console.log('addMsgs', list)
+export function addMsgs(list: IMsgType[]) {
+  console.log('addMsgs', list.length)
 }
 export function removeMsgs(msgIds: IMsgType['msgId']) {
   console.log('removeMsgs', msgIds)

@@ -1,5 +1,5 @@
 import { Manager, Socket } from 'socket.io-client'
-import { handleReceiveMsg } from 'src/utils/message'
+import { handleReceiveMsg } from 'src/service'
 class ClientSocket {
   static socket: Socket
   static init(account: string, token: string) {

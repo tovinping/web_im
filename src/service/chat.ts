@@ -3,7 +3,7 @@ import { getState } from 'src/api/store'
 import { CHAT_TYPE } from 'src/constant'
 import { getChatTemp } from 'src/helper/chat'
 import { loadHistory } from './msg'
-import { addUsers } from './user'
+import { addUsers, loadUserInfos } from './user'
 const logger = window.getLogger('service/Chat')
 export function addChat(data: IChatType) {
   console.log('addChats')
@@ -24,6 +24,10 @@ export function createP2pChat(userInfo: IUserType) {
   const chatInfo = getChatTemp({ chatId: userInfo.account, type: CHAT_TYPE.P2P })
   addChat(chatInfo)
   addUsers([userInfo])
+}
+
+export function createGroupChat(groupId: string) {
+  logger.info('createGroupChat groupId=', groupId)
 }
 
 export async function loadServerChats() {
@@ -56,4 +60,18 @@ export async function handChatClick(data?: IChatType) {
   if (!data) return
   storeApi.updateCurrentChat(data.chatId)
   loadHistory({ chatId: data.chatId, timestamp: 999999999999999 })
+}
+type ICreateOrUpdate = Pick<IChatType, 'chatId' | 'type'> & Partial<IChatType>
+export async function createOrUpdateChat(params: ICreateOrUpdate) {
+  const { type, chatId } = params
+  logger.info('createOrUpdateChat chatId=', chatId, 'type=', type)
+  if (type === CHAT_TYPE.P2P) {
+    const chatInfo = getChatTemp({ chatId, type: CHAT_TYPE.P2P })
+    addChat(chatInfo)
+    loadUserInfos([chatId])
+  } else if (type === CHAT_TYPE.GROUP) {
+    logger.info('group')
+  } else {
+    logger.error('创建聊天失败')
+  }
 }

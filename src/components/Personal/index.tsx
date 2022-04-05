@@ -3,7 +3,7 @@ import { BaseAvatar } from 'src/components/Avatar'
 import style from './index.module.scss'
 import { useRootState } from 'src/store'
 import Icon from '../Icon'
-import { handUpdateAvatar, handUpdateSign } from 'src/utils'
+import { handUpdateAvatar, handUpdateSign } from 'src/service'
 let inputValue = ''
 interface IProps {
   account: string
@@ -42,7 +42,7 @@ export default function Personal({ account, isSelf }: IProps) {
           <li>邮箱: {userInfo?.mail}</li>
         </ul>
         <div className={style.avatar}>
-          {isSelf ? <input type="file" accept="image/*" onChange={fileChange} title='更新头像' /> : null}
+          {isSelf ? <input type="file" accept="image/*" onChange={fileChange} title="更新头像" /> : null}
           <BaseAvatar size={'large'} url={userInfo?.avatar} />
         </div>
       </div>

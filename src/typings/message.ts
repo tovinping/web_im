@@ -1,7 +1,7 @@
 import { CHAT_TYPE, MSG_TYPE, MSG_STATE } from 'src/constant'
 export interface IBaseMsgType {
   msgId: string
-  // 创建者帐号
+  // 发送者帐号
   account: string
   /**群聊为群ID单聊为对方帐号 */
   chatId: string

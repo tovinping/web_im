@@ -1,7 +1,8 @@
 import React from 'react'
 import { Form, Input, Button, message } from 'antd'
 import style from './index.module.scss'
-import { handForgot, myHistory, sleep } from 'src/utils'
+import { myHistory, sleep } from 'src/utils'
+import { handForgot } from 'src/service'
 import { getForgotCaptcha } from 'src/api/server'
 
 export default function ForgotPassword() {
@@ -10,7 +11,7 @@ export default function ForgotPassword() {
     myHistory.goBack()
   }
   const onFinish = async (values: any) => {
-    const {code, msg } = await handForgot(values)
+    const { code, msg } = await handForgot(values)
     if (code === 0) {
       message.success(msg, 1)
       await sleep(300)
@@ -30,9 +31,16 @@ export default function ForgotPassword() {
   }
   return (
     <div className={style.forgot}>
-      <Form form={fromInstance} requiredMark={false} labelCol={{ span: 8 }} wrapperCol={{ span: 20 }} onFinish={onFinish} autoComplete="off">
-        <Form.Item label="帐号" name="account"  colon={false} rules={[{ required: true, message: '帐号不能为空' }]}>
-          <Input placeholder='请输入帐号'/>
+      <Form
+        form={fromInstance}
+        requiredMark={false}
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 20 }}
+        onFinish={onFinish}
+        autoComplete="off"
+      >
+        <Form.Item label="帐号" name="account" colon={false} rules={[{ required: true, message: '帐号不能为空' }]}>
+          <Input placeholder="请输入帐号" />
         </Form.Item>
         <Form.Item
           label="邮箱"
@@ -43,21 +51,19 @@ export default function ForgotPassword() {
             { type: 'email', message: '邮箱格式不准确' },
           ]}
         >
-          <Input placeholder='输入邮箱用于接收验证码' />
+          <Input placeholder="输入邮箱用于接收验证码" />
         </Form.Item>
         <Form.Item label="新密码" name="password" colon={false} rules={[{ required: true, message: '密码不能为空' }]}>
-          <Input.Password placeholder='输入新密码，别再忘记啦' />
+          <Input.Password placeholder="输入新密码，别再忘记啦" />
         </Form.Item>
         <Form.Item label="验证码" colon={false}>
           <div className={style.captcha}>
-            <Form.Item
-              name="captcha"
-              noStyle
-              rules={[{ required: true, message: '验证码不能为空' }]}
-            >
-              <Input placeholder='请输入验证码' />
+            <Form.Item name="captcha" noStyle rules={[{ required: true, message: '验证码不能为空' }]}>
+              <Input placeholder="请输入验证码" />
             </Form.Item>
-            <Button type={'link'} onClick={mailCaptcha}>获取验证码</Button>
+            <Button type={'link'} onClick={mailCaptcha}>
+              获取验证码
+            </Button>
           </div>
         </Form.Item>
 

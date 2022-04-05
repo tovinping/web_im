@@ -7,7 +7,7 @@ import Editor from '../Components/Editor'
 import ChatInfo from '../Components/ChatInfo'
 import ChatSide from '../Components/ChatSide'
 import CreateChat from 'src/views/Dialog/CreateChat'
-import { syncMyInfo } from 'src/utils'
+import { syncMyInfo } from 'src/service'
 import 'src/test'
 const style = require('./index.module.scss')
 export default function ChatRoot() {

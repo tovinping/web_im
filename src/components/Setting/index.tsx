@@ -1,11 +1,11 @@
 import React from 'react'
 import Menu, { IMenuItem } from 'src/components/Menu'
 import { getSendKey, setSendKey } from 'src/storage/localStorage'
-import { logout } from 'src/utils'
-interface IProps{
+import { logout } from 'src/service'
+interface IProps {
   close(): void
 }
-export default function Setting({close}: IProps) {
+export default function Setting({ close }: IProps) {
   const handSetSendKey = (item: IMenuItem) => {
     setSendKey(item.key)
     close?.()
@@ -25,10 +25,8 @@ export default function Setting({close}: IProps) {
     {
       key: 'logout',
       value: '退出登录',
-      cb:logout
-    }
+      cb: logout,
+    },
   ]
-  return (
-    <Menu menus={menus} />
-  )
+  return <Menu menus={menus} />
 }

@@ -1,7 +1,8 @@
 import React from 'react'
 import { Form, Input, Button } from 'antd'
 import style from './index.module.scss'
-import { handRegister, myHistory } from 'src/utils'
+import { myHistory } from 'src/utils'
+import { handRegister } from 'src/service'
 export default function Register() {
   const onFinish = (values: any) => {
     delete values.rePassword
@@ -12,13 +13,19 @@ export default function Register() {
   }
   return (
     <div className={style.register}>
-      <Form labelCol={{ span: 7 }} requiredMark={false} wrapperCol={{ span: 18 }} onFinish={onFinish} autoComplete="off">
+      <Form
+        labelCol={{ span: 7 }}
+        requiredMark={false}
+        wrapperCol={{ span: 18 }}
+        onFinish={onFinish}
+        autoComplete="off"
+      >
         <Form.Item label="帐号" name="account" colon={false} rules={[{ required: true, message: '帐号不能为空' }]}>
-          <Input placeholder='请输入帐号'/>
+          <Input placeholder="请输入帐号" />
         </Form.Item>
 
         <Form.Item label="昵称" name="name" colon={false} rules={[{ required: true, message: '昵称不能为空' }]}>
-          <Input placeholder='请输入昵称' />
+          <Input placeholder="请输入昵称" />
         </Form.Item>
 
         <Form.Item
@@ -30,11 +37,11 @@ export default function Register() {
             { type: 'email', message: '邮箱格式不准确' },
           ]}
         >
-          <Input placeholder='请输入邮箱' />
+          <Input placeholder="请输入邮箱" />
         </Form.Item>
 
         <Form.Item label="密码" name="password" colon={false} rules={[{ required: true, message: '密码不能为空' }]}>
-          <Input.Password placeholder='密码必需的' />
+          <Input.Password placeholder="密码必需的" />
         </Form.Item>
 
         <Form.Item
@@ -56,7 +63,7 @@ export default function Register() {
             }),
           ]}
         >
-          <Input.Password placeholder='确认输入密码' />
+          <Input.Password placeholder="确认输入密码" />
         </Form.Item>
 
         <div className={style.submit}>
