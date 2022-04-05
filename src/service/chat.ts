@@ -59,7 +59,7 @@ export async function loadServerChats() {
 export async function handChatClick(data?: IChatType) {
   if (!data) return
   storeApi.updateCurrentChat(data.chatId)
-  loadHistory({ chatId: data.chatId, timestamp: 999999999999999 })
+  loadHistory({ chatId: data.chatId, chatType: data.type, timestamp: 999999999999999 })
 }
 type ICreateOrUpdate = Pick<IChatType, 'chatId' | 'type'> & Partial<IChatType>
 export async function createOrUpdateChat(params: ICreateOrUpdate) {

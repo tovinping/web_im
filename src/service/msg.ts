@@ -40,6 +40,7 @@ export async function sendTextMsg({ chatId, chatType, content }: Required<ISendT
   window.$dispatch({ type: 'updateMsgs', payload: [{ [chatId]: [lastMsg] }] })
 }
 interface ILoadHistory {
+  chatType: CHAT_TYPE
   chatId: string
   timestamp: number
 }
