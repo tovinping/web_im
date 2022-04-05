@@ -3,7 +3,7 @@ import { createSelectorHook } from 'react-redux'
 
 import global from './global'
 import chat from './chat'
-import message from './message'
+import msg from './msg'
 import user from './user'
 import group from './group'
 import member from './member'
@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
   user,
   global,
   chat,
-  message,
+  msg,
 })
 const store = createStore(rootReducer)
 export type IRootStateType = ReturnType<typeof rootReducer>

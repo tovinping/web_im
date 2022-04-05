@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import { useRootState } from 'src/store'
 import { ChatAvatar } from 'src/components/Avatar'
 import style from './Item.module.scss'
+import { handChatClick } from 'src/service'
 export default function ChatItem(props: Pick<IChatType, 'chatId'>) {
   const currentId = useRootState(state => state.chat.currentChatId)
   const chatInfo = useRootState(state => state.chat.map[props.chatId])
@@ -11,7 +12,7 @@ export default function ChatItem(props: Pick<IChatType, 'chatId'>) {
   const chatName = userInfo?.name || groupInfo?.name
   const lastMsg = chatInfo?.lastMsg
   function handleClick() {
-    window.$dispatch({ type: 'updateCurrentChat', payload: props.chatId })
+    handChatClick(chatInfo)
   }
   if (!chatInfo) return null
   return (

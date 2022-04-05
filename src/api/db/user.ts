@@ -1,4 +1,3 @@
-const dbUserApi = {
-  addUsers(list: IUserType[]) {},
+export function addUsers(abc: IUserType[]) {
+  console.log('addUsers', abc)
 }
-export default dbUserApi

@@ -1,4 +1,4 @@
-import { IChatId } from "src/typings/chat"
+import { IChatId } from 'src/typings/chat'
 interface IChatState {
   list: IChatId[]
   map: Record<IChatId, IChatType | undefined>
@@ -20,13 +20,14 @@ export default function reducer(state = initialState, actions: IChatActions): IC
   const { type, payload } = actions
   switch (type) {
     case 'addChats': {
-      const list = [...state.list]
+      const chatSet = new Set(state.list)
       const map = { ...state.map }
       payload.forEach(item => {
-        list.push(item.chatId)
-        map[item.chatId] = item
+        chatSet.add(item.chatId)
+        const old = map[item.chatId] || {}
+        map[item.chatId] = { ...old, ...item }
       })
-      return { ...state, list, map }
+      return { ...state, list: [...chatSet], map }
     }
     case 'removeChats': {
       const isRemoveCurrent = payload.includes(state.currentChatId)

@@ -1,3 +1,4 @@
+import { serverApi, storeApi } from 'src/api'
 import { CHAT_TYPE, MSG_STATE } from 'src/constant'
 import { getMsgTemplate } from 'src/helper'
 import clientSocket from 'src/utils/clientSocket'
@@ -10,7 +11,7 @@ interface ISendType {
 }
 export async function sendTextMsg({ chatId, chatType, content }: Required<ISendType>) {
   const msgTemp = getMsgTemplate({ chatId, chatType, content })
-  window.$dispatch({ type: 'addMsgs', payload: [{ [chatId]: [msgTemp] }] })
+  storeApi.addMsgs({ chatId, msgs: [msgTemp] })
   logger.info('send text msg before chatId=', msgTemp.chatId, 'clientMsgId=', msgTemp.clientId)
   const { isOk, tips, msg } = await clientSocket.sendMsg(msgTemp)
   logger.info(
@@ -25,4 +26,18 @@ export async function sendTextMsg({ chatId, chatType, content }: Required<ISendT
   )
   const lastMsg: IMsgType = { ...msgTemp, state: isOk ? MSG_STATE.NORMAL : MSG_STATE.ERROR }
   window.$dispatch({ type: 'updateMsgs', payload: [{ [chatId]: [lastMsg] }] })
+}
+interface ILoadHistory {
+  chatId: string
+  timestamp: number
+}
+export async function loadHistory(params: ILoadHistory) {
+  // load from db
+  // load from server
+  const historyRes = await serverApi.loadHistory(params)
+  logger.info('load history res=', historyRes)
+  if (historyRes.body) {
+    const reversMsgs = historyRes.body.reverse()
+    storeApi.prePendMsgs({ chatId: params.chatId, msgs: reversMsgs })
+  }
 }

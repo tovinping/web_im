@@ -1,15 +1,15 @@
-import { IChatId } from 'src/typings/chat'
 type IMsgState = {
-  map: Record<IChatId, IMsgType[] | undefined>
+  map: Record<string, IMsgType[] | undefined>
 }
 type IUpdateMsg = Partial<IMsgType> & Required<Pick<IMsgType, 'msgId'>>
-type IAddMsgs = Record<IChatId, IMsgType[]>
-type IRemoveMsgs = Record<IChatId, IUpdateMsg[]>
-type IUpdateMsgs = Record<IChatId, IUpdateMsg[]>
+type IAddMsgs = { chatId: string; msgs: IMsgType[] }
+type IRemoveMsgs = Record<string, IUpdateMsg[]>
+type IUpdateMsgs = Record<string, IUpdateMsg[]>
 type IMsgActions =
-  | { type: 'addMsgs'; payload: IAddMsgs[] }
+  | { type: 'addMsgs'; payload: IAddMsgs }
   | { type: 'removeMsgs'; payload: IRemoveMsgs[] }
   | { type: 'updateMsgs'; payload: IUpdateMsgs[] }
+  | { type: 'prePendMsgs'; payload: IAddMsgs }
 
 const initialState: IMsgState = {
   map: {},
@@ -19,11 +19,16 @@ export default function reducer(state = initialState, actions: IMsgActions): IMs
   switch (type) {
     case 'addMsgs': {
       const map = { ...state.map }
-      payload.forEach(item => {
-        const [[groupId, msgs]] = Object.entries(item)
-        const oldMsgs = map[groupId] || []
-        map[groupId] = [...oldMsgs, ...msgs]
-      })
+      const { chatId, msgs } = payload
+      const oldMsgs = map[chatId] || []
+      map[chatId] = [...oldMsgs, ...msgs]
+      return { ...state, map }
+    }
+    case 'prePendMsgs': {
+      const map = { ...state.map }
+      const { chatId, msgs } = payload
+      const oldMsgs = map[chatId] || []
+      map[chatId] = [...msgs, ...oldMsgs]
       return { ...state, map }
     }
     case 'removeMsgs': {
@@ -34,7 +39,7 @@ export default function reducer(state = initialState, actions: IMsgActions): IMs
         const removedMembers = oldMembers.filter(item => members.find(r => r.msgId === item.msgId))
         map[groupId] = removedMembers
       })
-      return { ...state, map } 
+      return { ...state, map }
     }
     case 'updateMsgs': {
       const map = { ...state.map }

@@ -1,10 +1,8 @@
 import { getContactList } from 'src/api/server'
-import dbUserApi from 'src/api/db/user'
-import storeUserApi from 'src/api/store/users'
-
+import { storeApi, dbApi } from 'src/api'
 export function addUsers(list: IUserType[]) {
-  dbUserApi.addUsers(list)
-  storeUserApi.addUsers(list)
+  dbApi.addUsers(list)
+  storeApi.addUsers(list)
 }
 export function removeUsers() {}
 export function updateUsers() {}

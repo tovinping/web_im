@@ -3,7 +3,8 @@ import { useRootState } from 'src/store'
 import Item from './Item'
 import Search from './Search'
 import style from './index.module.scss'
-import { loadChatList, getGroupChange, loadChatUsers } from 'src/utils'
+import { getGroupChange, loadChatUsers } from 'src/utils'
+import { loadServerChats } from 'src/service'
 
 export default function ChatList() {
   const chats = useRootState(state => state.chat.list)
@@ -11,7 +12,7 @@ export default function ChatList() {
   useEffect(() => {
     if (isLogin) {
       getGroupChange()
-      loadChatList().then(() => loadChatUsers())
+      loadServerChats().then(() => loadChatUsers())
     }
   }, [isLogin])
   return (

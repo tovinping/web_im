@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useCallback} from 'react'
+import React, { useRef, useEffect, useCallback } from 'react'
 import { useRootState } from 'src/store'
 import MsgItem from '../MsgItem'
 import style from './index.module.scss'
@@ -6,13 +6,13 @@ import style from './index.module.scss'
 export default function MsgList() {
   const listRef = useRef<HTMLDivElement>(null)
   const currentId = useRootState(state => state.chat.currentChatId)
-  const msgList = useRootState(state => state.message.map[currentId]) || []
+  const msgList = useRootState(state => state.msg.map[currentId]) || []
   const goBottom = useCallback(() => {
-    if(listRef.current) {
-      listRef.current.scrollTop = listRef.current.scrollHeight;
+    if (listRef.current) {
+      listRef.current.scrollTop = listRef.current.scrollHeight
     }
   }, [])
-  useEffect(()=> {
+  useEffect(() => {
     goBottom()
   }, [goBottom, msgList.length])
   useEffect(() => {
