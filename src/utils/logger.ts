@@ -12,3 +12,7 @@ export default function getLogger(module: string) {
   }
 }
 window.getLogger = getLogger
+const logger = getLogger('utils_logger')
+window.onerror = e => {
+  logger.error('window on error=', e)
+}
