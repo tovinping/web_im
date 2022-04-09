@@ -4,7 +4,7 @@ import { SmileOutlined, FileOutlined, HistoryOutlined } from '@ant-design/icons'
 import { useRootState } from 'src/store'
 import PopContent from 'src/components/PopContent'
 import Emoji from 'src/views/Components/Editor/Emoji'
-import { getCurrentInfo } from 'src/helper/chat'
+import { getCurrentChatInfo } from 'src/helper/chat'
 import { sendTextMsg } from 'src/service/msg'
 import style from './index.module.scss'
 
@@ -12,7 +12,7 @@ export default function Editor() {
   const currentId = useRootState(state => state.chat.currentChatId)
   const editRef = useRef<HTMLDivElement>(null)
   function handSend() {
-    const currentInfo = getCurrentInfo()
+    const currentInfo = getCurrentChatInfo()
     if (!currentInfo) return
     const text = editRef.current?.innerHTML
     console.log('text==', text)

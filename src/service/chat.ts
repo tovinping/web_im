@@ -1,5 +1,4 @@
 import { dbApi, storeApi, serverApi } from 'src/api'
-import { getState } from 'src/api/store'
 import { CHAT_TYPE } from 'src/constant'
 import { getChatTemp } from 'src/helper/chat'
 import { loadHistory } from './msg'
@@ -31,10 +30,10 @@ export function createGroupChat(groupId: string) {
 }
 
 export async function loadServerChats() {
-  const account = getState().global.account
+  const account = storeApi.getState().global.account
   const chatListRes = await serverApi.getChats(account)
   logger.info('loadChatList len=', chatListRes.body?.length)
-  const chatMap = getState().chat.map
+  const chatMap = storeApi.getState().chat.map
   const updateChats: IChatType[] = []
   if (chatListRes.body) {
     const accounts: string[] = []
@@ -56,13 +55,11 @@ export async function loadServerChats() {
     }
   }
 }
-export async function handChatClick(data?: IChatType) {
-  if (!data) return
-  storeApi.updateCurrentChat(data.chatId)
-  const msgList = getState().msg.map[data.chatId]
+export async function handChatClick({ chatId, type: chatType }: IChatType) {
+  storeApi.updateCurrentChat(chatId)
+  const msgList = storeApi.getState().msg.map[chatId]
   if (msgList?.length) return
-  const timestamp = 9999999999999
-  loadHistory({ chatId: data.chatId, chatType: data.type, timestamp })
+  loadHistory({ chatId, chatType })
 }
 type ICreateOrUpdate = Pick<IChatType, 'chatId' | 'type'> & Partial<IChatType>
 export async function createOrUpdateChat(params: ICreateOrUpdate) {

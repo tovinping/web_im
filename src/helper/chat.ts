@@ -1,11 +1,16 @@
+import { storeApi } from 'src/api'
 import { IChatId } from 'src/typings/chat'
 
 export function isCurrentChat(chatId: IChatId) {
-  return window.$state.chat.currentChatId === chatId
+  return storeApi.getState().chat.currentChatId === chatId
 }
-export function getCurrentInfo() {
-  const currentChatId = window.$state.chat.currentChatId
-  return window.$state.chat.map[currentChatId]
+export function getCurrentChatInfo() {
+  const storeDate = storeApi.getState()
+  const currentChatId = storeDate.chat.currentChatId
+  return storeDate.chat.map[currentChatId]
+}
+export function getChatInfoByChatId(chatId: string) {
+  return storeApi.getState().chat.map[chatId]
 }
 type IChatTemp = Partial<IChatType> & Required<Pick<IChatType, 'chatId' | 'type'>>
 export function getChatTemp(opt: IChatTemp): IChatType {

@@ -1,6 +1,6 @@
 import { dbApi, serverApi, storeApi } from 'src/api'
-import { CHAT_TYPE, MSG_STATE } from 'src/constant'
-import { getMsgTemplate } from 'src/helper'
+import { CHAT_HISTORY_STATUS, CHAT_TYPE, HISTORY_PAGE_SIZE, MSG_STATE } from 'src/constant'
+import { getChatInfoByChatId, getMsgTemplate } from 'src/helper'
 import clientSocket from 'src/utils/webSocket'
 import getLogger from 'src/utils/logger'
 const logger = getLogger('service_msg')
@@ -40,19 +40,31 @@ export async function sendTextMsg({ chatId, chatType, content }: Required<ISendT
   window.$dispatch({ type: 'updateMsgs', payload: [{ [chatId]: [lastMsg] }] })
 }
 interface ILoadHistory {
-  chatType: CHAT_TYPE
   chatId: string
-  timestamp: number
+  chatType: CHAT_TYPE
+  timestamp?: number
 }
-export async function loadHistory(params: ILoadHistory) {
+export async function loadHistory({ chatId, chatType, timestamp }: ILoadHistory) {
+  const chatInfo = getChatInfoByChatId(chatId)
+  if (!chatInfo) return
+  storeApi.updateChats([{ ...chatInfo!, historyStatus: CHAT_HISTORY_STATUS.LOADING }])
   // load from db
   // load from server
-  const historyRes = await serverApi.loadHistory(params)
-  logger.info('load history res=', historyRes.body?.length)
-  if (historyRes.body) {
-    const reversMsgs = historyRes.body.reverse()
-    storeApi.prePendMsgs({ chatId: params.chatId, msgs: reversMsgs })
-  }
+  const { code, body } = await serverApi.loadHistory({ chatId, chatType, timestamp })
+  logger.info('load history res=', body?.length)
+  if (!body || code !== 0) return
+  const reversMsgs = body.reverse()
+  storeApi.prePendMsgs({ chatId: chatId, msgs: reversMsgs })
+  // 计算是否还有更多历史消息
+  const historyStatus = body.length < HISTORY_PAGE_SIZE ? CHAT_HISTORY_STATUS.NONE : CHAT_HISTORY_STATUS.NORMAL
+  storeApi.updateChats([{ ...chatInfo!, historyStatus }])
+}
+export function loadMoreHistory(chatId: string) {
+  const chatInfo = getChatInfoByChatId(chatId)
+  if (!chatInfo) return
+  const msgList = storeApi.getState().msg.map[chatId]
+  const timestamp = msgList?.at(0)?.timestamp || 0
+  loadHistory({ chatId, timestamp, chatType: chatInfo.type })
 }
 
 export function handleReceiveMsg(data: IMsgType) {

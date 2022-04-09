@@ -1,11 +1,9 @@
 export * from './emoji'
+export * from './chat'
+export * from './msg'
 export enum YES_NO {
   YES = 1,
   NO = 0,
-}
-export enum CHAT_TYPE {
-  P2P = '0',
-  GROUP = '1',
 }
 
 export enum MSG_TYPE {

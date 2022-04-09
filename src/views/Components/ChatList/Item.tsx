@@ -11,10 +11,10 @@ export default function ChatItem(props: Pick<IChatType, 'chatId'>) {
   const groupInfo = useRootState(state => state.group.map[props.chatId])
   const chatName = userInfo?.name || groupInfo?.name
   const lastMsg = chatInfo?.lastMsg
-  function handleClick() {
-    handChatClick(chatInfo)
-  }
   if (!chatInfo) return null
+  function handleClick() {
+    handChatClick(chatInfo!)
+  }
   return (
     <div className={classnames(style.itemContainer, currentId === props.chatId && style.active)} onClick={handleClick}>
       <ChatAvatar chatId={props.chatId} type={chatInfo?.type} />

@@ -1,0 +1,17 @@
+.historyStatus {
+  font-size: 12px;
+  text-align: center;
+}
+.loading {
+  @extend .historyStatus;
+  color: red;
+}
+.none {
+  @extend .historyStatus;
+  color: #ddd;
+}
+.normal {
+  @extend .historyStatus;
+  color: blue;
+  cursor: pointer;
+}
