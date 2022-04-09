@@ -24,6 +24,7 @@ declare global {
   type IUserType = UserType
   type IGroupType = GroupType
   type IMemberType = MemberType
+  type INullType<T> = T | null | undefined
 }
 
 export type IActions<T> = {
