@@ -48,7 +48,7 @@ export async function loadHistory(params: ILoadHistory) {
   // load from db
   // load from server
   const historyRes = await serverApi.loadHistory(params)
-  logger.info('load history res=', historyRes)
+  logger.info('load history res=', historyRes.body?.length)
   if (historyRes.body) {
     const reversMsgs = historyRes.body.reverse()
     storeApi.prePendMsgs({ chatId: params.chatId, msgs: reversMsgs })
