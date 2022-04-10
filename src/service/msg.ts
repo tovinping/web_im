@@ -52,12 +52,12 @@ export async function loadHistory({ chatId, chatType, timestamp }: ILoadHistory)
   // load from server
   const { code, body } = await serverApi.loadHistory({ chatId, chatType, timestamp })
   logger.info('load history res=', body?.length)
+  // 计算是否还有更多历史消息
+  const historyStatus = body && body.length < HISTORY_PAGE_SIZE ? CHAT_HISTORY_STATUS.NONE : CHAT_HISTORY_STATUS.NORMAL
+  storeApi.updateChats([{ ...chatInfo!, historyStatus }])
   if (!body || code !== 0) return
   const reversMsgs = body.reverse()
   storeApi.prePendMsgs({ chatId: chatId, msgs: reversMsgs })
-  // 计算是否还有更多历史消息
-  const historyStatus = body.length < HISTORY_PAGE_SIZE ? CHAT_HISTORY_STATUS.NONE : CHAT_HISTORY_STATUS.NORMAL
-  storeApi.updateChats([{ ...chatInfo!, historyStatus }])
 }
 export function loadMoreHistory(chatId: string) {
   const chatInfo = getChatInfoByChatId(chatId)
