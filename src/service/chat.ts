@@ -75,3 +75,7 @@ export async function createOrUpdateChat(params: ICreateOrUpdate) {
     logger.error('创建聊天失败')
   }
 }
+
+export function updateChatScrollTop(chatId: string, scrollTop: number) {
+  storeApi.updateChats([{ chatId, scrollTop }])
+}

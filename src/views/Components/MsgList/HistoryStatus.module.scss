@@ -1,10 +1,11 @@
 .historyStatus {
+  width: 100%;
   font-size: 12px;
   text-align: center;
 }
 .loading {
   @extend .historyStatus;
-  color: red;
+  color: #efefef;
 }
 .none {
   @extend .historyStatus;

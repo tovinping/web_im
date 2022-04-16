@@ -1,4 +1,4 @@
-.msgItem{
+.msgItem {
   width: 100%;
   display: flex;
   justify-content: flex-start;
@@ -6,11 +6,11 @@
   margin-bottom: 10px;
 }
 
-.isMe{
+.isMe {
   justify-content: flex-end;
   padding-right: 10px;
 }
-.sender{
+.sender {
   display: flex;
   margin-bottom: 5px;
   padding-right: 0;
@@ -18,13 +18,13 @@
 .container {
   max-width: 80%;
 }
-.content{
-  background-color: #F1F1F1;
-  border-radius: 0 8px 8px 8px;
+.content {
+  background-color: #f1f1f1;
+  border-radius: 0 4px 4px 4px;
   padding: 5px 10px;
   word-break: break-all;
-  &.isMe{
-    background-color: #F3F9FF;
-    border-radius: 8px 0 8px 8px;
+  &.isMe {
+    background-color: #f3f9ff;
+    border-radius: 4px 0 4px 4px;
   }
 }

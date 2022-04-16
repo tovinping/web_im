@@ -15,5 +15,7 @@ export default interface ILocalChatType extends IBaseChatType {
   historyStatus?: CHAT_HISTORY_STATUS
   /**未读数量 */
   unReadCount?: number
+  /**滚动高度 */
+  scrollTop?: number
 }
 export type IChatId = IChatType['chatId']
