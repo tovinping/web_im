@@ -7,6 +7,7 @@ import Emoji from 'src/views/Components/Editor/Emoji'
 import { getCurrentChatInfo } from 'src/helper/chat'
 import { sendTextMsg } from 'src/service/msg'
 import style from './index.module.scss'
+import { useKeyPress } from 'src/components/Hooks/keyPress'
 
 export default function Editor() {
   const currentId = useRootState(state => state.chat.currentChatId)
@@ -34,6 +35,11 @@ export default function Editor() {
       editRef.current.appendChild(imgEl)
     }
   }
+  useKeyPress(editRef.current, type => {
+    if (type === 'control.enter') {
+      handSend()
+    }
+  })
   if (!currentId) return null
   return (
     <div className={style.editorContainer}>

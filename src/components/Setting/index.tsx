@@ -1,13 +1,17 @@
 import React from 'react'
 import Menu, { IMenuItem } from 'src/components/Menu'
-import { getSendKey, setSendKey } from 'src/storage/localStorage'
-import { logout } from 'src/service'
+import { getSendKey } from 'src/storage/localStorage'
+import { logout, updateSendMsgShortcutKey } from 'src/service'
 interface IProps {
   close(): void
 }
 export default function Setting({ close }: IProps) {
   const handSetSendKey = (item: IMenuItem) => {
-    setSendKey(item.key)
+    if (item.key === 'en') {
+      updateSendMsgShortcutKey('enter')
+    } else {
+      updateSendMsgShortcutKey('control.enter')
+    }
     close?.()
   }
   const sendActiveKey = getSendKey()

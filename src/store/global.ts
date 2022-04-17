@@ -1,3 +1,6 @@
+import { PartialShortcutKey } from 'src/typings'
+
+export type ISendMsgShortcutKey = PartialShortcutKey<'control.enter' | 'enter'>
 interface IGlobalState {
   isLogin: boolean
   account: string
@@ -5,6 +8,7 @@ interface IGlobalState {
   windowVisible: 'hide' | 'show'
   creatChatVisible: boolean
   msgScrollBottom: number
+  sendMsgShortcutKey: 'control.enter' | 'enter'
 }
 type IGlobalActions =
   | { type: 'updateGlobal'; payload: Partial<IGlobalState> }
@@ -12,6 +16,7 @@ type IGlobalActions =
   | { type: 'updateAccount'; payload: IGlobalState['account'] }
   | { type: 'setCreateChatVisible'; payload: IGlobalState['creatChatVisible'] }
   | { type: 'updateMsgScrollBottom'; payload: any }
+  | { type: 'updateSendMsgShortcutKey'; payload: IGlobalState['sendMsgShortcutKey'] }
 
 const initialState: IGlobalState = {
   isLogin: false,
@@ -20,6 +25,7 @@ const initialState: IGlobalState = {
   windowVisible: 'show',
   creatChatVisible: false,
   msgScrollBottom: 1,
+  sendMsgShortcutKey: 'enter',
 }
 export default function reducer(state = initialState, actions: IGlobalActions): IGlobalState {
   switch (actions.type) {
@@ -34,6 +40,8 @@ export default function reducer(state = initialState, actions: IGlobalActions): 
     case 'updateMsgScrollBottom':
       const msgScrollBottom = state.msgScrollBottom === 1 ? 2 : 1
       return { ...state, msgScrollBottom }
+    case 'updateSendMsgShortcutKey':
+      return { ...state, sendMsgShortcutKey: actions.payload }
     default:
       return state
   }

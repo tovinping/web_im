@@ -6,7 +6,7 @@ import Router from './views/Router'
 import store from './store'
 import reportWebVitals from './reportWebVitals'
 import './index.css'
-import { initialDb } from './utils/db'
+import { initialDb } from './utils/indexDB'
 initialDb('456')
 ReactDOM.render(
   <Provider store={store}>

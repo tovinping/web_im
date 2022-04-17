@@ -33,3 +33,6 @@ export type IActions<T> = {
     payload: T[K]
   }
 }[keyof T]
+
+type IBaseShortcutKey = 'control.enter' | 'enter'
+export type PartialShortcutKey<T extends IBaseShortcutKey> = T & IBaseShortcutKey
