@@ -1,4 +1,4 @@
-import { CHAT_TYPE, MSG_TYPE, MSG_STATE } from 'src/constant'
+import { CHAT_TYPE, MSG_TYPE, MSG_STATE, DEVICE_TYPE } from 'src/constant'
 export interface IBaseMsgType {
   msgId: string
   // 发送者帐号
@@ -18,6 +18,8 @@ export interface IBaseMsgType {
 
 export default interface IMsgType extends IBaseMsgType {
   state: MSG_STATE
-  /**发送者帐号 */
+  /**本地ID */
   clientId?: string
+  /**发送客户端**/
+  deviceType: DEVICE_TYPE
 }

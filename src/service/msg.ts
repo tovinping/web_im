@@ -24,6 +24,7 @@ interface ISendType {
 export async function sendTextMsg({ chatId, chatType, content }: Required<ISendType>) {
   const msgTemp = getMsgTemplate({ chatId, chatType, content })
   storeApi.addMsgs({ chatId, msgs: [msgTemp] })
+  storeApi.updateMsgScrollBottom()
   logger.info('send text msg before chatId=', msgTemp.chatId, 'clientMsgId=', msgTemp.clientId)
   const { isOk, tips, msg } = await clientSocket.sendMsg(msgTemp)
   logger.info(
@@ -52,10 +53,11 @@ export async function loadHistory({ chatId, chatType, timestamp }: ILoadHistory)
   logger.info('load history res chatId=', chatId, 'len=', body?.length)
   // 计算是否还有更多历史消息
   const historyStatus = body && body.length < HISTORY_PAGE_SIZE ? CHAT_HISTORY_STATUS.NONE : CHAT_HISTORY_STATUS.NORMAL
+  if (body && code === 0) {
+    const reversMsgs = body.reverse()
+    storeApi.prePendMsgs({ chatId: chatId, msgs: reversMsgs })
+  }
   storeApi.updateChats([{ chatId, historyStatus }])
-  if (!body || code !== 0) return
-  const reversMsgs = body.reverse()
-  storeApi.prePendMsgs({ chatId: chatId, msgs: reversMsgs })
 }
 export function loadMoreHistory(chatId: string) {
   logger.info('loadMoreHistory', chatId)

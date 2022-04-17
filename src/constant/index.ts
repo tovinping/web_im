@@ -31,3 +31,10 @@ export enum MEMBER_TYPE {
   NORMAL = '0',
   ADMIN = '1',
 }
+
+export enum DEVICE_TYPE {
+  ANDROID = 'android',
+  IOS = 'ios',
+  DESKTOP = 'deskTop',
+  WEB = 'web',
+}

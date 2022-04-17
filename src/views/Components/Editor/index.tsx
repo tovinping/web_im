@@ -15,7 +15,6 @@ export default function Editor() {
     const currentInfo = getCurrentChatInfo()
     if (!currentInfo) return
     const text = editRef.current?.innerHTML
-    console.log('text==', text)
     if (!text?.trim()) {
       message.error('不能发送空消息呀')
       return

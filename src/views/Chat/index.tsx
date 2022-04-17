@@ -13,8 +13,8 @@ const style = require('./index.module.scss')
 export default function ChatRoot() {
   const history = useHistory()
   const isLogin = useRootState(state => state.global.isLogin)
-  const currentId = useRootState(state => state.chat.currentChatId)
-  const currentType = useRootState(state => state.chat.map[currentId]?.type)
+  // const currentId = useRootState(state => state.chat.currentChatId)
+  // const currentType = useRootState(state => state.chat.map[currentId]?.type)
   useEffect(() => {
     if (!isLogin) {
       history.replace('/')
@@ -33,11 +33,7 @@ export default function ChatRoot() {
           <MsgList />
           <Editor />
         </div>
-        {currentType === '1' ? (
-          <div className={style.extends}>
-            <ChatSide />
-          </div>
-        ) : null}
+        <ChatSide />
       </div>
       <CreateChat />
     </div>

@@ -1,4 +1,4 @@
-import { MSG_STATE, MSG_TYPE } from 'src/constant'
+import { DEVICE_TYPE, MSG_STATE, MSG_TYPE } from 'src/constant'
 import { getRandomStr } from 'src/utils'
 
 type ISendType = Pick<IMsgType, 'chatId' | 'content' | 'chatType'>
@@ -13,5 +13,6 @@ export function getMsgTemplate(data: ISendType): IMsgType {
     account,
     name: userInfo?.name || '',
     ...data,
+    deviceType: DEVICE_TYPE.WEB,
   }
 }

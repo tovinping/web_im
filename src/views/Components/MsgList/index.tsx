@@ -15,6 +15,7 @@ export default function MsgList() {
   const currentId = useRootState(state => state.chat.currentChatId)
   const msgList = useRootState(state => state.msg.map[currentId]) || []
   const historyStatus = useRootState(state => state.chat.map[currentId]?.historyStatus)
+  const scrollBottomStatus = useRootState(state => state.global.msgScrollBottom)
   // 切换会话保持滚动高度
   useLayoutEffect(() => {
     const currentScrollTop = storeApi.getState().chat.map[currentId]?.scrollTop
@@ -47,12 +48,17 @@ export default function MsgList() {
     if (historyStatus === CHAT_HISTORY_STATUS.LOADING) {
       preScrollHeightRef.current = listRef.current!.scrollHeight
     }
-    if (msgList.length < HISTORY_PAGE_SIZE) return
+    const msgLen = storeApi.getState().msg.map[currentId]?.length || 0
+    if (msgLen < HISTORY_PAGE_SIZE) return
     if (historyStatus !== CHAT_HISTORY_STATUS.LOADING) {
       const diff = listRef.current!.scrollHeight - preScrollHeightRef.current
       listRef.current?.scrollTo({ top: diff })
     }
-  }, [historyStatus, msgList.length])
+  }, [historyStatus, currentId])
+  // 自己发送新消息滚动到底部
+  useLayoutEffect(() => {
+    scrollBottom(listRef.current)
+  }, [scrollBottomStatus])
   const handScroll = useDebounce<React.UIEvent<HTMLDivElement>>(_ => {
     if (!listRef.current) return
     const { scrollTop, scrollHeight, offsetHeight } = listRef.current
@@ -70,7 +76,6 @@ export default function MsgList() {
   const handWheel = useDebounce(() => {
     if (scrollStatusRef.current === 'top' && historyStatus === CHAT_HISTORY_STATUS.NORMAL) {
       scrollStatusRef.current = 'normal'
-      console.log('TANG===QQQQ')
       loadMoreHistory(currentId)
     }
   }, 100)
