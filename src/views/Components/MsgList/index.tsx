@@ -5,17 +5,19 @@ import HistoryStatus from './HistoryStatus'
 import useDebounce, { scrollBottom } from 'src/utils'
 import style from './index.module.scss'
 import { CHAT_HISTORY_STATUS, HISTORY_PAGE_SIZE } from 'src/constant'
-import { updateChatScrollTop } from 'src/service'
+import { loadMoreHistory, updateChatScrollTop } from 'src/service'
+import { storeApi } from 'src/api'
 export default function MsgList() {
+  const scrollStatusRef = useRef<'normal' | 'top' | 'bottom'>('normal')
   const preScrollHeightRef = useRef<number>(0)
   const preScrollTopRef = useRef<number>(0)
   const listRef = useRef<HTMLDivElement>(null)
   const currentId = useRootState(state => state.chat.currentChatId)
-  const currentScrollTop = useRootState(state => state.chat.map[currentId]?.scrollTop)
   const msgList = useRootState(state => state.msg.map[currentId]) || []
   const historyStatus = useRootState(state => state.chat.map[currentId]?.historyStatus)
   // 切换会话保持滚动高度
   useLayoutEffect(() => {
+    const currentScrollTop = storeApi.getState().chat.map[currentId]?.scrollTop
     if (!currentScrollTop) {
       scrollBottom(listRef.current)
     } else {
@@ -23,9 +25,10 @@ export default function MsgList() {
     }
     return () => {
       updateChatScrollTop(currentId, preScrollTopRef.current)
+      scrollStatusRef.current = 'normal'
       preScrollTopRef.current = 0
     }
-  }, [currentId, currentScrollTop])
+  }, [currentId])
   // 消息长度变化是否要自动滚动到底部
   useLayoutEffect(() => {
     const { scrollTop, scrollHeight, offsetHeight } = listRef.current!
@@ -41,10 +44,10 @@ export default function MsgList() {
   }, [msgList.length])
   // 加载历史记录保持滚动高度
   useLayoutEffect(() => {
-    if (msgList.length <= HISTORY_PAGE_SIZE) return
     if (historyStatus === CHAT_HISTORY_STATUS.LOADING) {
       preScrollHeightRef.current = listRef.current!.scrollHeight
     }
+    if (msgList.length < HISTORY_PAGE_SIZE) return
     if (historyStatus !== CHAT_HISTORY_STATUS.LOADING) {
       const diff = listRef.current!.scrollHeight - preScrollHeightRef.current
       listRef.current?.scrollTo({ top: diff })
@@ -57,15 +60,22 @@ export default function MsgList() {
     preScrollTopRef.current = scrollTop
     // 触顶
     if (Math.floor(scrollTop) <= 0) {
-      console.log('top')
+      scrollStatusRef.current = 'top'
+    } else if (Math.ceil(scrollTop) + offsetHeight >= scrollHeight) {
+      scrollStatusRef.current = 'bottom'
+    } else {
+      scrollStatusRef.current = 'normal'
     }
-    // 触底
-    if (Math.ceil(scrollTop) + offsetHeight >= scrollHeight) {
-      console.log('bottom')
+  }, 100)
+  const handWheel = useDebounce(() => {
+    if (scrollStatusRef.current === 'top' && historyStatus === CHAT_HISTORY_STATUS.NORMAL) {
+      scrollStatusRef.current = 'normal'
+      console.log('TANG===QQQQ')
+      loadMoreHistory(currentId)
     }
   }, 100)
   return (
-    <div className={style.msgListWrap + ' scroll'} ref={listRef} onScroll={handScroll}>
+    <div className={style.msgListWrap + ' scroll'} ref={listRef} onScroll={handScroll} onWheel={handWheel}>
       <HistoryStatus historyStatus={historyStatus} chatId={currentId} />
       {msgList.map(item => (
         <MsgItem key={item.msgId} {...item} />
