@@ -1,8 +1,14 @@
-const SEND_KEY = '_SEND_KEY'
+import { storeApi } from 'src/api'
 
-export function getSendKey() {
-  return localStorage.getItem(SEND_KEY) || 'en'
+function getKey(key: keyof ILocalStorage) {
+  const account = storeApi.getState().global.account
+  return `${key}_${account}`
 }
-export function setSendKey(value: string) {
-  return localStorage.setItem(SEND_KEY, value)
+export function setLocalStorage<K extends keyof ILocalStorage, V extends ILocalStorage[K]>(key: K, value: V) {
+  const userKey = getKey(key)
+  return localStorage.setItem(userKey, value)
+}
+export function getLocalStorage<K extends keyof ILocalStorage>(key: K): ILocalStorage[K] | null {
+  const userKey = getKey(key)
+  return localStorage.getItem(userKey) as any
 }

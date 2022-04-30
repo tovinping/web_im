@@ -1,6 +1,6 @@
 import React from 'react'
 import Menu, { IMenuItem } from 'src/components/Menu'
-import { getSendKey } from 'src/storage/localStorage'
+import { getSendType } from 'src/service/setting'
 import { logout, updateSendMsgShortcutKey } from 'src/service'
 interface IProps {
   close(): void
@@ -14,7 +14,7 @@ export default function Setting({ close }: IProps) {
     }
     close?.()
   }
-  const sendActiveKey = getSendKey()
+  const sendActiveKey = getSendType()
   const menus: IMenuItem[] = [
     { key: '1', value: '意见反馈' },
     {
@@ -22,8 +22,8 @@ export default function Setting({ close }: IProps) {
       value: '发送消息',
       activeKey: sendActiveKey,
       subMenu: [
-        { key: 'en', value: 'Enter', cb: handSetSendKey },
-        { key: 'cn', value: 'Ctrl+Enter', cb: handSetSendKey },
+        { key: '0', value: 'Enter', cb: handSetSendKey },
+        { key: '1', value: 'Ctrl+Enter', cb: handSetSendKey },
       ],
     },
     {
