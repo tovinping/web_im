@@ -1,0 +1,25 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  max-width: 80vw;
+  max-height: 90vh;
+  border-radius: 6px;
+  padding: 10px 20px;
+  background-color: #fff;
+  overflow: hidden;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+.title {
+  flex: 1;
+  text-overflow: ellipsis;
+}
+.close {
+  cursor: pointer;
+}
+.body {
+  flex: 1;
+  overflow: hidden;
+}
