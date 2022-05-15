@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 enum YES_NO {
   YES = 1,
   NO = 0,
