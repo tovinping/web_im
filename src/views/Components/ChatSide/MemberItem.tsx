@@ -1,15 +1,14 @@
 import React from 'react'
 import classnames from 'classnames'
 import { useRootState } from 'src/store'
-import {ChatAvatar} from 'src/components/Avatar'
+import { ChatAvatar } from 'src/components/Avatar'
 import style from './MemberItem.module.scss'
 import Icon from 'src/components/Icon'
 import ContextMenu from 'src/components/ContextMenu'
 import { buildMemberMenu } from 'src/utils/contextMenu'
-import { CHAT_TYPE } from 'src/constant'
 interface IProps {
   account: string
-  type: IMemberType['type']
+  type: IMember['type']
   groupId: string
   nickName?: string
   owner?: string

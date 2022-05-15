@@ -3,11 +3,11 @@ import { Modal } from 'antd'
 import ContactSelect from 'src/components/ContactSelect'
 import { useRootState } from 'src/store'
 import { createP2pChat } from 'src/service/chat'
-let selectedList: IUserType[] = []
+let selectedList: IUser[] = []
 const logger = window.getLogger('createChat')
 export default function CreateChat() {
   const creatChatVisible = useRootState(state => state.global.creatChatVisible)
-  const handContactSelectChange = useCallback((list: IUserType[]) => {
+  const handContactSelectChange = useCallback((list: IUser[]) => {
     selectedList = [...list]
   }, [])
   function reset() {

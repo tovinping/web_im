@@ -1,8 +1,8 @@
 type IMsgState = {
-  map: Record<string, IMsgType[] | undefined>
+  map: Record<string, IMsg[] | undefined>
 }
-type IUpdateMsg = Partial<IMsgType> & Required<Pick<IMsgType, 'msgId'>>
-type IAddMsgs = { chatId: string; msgs: IMsgType[] }
+type IUpdateMsg = Partial<IMsg> & Required<Pick<IMsg, 'msgId'>>
+type IAddMsgs = { chatId: string; msgs: IMsg[] }
 type IRemoveMsgs = Record<string, IUpdateMsg[]>
 type IUpdateMsgs = Record<string, IUpdateMsg[]>
 type IMsgActions =

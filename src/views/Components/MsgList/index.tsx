@@ -4,7 +4,7 @@ import MsgItem from '../MsgItem'
 import HistoryStatus from './HistoryStatus'
 import useDebounce, { scrollBottom } from 'src/utils'
 import style from './index.module.scss'
-import { CHAT_HISTORY_STATUS, HISTORY_PAGE_SIZE } from 'src/constant'
+import { HISTORY_PAGE_SIZE } from 'src/constant'
 import { loadMoreHistory, updateChatScrollTop } from 'src/service'
 import { storeApi } from 'src/api'
 export default function MsgList() {

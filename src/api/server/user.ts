@@ -26,22 +26,22 @@ export function updateSign(sign: string) {
   return put('/user/sign', { sign })
 }
 export function getUserInfo(account: string) {
-  return get<IUserType>('/user/' + account)
+  return get<IUser>('/user/' + account)
 }
 export function updateAvatar(avatarUrl: string) {
   return put('/user/avatar', { avatarUrl })
 }
 
-export function getForgotCaptcha(data: {account: string; mail: string}) {
+export function getForgotCaptcha(data: { account: string; mail: string }) {
   return put('/user/forgotCaptcha', data)
 }
-interface  IForgot {
+interface IForgot {
   account: string
   password: string
   mail: string
   captcha: string
 }
-export function forgot(params:  IForgot) {
+export function forgot(params: IForgot) {
   return put('/user/forgot', params)
 }
 interface IGetContactList {
@@ -50,5 +50,5 @@ interface IGetContactList {
   accounts: string[]
 }
 export function getContactList(params: IGetContactList) {
-  return get<IUserType[]>('/user/list', params)
+  return get<IUser[]>('/user/list', params)
 }

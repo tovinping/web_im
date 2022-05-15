@@ -1,7 +1,7 @@
-export function addUsers(abc: IUserType[]) {
+export function addUsers(abc: IUser[]) {
   console.log('addUsers', abc)
 }
 
-export function getUsers(accounts: string[]): IUserType[] {
+export function getUsers(accounts: IAccount[]): IUser[] {
   return []
 }

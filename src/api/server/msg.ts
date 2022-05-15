@@ -1,4 +1,3 @@
-import { CHAT_TYPE } from 'src/constant'
 import { get } from '../../utils/fetch'
 interface ILoadHistory {
   chatId: string
@@ -6,5 +5,5 @@ interface ILoadHistory {
   timestamp?: number
 }
 export function loadHistory(params: ILoadHistory) {
-  return get<IMsgType[]>('/msg/history', params)
+  return get<IMsg[]>('/msg/history', params)
 }

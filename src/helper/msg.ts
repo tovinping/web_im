@@ -1,8 +1,7 @@
-import { DEVICE_TYPE, MSG_STATE, MSG_TYPE } from 'src/constant'
 import { getRandomStr } from 'src/utils'
 
-type ISendType = Pick<IMsgType, 'chatId' | 'content' | 'chatType'>
-export function getMsgTemplate(data: ISendType): IMsgType {
+type ISendType = Pick<IMsg, 'chatId' | 'content' | 'chatType'>
+export function getMsgTemplate(data: ISendType): IMsg {
   const account = window.$state.global.account
   const userInfo = window.$state.user.map[account]
   return {

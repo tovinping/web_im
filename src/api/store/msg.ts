@@ -1,6 +1,6 @@
 interface IAddMsgs {
   chatId: string
-  msgs: IMsgType[]
+  msgs: IMsg[]
 }
 export function addMsgs(payload: IAddMsgs) {
   window.$dispatch({ type: 'addMsgs', payload })

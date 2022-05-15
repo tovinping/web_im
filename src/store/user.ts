@@ -1,11 +1,10 @@
-import { IUserAccount } from 'src/typings/user'
 type IUserState = {
-  map: Record<IUserAccount, IUserType | undefined>
+  map: Record<IAccount, IUser | undefined>
 }
-export type IUpdateUser = Partial<IUserType> & Required<Pick<IUserType, 'account'>>
+export type IUpdateUser = Partial<IUser> & Required<Pick<IUser, 'account'>>
 type IUserActions =
-  | { type: 'addUsers'; payload: IUserType[] }
-  | { type: 'removeUsers'; payload: IUserAccount[] }
+  | { type: 'addUsers'; payload: IUser[] }
+  | { type: 'removeUsers'; payload: IAccount[] }
   | { type: 'updateUsers'; payload: IUpdateUser[] }
 
 const initialState: IUserState = {

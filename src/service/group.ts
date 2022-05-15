@@ -1,5 +1,4 @@
 import { createGroup, getGroupList } from 'src/api/server'
-import { CHAT_TYPE } from 'src/constant'
 /**
  * 创建群组
  * @param groupName
@@ -28,7 +27,7 @@ export async function getGroupChange() {
   if (groupIds.length < 1) return
   const { body, code } = await getGroupList(groupIds)
   if (code === 0) {
-    const groupInfos: IGroupType[] = []
+    const groupInfos: IGroup[] = []
     body?.forEach(item => {
       groupInfos.push(item)
     })

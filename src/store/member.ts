@@ -1,10 +1,8 @@
-import { IGroupId } from 'src/typings/group'
-
 type IMemberState = {
-  map: Record<IGroupId, IMemberType[] | undefined>
+  map: Record<IGroupId, IMember[] | undefined>
 }
-type IUpdateMember = Partial<IMemberType> & Required<Pick<IMemberType, 'groupId'>>
-type IAddMembers = Record<IGroupId, IMemberType[]>
+type IUpdateMember = Partial<IMember> & Required<Pick<IMember, 'groupId'>>
+type IAddMembers = Record<IGroupId, IMember[]>
 type IRemoveMembers = Record<IGroupId, IUpdateMember[]>
 type IUpdateMembers = Record<IGroupId, IUpdateMember[]>
 type IMemberActions =

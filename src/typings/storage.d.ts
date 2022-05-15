@@ -1,1 +1,1 @@
-type ILocalStorage = ISendType
+type ILocalStorage = ISend

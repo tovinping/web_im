@@ -1,15 +1,14 @@
-import { IChatId } from 'src/typings/chat'
 interface IChatState {
   list: IChatId[]
-  map: Record<IChatId, IChatType | undefined>
+  map: Record<IChatId, IChat | undefined>
   currentChatId: IChatId
 }
-export type IUpdateChat = Partial<IChatType> & Required<Pick<IChatType, 'chatId'>>
+export type IUpdateChat = Partial<IChat> & Required<Pick<IChat, 'chatId'>>
 type IChatActions =
-  | { type: 'addChats'; payload: IChatType[] }
-  | { type: 'removeChats'; payload: IChatType['chatId'][] }
+  | { type: 'addChats'; payload: IChat[] }
+  | { type: 'removeChats'; payload: IChat['chatId'][] }
   | { type: 'updateChats'; payload: IUpdateChat[] }
-  | { type: 'updateCurrentChat'; payload: IChatType['chatId'] }
+  | { type: 'updateCurrentChat'; payload: IChat['chatId'] }
 
 const initialState: IChatState = {
   list: [],

@@ -5,7 +5,7 @@ import MsgText from '../MsgItemText'
 import Sender from './Sender'
 import style from './index.module.scss'
 
-export default function MsgItem(props: IMsgType) {
+export default function MsgItem(props: IMsg) {
   const myId = useRootState(state => state.global.account)
   const isMe = props.account === myId
   return (

@@ -1,8 +1,3 @@
-import ChatType from './chat'
-import MsgType from './message'
-import UserType from './user'
-import GroupType from './group'
-import MemberType from './member'
 import logger from '../utils/logger'
 import { IRootDispatchType, IRootStateType } from 'src/store'
 
@@ -19,11 +14,6 @@ declare global {
     $dispatch: IRootDispatchType
     getLogger: typeof logger
   }
-  type IChatType = ChatType
-  type IMsgType = MsgType
-  type IUserType = UserType
-  type IGroupType = GroupType
-  type IMemberType = MemberType
   type INullType<T> = T | null | undefined
 }
 

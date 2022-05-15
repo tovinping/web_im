@@ -8,27 +8,24 @@ import style from './index.module.scss'
 interface IProps {
   onChange?(data?: any): void
 }
-type ISelectedActions = IActions<{ add: IUserType; remove: IUserType }>
+type ISelectedActions = IActions<{ add: IUser; remove: IUser }>
 export default function SelectContact({ onChange }: IProps) {
-  const [searchList, setSearchList] = useState<IUserType[]>([])
-  const [selectedMap, dispatch] = useReducer(
-    (state: Record<string, IUserType | undefined>, action: ISelectedActions) => {
-      const { type, payload } = action
-      switch (type) {
-        case 'add': {
-          return { ...state, [payload.account]: payload }
-        }
-        case 'remove': {
-          return { ...state, [payload.account]: undefined }
-        }
-        default:
-          return state
+  const [searchList, setSearchList] = useState<IUser[]>([])
+  const [selectedMap, dispatch] = useReducer((state: Record<string, IUser | undefined>, action: ISelectedActions) => {
+    const { type, payload } = action
+    switch (type) {
+      case 'add': {
+        return { ...state, [payload.account]: payload }
       }
-    },
-    {}
-  )
+      case 'remove': {
+        return { ...state, [payload.account]: undefined }
+      }
+      default:
+        return state
+    }
+  }, {})
   const selectedList = useMemo(() => {
-    const list = Object.values(selectedMap).filter(Boolean) as IUserType[]
+    const list = Object.values(selectedMap).filter(Boolean) as IUser[]
     onChange?.(list)
     return list
   }, [selectedMap, onChange])

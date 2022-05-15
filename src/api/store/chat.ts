@@ -1,9 +1,9 @@
 import { IUpdateChat } from 'src/store/chat'
 
-export function addChat(data: IChatType) {
+export function addChat(data: IChat) {
   window.$dispatch({ type: 'addChats', payload: [data] })
 }
-export function addChats(payload: IChatType[]) {
+export function addChats(payload: IChat[]) {
   window.$dispatch({ type: 'addChats', payload })
 }
 export function updateChats(payload: IUpdateChat[]) {

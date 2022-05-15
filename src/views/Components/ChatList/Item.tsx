@@ -4,7 +4,7 @@ import { useRootState } from 'src/store'
 import { ChatAvatar } from 'src/components/Avatar'
 import style from './Item.module.scss'
 import { handChatClick } from 'src/service'
-export default function ChatItem(props: Pick<IChatType, 'chatId'>) {
+export default function ChatItem(props: Pick<IChat, 'chatId'>) {
   const currentId = useRootState(state => state.chat.currentChatId)
   const chatInfo = useRootState(state => state.chat.map[props.chatId])
   const userInfo = useRootState(state => state.user.map[props.chatId])

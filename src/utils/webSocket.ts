@@ -31,8 +31,8 @@ class ClientSocket {
     return {}
   }
 
-  static sendMsg(data: IMsgType) {
-    return new Promise<{ isOk: boolean; msg: IMsgType; tips: string }>(resolve => {
+  static sendMsg(data: IMsg) {
+    return new Promise<{ isOk: boolean; msg: IMsg; tips: string }>(resolve => {
       this.socket.send(data, (res: any) => {
         resolve(res)
       })

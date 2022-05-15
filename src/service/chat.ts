@@ -1,16 +1,15 @@
 import { dbApi, storeApi, serverApi } from 'src/api'
-import { CHAT_TYPE } from 'src/constant'
 import { getChatTemp } from 'src/helper/chat'
 import { loadHistory } from './msg'
 import { addUsers, loadUserInfos } from './user'
 const logger = window.getLogger('service/Chat')
-export function addChat(data: IChatType) {
+export function addChat(data: IChat) {
   console.log('addChats')
   serverApi.addChat(data)
   dbApi.addChat(data)
   storeApi.addChat(data)
 }
-export function addChats(list: IChatType[]) {
+export function addChats(list: IChat[]) {
   dbApi.addChats(list)
   storeApi.addChats(list)
 }
@@ -18,7 +17,7 @@ export function removeChats() {
   console.log('removeChats')
 }
 
-export function createP2pChat(userInfo: IUserType) {
+export function createP2pChat(userInfo: IUser) {
   logger.info('createP2pChat userAccount:', userInfo.account)
   const chatInfo = getChatTemp({ chatId: userInfo.account, type: CHAT_TYPE.P2P })
   addChat(chatInfo)
@@ -34,7 +33,7 @@ export async function loadServerChats() {
   const chatListRes = await serverApi.getChats(account)
   logger.info('loadChatList len=', chatListRes.body?.length)
   const chatMap = storeApi.getState().chat.map
-  const updateChats: IChatType[] = []
+  const updateChats: IChat[] = []
   if (chatListRes.body) {
     const accounts: string[] = []
     chatListRes.body.forEach(item => {
@@ -55,13 +54,13 @@ export async function loadServerChats() {
     }
   }
 }
-export async function handChatClick({ chatId, type: chatType }: IChatType) {
+export async function handChatClick({ chatId, type: chatType }: IChat) {
   storeApi.updateCurrentChat(chatId)
   const msgList = storeApi.getState().msg.map[chatId]
   if (msgList?.length) return
   loadHistory({ chatId, chatType })
 }
-type ICreateOrUpdate = Pick<IChatType, 'chatId' | 'type'> & Partial<IChatType>
+type ICreateOrUpdate = Pick<IChat, 'chatId' | 'type'> & Partial<IChat>
 export async function createOrUpdateChat(params: ICreateOrUpdate) {
   const { type, chatId } = params
   logger.info('createOrUpdateChat chatId=', chatId, 'type=', type)

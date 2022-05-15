@@ -1,5 +1,4 @@
 import { message } from 'antd'
-import { IResBase } from 'src/typings/server'
 import { getUniqueFileName, isEmpty } from '.'
 import config from '../config'
 import { getToken } from './storage'
@@ -86,11 +85,11 @@ export function uploadCos({ file, onProgress, callback }: IUploadFile) {
       Body: file,
       onProgress,
     },
-    function(err: Error, data: {Location: string}) {
+    function (err: Error, data: { Location: string }) {
       if (err) {
-        callback?.({code: 1, msg: err.toString(), body: null})
+        callback?.({ code: 1, msg: err.toString(), body: null })
       } else {
-        callback?.({code: 0, msg: '', body: `https://${data.Location}`})
+        callback?.({ code: 0, msg: '', body: `https://${data.Location}` })
       }
     }
   )

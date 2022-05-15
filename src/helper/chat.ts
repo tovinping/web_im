@@ -1,5 +1,4 @@
 import { storeApi } from 'src/api'
-import { IChatId } from 'src/typings/chat'
 
 export function isCurrentChat(chatId: IChatId) {
   return storeApi.getState().chat.currentChatId === chatId
@@ -12,8 +11,8 @@ export function getCurrentChatInfo() {
 export function getChatInfoByChatId(chatId: string) {
   return storeApi.getState().chat.map[chatId]
 }
-type IChatTemp = Partial<IChatType> & Required<Pick<IChatType, 'chatId' | 'type'>>
-export function getChatTemp(opt: IChatTemp): IChatType {
+type IChatTemp = Partial<IChat> & Required<Pick<IChat, 'chatId' | 'type'>>
+export function getChatTemp(opt: IChatTemp): IChat {
   return {
     ...opt,
     isTop: 0,

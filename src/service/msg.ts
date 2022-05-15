@@ -1,19 +1,19 @@
 import { dbApi, serverApi, storeApi } from 'src/api'
-import { CHAT_HISTORY_STATUS, CHAT_TYPE, HISTORY_PAGE_SIZE, MSG_STATE } from 'src/constant'
+import { HISTORY_PAGE_SIZE } from 'src/constant'
 import { getChatInfoByChatId, getMsgTemplate } from 'src/helper'
 import clientSocket from 'src/utils/webSocket'
 import getLogger from 'src/utils/logger'
 const logger = getLogger('service_msg')
 interface IAddMsgs {
   chatId: string
-  msgs: IMsgType[]
+  msgs: IMsg[]
 }
 export async function addMsgs(params: IAddMsgs) {
   logger.info('addMsgs chatId=', params.chatId, 'len=', params.msgs.length)
   storeApi.addMsgs(params)
   dbApi.addMsgs(params.msgs)
 }
-export async function removeMsgs(params: IMsgType[]) {
+export async function removeMsgs(params: IMsg[]) {
   logger.info('removeMsgs len=', params.length)
 }
 interface ISendType {
@@ -37,7 +37,7 @@ export async function sendTextMsg({ chatId, chatType, content }: Required<ISendT
     'msgId=',
     msg.msgId
   )
-  const lastMsg: IMsgType = { ...msgTemp, state: isOk ? MSG_STATE.NORMAL : MSG_STATE.ERROR }
+  const lastMsg: IMsg = { ...msgTemp, state: isOk ? MSG_STATE.NORMAL : MSG_STATE.ERROR }
   window.$dispatch({ type: 'updateMsgs', payload: [{ [chatId]: [lastMsg] }] })
 }
 interface ILoadHistory {
@@ -68,7 +68,7 @@ export function loadMoreHistory(chatId: string) {
   loadHistory({ chatId, timestamp, chatType: chatInfo.type })
 }
 
-export function handleReceiveMsg(data: IMsgType) {
+export function handleReceiveMsg(data: IMsg) {
   console.log('handleReceiveMsg', data)
   const chatId = data.chatId
   addMsgs({ chatId, msgs: [data] })

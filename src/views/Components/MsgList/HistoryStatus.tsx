@@ -1,5 +1,4 @@
 import React from 'react'
-import { CHAT_HISTORY_STATUS } from 'src/constant'
 import { loadMoreHistory } from 'src/service'
 import style from './HistoryStatus.module.scss'
 interface IProps {

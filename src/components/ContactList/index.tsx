@@ -4,9 +4,9 @@ import { BaseAvatar } from 'src/components/Avatar'
 import style from './index.module.scss'
 
 interface IProps {
-  list: IUserType[]
-  activeMap: Record<string, IUserType | undefined>
-  onChange?(data: IUserType): void
+  list: IUser[]
+  activeMap: Record<string, IUser | undefined>
+  onChange?(data: IUser): void
 }
 export default function ContactList({ list, activeMap, onChange }: IProps) {
   return (

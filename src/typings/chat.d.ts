@@ -1,6 +1,14 @@
-import { CHAT_TYPE, YES_NO, CHAT_HISTORY_STATUS } from 'src/constant'
-import MsgType from './message'
-interface IBaseChatType {
+enum CHAT_TYPE {
+  P2P = '0',
+  GROUP = '1',
+}
+enum CHAT_HISTORY_STATUS {
+  NORMAL = '0',
+  LOADING = '1',
+  NONE = '2',
+}
+
+interface IBaseChat {
   chatId: string
   /**0单聊1群聊 */
   type: CHAT_TYPE
@@ -11,11 +19,11 @@ interface IBaseChatType {
   isTop: YES_NO
 }
 
-export default interface ILocalChatType extends IBaseChatType {
+interface IChat extends IBaseChat {
   historyStatus?: CHAT_HISTORY_STATUS
   /**未读数量 */
   unReadCount?: number
   /**滚动高度 */
   scrollTop?: number
 }
-export type IChatId = IChatType['chatId']
+type IChatId = IChat['chatId']

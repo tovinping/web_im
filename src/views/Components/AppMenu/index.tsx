@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { ChatAvatar } from 'src/components/Avatar'
 import Dialog from 'src/components/Dialog'
 import Setting from 'src/views/Components/Setting'
-import { CHAT_TYPE } from 'src/constant'
 import { useRootState } from 'src/store'
 import style from './index.module.scss'
 

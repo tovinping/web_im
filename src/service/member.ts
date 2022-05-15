@@ -7,10 +7,10 @@ export async function handGetMemberList(groupId: string) {
     window.$dispatch({ type: 'addMembers', payload: [{ [groupId]: members }] })
   }
 }
-export function sortMember(memberList: IMemberType[]) {
+export function sortMember(memberList: IMember[]) {
   const userMap = window.$state.user.map
-  const managers: IMemberType[] = []
-  const normals: IMemberType[] = []
+  const managers: IMember[] = []
+  const normals: IMember[] = []
   memberList.sort((a, b) => {
     const nameA = userMap[a.account]?.name || ''
     const nameB = userMap[b.account]?.name || ''

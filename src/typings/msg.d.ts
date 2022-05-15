@@ -1,5 +1,19 @@
-import { CHAT_TYPE, MSG_TYPE, MSG_STATE, DEVICE_TYPE } from 'src/constant'
-export interface IBaseMsgType {
+enum MSG_TYPE {
+  TEXT = '0',
+  IMG = '1',
+  IMG_TEXT = '2',
+  VIDEO = '3',
+  VOICE = '4',
+  FILE = '5',
+}
+enum MSG_STATE {
+  NORMAL = 0,
+  SENDING = 1,
+  WITHDRAW = 2,
+  DELETE = 3,
+  ERROR = 4,
+}
+interface IBaseMsg {
   msgId: string
   // 发送者帐号
   account: string
@@ -16,7 +30,7 @@ export interface IBaseMsgType {
   timestamp: number
 }
 
-export default interface IMsgType extends IBaseMsgType {
+interface IMsg extends IBaseMsg {
   state: MSG_STATE
   /**本地ID */
   clientId?: string

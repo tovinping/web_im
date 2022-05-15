@@ -1,13 +1,11 @@
-import { IGroupId } from "src/typings/group";
-
 type IGroupState = {
-  map: Record<IGroupId, IGroupType | undefined>
+  map: Record<IGroupId, IGroup | undefined>
 }
-export type IUpdateGroup = Partial<IGroupType> & Required<Pick<IGroupType, 'groupId'>>
+export type IUpdateGroup = Partial<IGroup> & Required<Pick<IGroup, 'groupId'>>
 type IGroupActions =
-| { type: 'addGroups'; payload: IGroupType[] }
-| { type: 'removeGroups'; payload: IGroupId[] }
-| { type: 'updateGroups'; payload: IUpdateGroup[] }
+  | { type: 'addGroups'; payload: IGroup[] }
+  | { type: 'removeGroups'; payload: IGroupId[] }
+  | { type: 'updateGroups'; payload: IUpdateGroup[] }
 
 const initialState: IGroupState = {
   map: {},

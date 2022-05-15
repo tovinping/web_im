@@ -1,7 +1,6 @@
-import { CHAT_TYPE, YES_NO } from 'src/constant'
 import { sleep } from 'src/utils'
 let chatId = 0
-export function createChat(): IChatType {
+export function createChat(): IChat {
   chatId++
   return {
     isTop: YES_NO.NO,
@@ -10,7 +9,7 @@ export function createChat(): IChatType {
     type: CHAT_TYPE.P2P,
   }
 }
-const list: IChatType[] = []
+const list: IChat[] = []
 async function ttt() {
   if (chatId > 5000) {
     console.log('TANG===END')

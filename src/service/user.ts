@@ -1,7 +1,7 @@
 import { getContactList } from 'src/api/server'
 import { storeApi, dbApi, serverApi } from 'src/api'
 import { getState } from 'src/api/store'
-export function addUsers(list: IUserType[]) {
+export function addUsers(list: IUser[]) {
   dbApi.addUsers(list)
   storeApi.addUsers(list)
 }
@@ -17,7 +17,7 @@ export async function syncMyInfo() {
 }
 
 export async function getUsers(accounts: string[]) {
-  const findUsers: IUserType[] = []
+  const findUsers: IUser[] = []
   const accountsForDb: string[] = []
   const accountsForServer: string[] = []
   // store

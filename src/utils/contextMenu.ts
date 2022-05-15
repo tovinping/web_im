@@ -1,8 +1,7 @@
 import { IBaseContextItem } from 'src/components/ContextMenu'
 import { removeMember, updateAdmin } from 'src/api/server'
-import { MEMBER_TYPE } from 'src/constant'
-type IMemberContextItem = IBaseContextItem<IMemberType>
-type IMemberFn = (m: IMemberType, l: IMemberContextItem[]) => void
+type IMemberContextItem = IBaseContextItem<IMember>
+type IMemberFn = (m: IMember, l: IMemberContextItem[]) => void
 
 export const buildSendMsg: IMemberFn = (member, list) => {
   list.push({
@@ -33,7 +32,7 @@ export const buildManagerOpt: IMemberFn = (member, list) => {
     name,
     cb() {
       const { groupId, type, account } = member
-      const changedType = type === '1' ? MEMBER_TYPE.NORMAL : MEMBER_TYPE.ADMIN
+      const changedType = type === '1' ? MEMBER_ROLE.NORMAL : MEMBER_ROLE.ADMIN
       updateAdmin({ groupId, account, type: changedType }).then(res => {
         if (res.code === 0) {
           window.$dispatch({
@@ -65,7 +64,7 @@ export const buildDelMember: IMemberFn = (member, list) => {
     },
   })
 }
-export function buildMemberMenu(member: IMemberType): IMemberContextItem[] {
+export function buildMemberMenu(member: IMember): IMemberContextItem[] {
   const contextList: IMemberContextItem[] = []
   buildSendMsg(member, contextList)
   buildAt(member, contextList)
